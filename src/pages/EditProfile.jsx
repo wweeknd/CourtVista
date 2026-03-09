@@ -31,6 +31,7 @@ export default function EditProfile() {
         barCouncilNumber: user?.barCouncilNumber || '',
         feesRange: user?.feesRange || '',
         profilePicture: user?.profilePicture || null,
+        isProBono: user?.isProBono || false,
     });
     const [saved, setSaved] = useState(false);
     const [error, setError] = useState('');
@@ -106,6 +107,7 @@ export default function EditProfile() {
             updates.education = formData.education.trim();
             updates.barCouncilNumber = formData.barCouncilNumber.trim();
             updates.feesRange = formData.feesRange.trim();
+            updates.isProBono = formData.isProBono;
         }
 
         const result = updateProfile(updates);
@@ -367,6 +369,22 @@ export default function EditProfile() {
                                     </button>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* Pro Bono Toggle */}
+                        <div className="edit-profile__field">
+                            <label className="edit-profile__checkbox-label">
+                                <input
+                                    type="checkbox"
+                                    name="isProBono"
+                                    checked={formData.isProBono}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, isProBono: e.target.checked }))}
+                                />
+                                <span>🤝 Offer Pro Bono Services</span>
+                            </label>
+                            <span className="edit-profile__hint" style={{ marginLeft: '24px', display: 'block' }}>
+                                Check this if you provide free legal services for people who cannot afford representation. You will be highlighted in search results with a special badge.
+                            </span>
                         </div>
                     </div>
                 )}

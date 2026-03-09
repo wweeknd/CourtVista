@@ -75,6 +75,11 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                     {lawyer.verified && (
                         <span className="lawyer-card__verified">✓ Verified</span>
                     )}
+                    {lawyer.isProBono && (
+                        <span className="lawyer-card__pro-bono" title="Pro Bono: free legal services for people who cannot afford legal representation.">
+                            🤝 Pro Bono
+                        </span>
+                    )}
                     {lawyer.languages.map((lang) => (
                         <span key={lang} className="chip">{lang}</span>
                     ))}

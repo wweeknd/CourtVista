@@ -1,0 +1,169 @@
+.auth-modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 22, 41, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-4);
+}
+
+.auth-modal {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+}
+
+.auth-modal__close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--gray-100);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    color: var(--gray-500);
+    transition: all var(--duration-fast);
+    z-index: 1;
+}
+
+.auth-modal__close:hover {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.auth-modal__header {
+    padding: var(--space-6) var(--space-6) var(--space-2);
+    text-align: center;
+}
+
+.auth-modal__message {
+    color: var(--gray-600);
+    font-size: var(--text-sm);
+    margin: 0;
+    padding: var(--space-2) var(--space-4);
+    background: var(--gold-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gold-200);
+}
+
+.auth-modal__tabs {
+    display: flex;
+    margin: 0 var(--space-6);
+    border-bottom: 2px solid var(--gray-100);
+}
+
+.auth-modal__tab {
+    flex: 1;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--gray-400);
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--duration-fast);
+}
+
+.auth-modal__tab:hover {
+    color: var(--gray-600);
+}
+
+.auth-modal__tab--active {
+    color: var(--navy-800);
+}
+
+.auth-modal__tab--active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold-500);
+}
+
+.auth-modal__form {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+}
+
+.auth-modal__form .form-group {
+    margin-bottom: var(--space-4);
+}
+
+.auth-modal__verification-sent {
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+}
+
+.auth-modal__check-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-4);
+}
+
+.auth-modal__verification-sent h2 {
+    color: var(--navy-800);
+    font-family: var(--font-heading);
+    margin-bottom: var(--space-3);
+}
+
+.auth-modal__verification-sent p {
+    color: var(--gray-600);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+/* Verify Status Styles (used in VerifyEmail.jsx) */
+.verify-status {
+    padding: var(--space-4) 0;
+}
+
+.verify-status h2 {
+    color: var(--navy-800);
+    font-family: var(--font-heading);
+    margin: var(--space-3) 0;
+}
+
+.verify-status p {
+    color: var(--gray-600);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+.verify-status__icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-2);
+}
+
+.verify-status__icon--loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}

@@ -1,19 +1,20 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { initiateEmailVerification } from '../utils/emailClient';
 import './Auth.css';
 
 export default function Register() {
     const { register } = useAuth();
-    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('user');
     const [error, setError] = useState('');
+    const [verificationSent, setVerificationSent] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -34,14 +35,46 @@ export default function Register() {
 
         const result = register({ name, email, password, role });
         if (result.success) {
-            const userRole = result.user.role;
-            if (userRole === 'admin') navigate('/dashboard/admin');
-            else if (userRole === 'lawyer') navigate('/dashboard/lawyer');
-            else navigate('/dashboard/user');
+            // Send verification email — do NOT auto-login
+            await initiateEmailVerification(email.toLowerCase(), name);
+            setVerificationSent(true);
         } else {
             setError(result.message);
         }
     };
+
+    // Show verification sent message
+    if (verificationSent) {
+        return (
+            <div className="auth-page">
+                <div className="auth-card animate-fade-in-up" style={{ textAlign: 'center' }}>
+                    <div className="auth-card__header">
+                        <div className="auth-card__logo">CV</div>
+                        <h1 className="auth-card__title">Check Your Email</h1>
+                        <p className="auth-card__subtitle">Almost there!</p>
+                    </div>
+                    <div style={{ padding: 'var(--space-4) var(--space-8) var(--space-8)' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: 'var(--space-4)' }}>📧</div>
+                        <p style={{ color: 'var(--gray-600)', marginBottom: 'var(--space-3)', lineHeight: 1.6 }}>
+                            We&apos;ve sent a verification link to <strong>{email}</strong>.
+                            Please check your inbox and click the link to verify your account.
+                        </p>
+                        <p style={{ color: 'var(--gray-500)', fontSize: 'var(--text-sm)' }}>
+                            The link expires in 24 hours. Check your spam folder if you don&apos;t see it.
+                        </p>
+                        <div style={{ marginTop: 'var(--space-6)', display: 'flex', gap: 'var(--space-3)', justifyContent: 'center' }}>
+                            <Link to="/login" className="btn btn--gold">
+                                Go to Login
+                            </Link>
+                            <Link to="/" className="btn btn--outline">
+                                Back to Home
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="auth-page">

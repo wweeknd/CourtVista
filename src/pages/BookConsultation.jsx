@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
+import { isUserVerified, initiateEmailVerification, sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../utils/emailClient';
+import AuthModal from '../components/AuthModal';
 import './BookConsultation.css';
 
 // Find lawyer across static + dynamic lists
@@ -33,9 +35,11 @@ function saveConsultation(consultation) {
 
 export default function BookConsultation() {
     const { id } = useParams();
-    const { user } = useAuth();
+    const { user, refreshUser } = useAuth();
     const lawyer = findLawyer(id);
     const [submitted, setSubmitted] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [resendStatus, setResendStatus] = useState('');
     const [formData, setFormData] = useState({
         name: user?.name || '',
         email: user?.email || '',
@@ -68,7 +72,15 @@ export default function BookConsultation() {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleResendVerification = async () => {
+        if (!user) return;
+        setResendStatus('sending');
+        await initiateEmailVerification(user.email, user.name);
+        setResendStatus('sent');
+        setTimeout(() => setResendStatus(''), 5000);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Persist the booking to localStorage
@@ -90,8 +102,132 @@ export default function BookConsultation() {
         };
 
         saveConsultation(consultation);
+
+        // Send notification emails (fire-and-forget — don't block the UI)
+        const emailDetails = {
+            clientName: formData.name,
+            lawyerName: lawyer.name,
+            date: formData.date,
+            time: formData.time,
+            caseType: practiceAreas.find((pa) => pa.id === formData.caseType)?.name || formData.caseType,
+            consultationFee: lawyer.consultationFee,
+            clientEmail: formData.email.toLowerCase(),
+            message: formData.message,
+        };
+
+        // Send booking confirmation to client
+        sendBookingConfirmationEmail(formData.email.toLowerCase(), emailDetails);
+
+        // Send notification to lawyer (if lawyer has an email — dynamic lawyers have email in user record)
+        // For static lawyers, we don't have their email, so skip
+        const dynamicLawyers = getDynamicLawyers();
+        const dynamicMatch = dynamicLawyers.find((dl) => String(dl.id) === String(lawyer.id));
+        if (dynamicMatch) {
+            // Get the lawyer's email from stored users
+            try {
+                const users = JSON.parse(localStorage.getItem('courtvista_users')) || [];
+                const lawyerUser = users.find((u) => u.id === lawyer.id);
+                if (lawyerUser?.email) {
+                    sendLawyerNotificationEmail(lawyerUser.email, emailDetails);
+                }
+            } catch { /* ignore */ }
+        }
+
         setSubmitted(true);
     };
+
+    // If user is NOT logged in — show auth modal prompt
+    if (!user) {
+        return (
+            <div className="book-page container">
+                <div className="book-page__header">
+                    <h1 className="book-page__title">Book a Consultation</h1>
+                    <p className="book-page__subtitle">Sign in to book a consultation with {lawyer.name}</p>
+                </div>
+
+                <div className="book-page__lawyer-summary">
+                    <div className="book-page__lawyer-avatar">{getInitials(lawyer.name)}</div>
+                    <div>
+                        <div className="book-page__lawyer-name">{lawyer.name}</div>
+                        <div className="book-page__lawyer-spec">{specNames}</div>
+                    </div>
+                    <div className="book-page__lawyer-fee">
+                        <div className="book-page__lawyer-fee-label">Consultation Fee</div>
+                        <div className="book-page__lawyer-fee-value">
+                            {lawyer.feesRange || (lawyer.consultationFee ? `₹${lawyer.consultationFee}` : 'Contact for fees')}
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
+                    <p style={{ color: 'var(--gray-600)', marginBottom: 'var(--space-5)' }}>
+                        You need to be logged in to book a consultation.
+                    </p>
+                    <button
+                        className="btn btn--gold btn--lg"
+                        onClick={() => setShowAuthModal(true)}
+                    >
+                        Sign In / Register
+                    </button>
+                </div>
+
+                <AuthModal
+                    isOpen={showAuthModal}
+                    onClose={() => setShowAuthModal(false)}
+                    onSuccess={() => {
+                        setShowAuthModal(false);
+                        // Refresh to show the booking form
+                        window.location.reload();
+                    }}
+                    message="Sign in to book a consultation"
+                />
+            </div>
+        );
+    }
+
+    // If user is logged in but email NOT verified
+    if (!isUserVerified(user.email)) {
+        return (
+            <div className="book-page container">
+                <div className="book-page__header">
+                    <h1 className="book-page__title">Email Verification Required</h1>
+                </div>
+
+                <div className="book-page__lawyer-summary">
+                    <div className="book-page__lawyer-avatar">{getInitials(lawyer.name)}</div>
+                    <div>
+                        <div className="book-page__lawyer-name">{lawyer.name}</div>
+                        <div className="book-page__lawyer-spec">{specNames}</div>
+                    </div>
+                </div>
+
+                <div style={{ textAlign: 'center', padding: 'var(--space-8)', maxWidth: '480px', margin: '0 auto' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: 'var(--space-4)' }}>📧</div>
+                    <h2 style={{ color: 'var(--navy-800)', marginBottom: 'var(--space-3)' }}>
+                        Please verify your email to complete the booking.
+                    </h2>
+                    <p style={{ color: 'var(--gray-600)', marginBottom: 'var(--space-5)', lineHeight: 1.6 }}>
+                        Check your inbox at <strong>{user.email}</strong> for a verification link.
+                        Once verified, you can proceed with booking.
+                    </p>
+
+                    <button
+                        className="btn btn--gold"
+                        onClick={handleResendVerification}
+                        disabled={resendStatus === 'sending'}
+                    >
+                        {resendStatus === 'sending' ? 'Sending...' : resendStatus === 'sent' ? '✓ Verification Email Sent!' : 'Resend Verification Email'}
+                    </button>
+
+                    <div style={{ marginTop: 'var(--space-5)' }}>
+                        <Link to={`/lawyer/${lawyer.id}`} className="btn btn--outline btn--sm">
+                            ← Back to Profile
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     if (submitted) {
         return (
@@ -102,6 +238,7 @@ export default function BookConsultation() {
                     <p className="book-confirmation__text">
                         Your consultation request has been sent to {lawyer.name}.
                         They will contact you within 24 hours to confirm the appointment.
+                        A confirmation email has been sent to your inbox.
                     </p>
                     <div className="book-confirmation__details">
                         <div className="book-confirmation__detail">
@@ -167,51 +304,23 @@ export default function BookConsultation() {
                 <div className="book-form__grid">
                     <div className="form-group">
                         <label className="form-label" htmlFor="name">Full Name *</label>
-                        <input
-                            className="form-input"
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            placeholder="Enter your full name"
-                        />
+                        <input className="form-input" type="text" id="name" name="name"
+                            value={formData.name} onChange={handleChange} required placeholder="Enter your full name" />
                     </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="email">Email Address *</label>
-                        <input
-                            className="form-input"
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            placeholder="you@example.com"
-                        />
+                        <input className="form-input" type="email" id="email" name="email"
+                            value={formData.email} onChange={handleChange} required placeholder="you@example.com" />
                     </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="phone">Phone Number</label>
-                        <input
-                            className="form-input"
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="+91 XXXXX XXXXX"
-                        />
+                        <input className="form-input" type="tel" id="phone" name="phone"
+                            value={formData.phone} onChange={handleChange} placeholder="+91 XXXXX XXXXX" />
                     </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="caseType">Case Type</label>
-                        <select
-                            className="form-select"
-                            id="caseType"
-                            name="caseType"
-                            value={formData.caseType}
-                            onChange={handleChange}
-                        >
+                        <select className="form-select" id="caseType" name="caseType"
+                            value={formData.caseType} onChange={handleChange}>
                             <option value="">Select a case type</option>
                             {practiceAreas.map((pa) => (
                                 <option key={pa.id} value={pa.id}>{pa.name}</option>
@@ -220,24 +329,13 @@ export default function BookConsultation() {
                     </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="date">Preferred Date</label>
-                        <input
-                            className="form-input"
-                            type="date"
-                            id="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                        />
+                        <input className="form-input" type="date" id="date" name="date"
+                            value={formData.date} onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="time">Preferred Time</label>
-                        <select
-                            className="form-select"
-                            id="time"
-                            name="time"
-                            value={formData.time}
-                            onChange={handleChange}
-                        >
+                        <select className="form-select" id="time" name="time"
+                            value={formData.time} onChange={handleChange}>
                             <option value="">Select a time slot</option>
                             <option value="09:00 - 10:00 AM">09:00 - 10:00 AM</option>
                             <option value="10:00 - 11:00 AM">10:00 - 11:00 AM</option>
@@ -250,15 +348,9 @@ export default function BookConsultation() {
                     </div>
                     <div className="form-group book-form__full">
                         <label className="form-label" htmlFor="message">Brief Description of Your Case</label>
-                        <textarea
-                            className="form-textarea"
-                            id="message"
-                            name="message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            placeholder="Describe your legal issue briefly..."
-                            rows={4}
-                        />
+                        <textarea className="form-textarea" id="message" name="message"
+                            value={formData.message} onChange={handleChange}
+                            placeholder="Describe your legal issue briefly..." rows={4} />
                     </div>
                 </div>
                 <button type="submit" className="btn btn--gold btn--lg book-form__submit" style={{ width: '100%' }}>

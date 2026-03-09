@@ -9,6 +9,7 @@ const ADMIN_ACCOUNT = {
     email: 'admin@courtvista.com',
     password: 'admin123',
     role: 'admin',
+    emailVerified: true,
 };
 
 // Helper: get all registered users from localStorage
@@ -50,6 +51,7 @@ function userToLawyerProfile(u, index) {
         pendingCases: 0,
         awards: [],
         reviews: [],
+        isProBono: u.isProBono || false,
         isDynamic: true,  // flag to distinguish from static profiles
     };
 }
@@ -87,7 +89,10 @@ export function AuthProvider({ children }) {
         }
     }, [user]);
 
-    // Register a new user (role = 'user' or 'lawyer')
+    /**
+     * Register a new user (role = 'user' or 'lawyer').
+     * Does NOT auto-login — user must verify email first for booking.
+     */
     function register({ name, email, password, role }) {
         const users = getStoredUsers();
 
@@ -104,17 +109,20 @@ export function AuthProvider({ children }) {
             name,
             email: email.toLowerCase(),
             role,
+            emailVerified: false,
         };
 
-        // Save to users list
+        // Save to users list (password stored in user record only)
         localStorage.setItem('courtvista_users', JSON.stringify([...users, { ...newUser, password }]));
 
-        // Auto-login
-        setUser(newUser);
-        return { success: true, user: newUser };
+        // Do NOT auto-login — return needsVerification flag
+        return { success: true, user: newUser, needsVerification: true };
     }
 
-    // Login with email + password
+    /**
+     * Login with email + password.
+     * Does NOT block unverified users — verification is enforced at booking time.
+     */
     function login(email, password) {
         // Check admin first
         if (
@@ -126,6 +134,7 @@ export function AuthProvider({ children }) {
                 name: ADMIN_ACCOUNT.name,
                 email: ADMIN_ACCOUNT.email,
                 role: ADMIN_ACCOUNT.role,
+                emailVerified: true,
             };
             setUser(adminUser);
             return { success: true, user: adminUser };
@@ -169,6 +178,19 @@ export function AuthProvider({ children }) {
         return { success: true, user: updatedUser };
     }
 
+    /**
+     * Refresh user data from localStorage (e.g., after email verification).
+     */
+    function refreshUser() {
+        if (!user) return;
+        const users = getStoredUsers();
+        const found = users.find((u) => u.id === user.id);
+        if (found) {
+            const { password: _unused, ...safeUser } = found;
+            setUser(safeUser);
+        }
+    }
+
     // Get the current lawyer's dynamic profile (for search listing)
     const getLawyerProfile = useCallback(() => {
         if (!user || user.role !== 'lawyer') return null;
@@ -188,7 +210,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, getDashboardPath, getLawyerProfile }}>
+        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, refreshUser, getDashboardPath, getLawyerProfile }}>
             {children}
         </AuthContext.Provider>
     );

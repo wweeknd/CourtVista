@@ -92,6 +92,7 @@ export const lawyers = [
         totalCases: 524,
         pendingCases: 12,
         awards: ['Best Criminal Lawyer — Maharashtra Bar Council 2019', 'Pro Bono Excellence Award 2021'],
+        isProBono: true,
         reviews: generateReviews(8, 1),
     },
     {
@@ -207,6 +208,7 @@ export const lawyers = [
         totalCases: 295,
         pendingCases: 9,
         awards: [],
+        isProBono: true,
         reviews: generateReviews(4, 6),
     },
     {
@@ -230,6 +232,7 @@ export const lawyers = [
         totalCases: 186,
         pendingCases: 7,
         awards: ['Emerging Cyber Law Expert 2023'],
+        isProBono: false,
         reviews: generateReviews(5, 7),
     },
     {

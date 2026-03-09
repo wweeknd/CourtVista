@@ -213,6 +213,11 @@ export default function LawyerProfile() {
                         {lawyer.verified && (
                             <span className="chip chip--green">✓ Credentials Verified</span>
                         )}
+                        {lawyer.isProBono && (
+                            <span className="chip chip--blue" title="Pro Bono: free legal services for people who cannot afford legal representation.">
+                                🤝 Pro Bono Service
+                            </span>
+                        )}
                         {lawyer.isDynamic && (
                             <span className="chip chip--gold">🆕 New Member</span>
                         )}

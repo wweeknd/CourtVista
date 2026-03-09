@@ -12,6 +12,7 @@ import BookConsultation from './pages/BookConsultation';
 import QnA from './pages/QnA';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
 import UserDashboard from './pages/UserDashboard';
 import LawyerDashboard from './pages/LawyerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -72,6 +73,7 @@ export default function App() {
               <Route path="/qna" element={<QnA />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
 
               {/* Protected routes — role-based dashboards */}
               <Route

@@ -1,0 +1,89 @@
+.review-form {
+    background: white;
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    margin-bottom: var(--space-8);
+}
+
+.review-form__title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.review-form__subtitle {
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    margin-bottom: var(--space-6);
+}
+
+.review-form__rating-selector {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-2);
+}
+
+.review-form__range {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: var(--radius-full);
+    appearance: none;
+    outline: none;
+}
+
+.review-form__range::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--gold-500);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.review-form__rating-display {
+    background: var(--gray-50);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    min-width: 80px;
+    text-align: center;
+}
+
+.review-form__rating-number {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--gold-600);
+}
+
+.review-form__rating-max {
+    font-size: var(--text-sm);
+    color: var(--gray-500);
+    margin-left: 2px;
+}
+
+.review-form__error {
+    background: #fef2f2;
+    color: #b91c1c;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    border: 1px solid #fecaca;
+}
+
+.review-form-promo {
+    background: var(--gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--gray-300);
+    text-align: center;
+    color: var(--gray-600);
+    margin-bottom: var(--space-8);
+}

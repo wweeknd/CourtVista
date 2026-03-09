@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials, qnaData } from '../data/lawyers';
+import { sendAcceptanceEmailRequest, sendCancellationEmailRequest } from '../utils/emailClient';
 import './Dashboard.css';
 
 function getStoredConsultations() {
@@ -123,9 +124,25 @@ export default function LawyerDashboard() {
     };
 
     const handleStatusChange = useCallback((consultationId, newStatus) => {
+        const consultation = consultations.find((c) => c.id === consultationId);
         const updated = updateConsultationStatus(consultationId, newStatus);
         setConsultations(updated);
-    }, []);
+
+        // Send email notification to client
+        if (consultation?.clientEmail) {
+            const details = {
+                clientName: consultation.clientName,
+                lawyerName: consultation.lawyerName || user?.name,
+                date: consultation.date,
+                time: consultation.time,
+            };
+            if (newStatus === 'confirmed') {
+                sendAcceptanceEmailRequest(consultation.clientEmail, details);
+            } else if (newStatus === 'declined') {
+                sendCancellationEmailRequest(consultation.clientEmail, details);
+            }
+        }
+    }, [consultations, user]);
 
     return (
         <div className="dashboard dashboard--lawyer container animate-fade-in-up">

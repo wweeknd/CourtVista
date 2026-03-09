@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
 import LawyerCard from '../components/LawyerCard';
@@ -13,29 +14,24 @@ export default function Search({ compareIds, onCompareToggle }) {
     const [searchParams] = useSearchParams();
     const initialArea = searchParams.get('area') || '';
     const initialCity = searchParams.get('city') || '';
+    const initialName = searchParams.get('name') || '';
 
-    // Dynamic lawyers from localStorage — re-read whenever localStorage changes
+    // Dynamic lawyers from localStorage
     const [dynamicLawyers, setDynamicLawyers] = useState(() => getDynamicLawyers());
 
     useEffect(() => {
-        // Re-sync when another tab/window updates localStorage
         const handleStorage = () => setDynamicLawyers(getDynamicLawyers());
         window.addEventListener('storage', handleStorage);
-        // Also refresh on mount every time the component is visited
         setDynamicLawyers(getDynamicLawyers());
         return () => window.removeEventListener('storage', handleStorage);
     }, []);
 
-    // Merge static lawyers with dynamically registered ones.
-    // Dynamic lawyer IDs are strings (e.g. 'user-16...'), static IDs are numbers,
-    // so there is no collision. Static profiles take precedence.
-    // Merge static lawyers with dynamically registered ones.
+    // Merge static + dynamic lawyers
     const allLawyers = useMemo(() => {
         const staticIds = new Set(lawyers.map((l) => l.id));
         const newOnes = dynamicLawyers.filter((dl) => !staticIds.has(dl.id));
         const combined = [...lawyers, ...newOnes];
 
-        // Enrich with live ratings for filtering and sorting
         return combined.map(l => {
             try {
                 const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
@@ -47,19 +43,32 @@ export default function Search({ compareIds, onCompareToggle }) {
                         liveReviewCount: reviews.length + (l.reviewCount || 0)
                     };
                 }
-            } catch (e) { }
+            } catch { /* ignore */ }
             return { ...l, liveRating: l.rating || 0, liveReviewCount: l.reviewCount || 0 };
         });
     }, [dynamicLawyers]);
 
+    // Fuse.js instance for fuzzy search on name + specializations
+    const fuse = useMemo(() => new Fuse(allLawyers, {
+        keys: [
+            { name: 'name', weight: 0.7 },
+            { name: 'specializations', weight: 0.3 },
+        ],
+        threshold: 0.4,
+        ignoreLocation: true,
+        includeScore: true,
+    }), [allLawyers]);
+
     const [filters, setFilters] = useState({
         areas: initialArea ? [initialArea] : [],
         city: initialCity,
+        nameQuery: initialName,
         minExperience: 0,
         minRating: 0,
         languages: [],
         gender: '',
         verifiedOnly: false,
+        proBonoOnly: false,
     });
 
     const [sortBy, setSortBy] = useState('rating');
@@ -75,18 +84,28 @@ export default function Search({ compareIds, onCompareToggle }) {
         setFilters({
             areas: [],
             city: '',
+            nameQuery: '',
             minExperience: 0,
             minRating: 0,
             languages: [],
             gender: '',
             verifiedOnly: false,
+            proBonoOnly: false,
         });
         setCurrentPage(1);
     };
 
     const filtered = useMemo(() => {
-        let result = [...allLawyers];
+        // Start with fuzzy search if name query is provided
+        let result;
+        if (filters.nameQuery && filters.nameQuery.trim()) {
+            const fuseResults = fuse.search(filters.nameQuery.trim());
+            result = fuseResults.map((r) => r.item);
+        } else {
+            result = [...allLawyers];
+        }
 
+        // Apply filters
         if (filters.areas.length > 0) {
             result = result.filter((l) =>
                 l.specializations.some((s) => filters.areas.includes(s))
@@ -121,7 +140,11 @@ export default function Search({ compareIds, onCompareToggle }) {
             result = result.filter((l) => l.verified);
         }
 
-        // Sort
+        if (filters.proBonoOnly) {
+            result = result.filter((l) => l.isProBono);
+        }
+
+        // Sort (skip if fuzzy search is active and no explicit sort chosen, to preserve relevance)
         switch (sortBy) {
             case 'rating':
                 result.sort((a, b) => b.liveRating - a.liveRating);
@@ -138,12 +161,15 @@ export default function Search({ compareIds, onCompareToggle }) {
             case 'fees_high':
                 result.sort((a, b) => b.consultationFee - a.consultationFee);
                 break;
+            case 'location':
+                result.sort((a, b) => (a.city || '').localeCompare(b.city || ''));
+                break;
             default:
                 break;
         }
 
         return result;
-    }, [filters, sortBy, allLawyers]);
+    }, [filters, sortBy, allLawyers, fuse]);
 
     const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
     const paginatedResults = filtered.slice(
@@ -156,7 +182,12 @@ export default function Search({ compareIds, onCompareToggle }) {
             <div className="search-page__header">
                 <h1 className="search-page__title">Find a Lawyer</h1>
                 <div className="search-page__search-wrap">
-                    <SearchBar initialArea={initialArea} initialCity={initialCity} />
+                    <SearchBar
+                        initialArea={initialArea}
+                        initialCity={initialCity}
+                        initialName={initialName}
+                        onNameSearch={(name) => handleFilterChange('nameQuery', name)}
+                    />
                 </div>
             </div>
 
@@ -180,6 +211,9 @@ export default function Search({ compareIds, onCompareToggle }) {
                     <div className="search-page__results-header">
                         <div className="search-page__count">
                             Showing <strong>{filtered.length}</strong> lawyer{filtered.length !== 1 ? 's' : ''}
+                            {filters.nameQuery && (
+                                <span> matching &quot;{filters.nameQuery}&quot;</span>
+                            )}
                         </div>
                         <div className="search-page__sort">
                             <span className="search-page__sort-label">Sort by:</span>
@@ -189,6 +223,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                                 <option value="reviews">Most Reviews</option>
                                 <option value="fees_low">Lowest Fees</option>
                                 <option value="fees_high">Highest Fees</option>
+                                <option value="location">Location (A-Z)</option>
                             </select>
                         </div>
                     </div>

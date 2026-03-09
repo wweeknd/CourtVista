@@ -101,6 +101,40 @@
     border: 1px solid #a7f3d0;
 }
 
+.lawyer-card__pro-bono {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: #1565c0;
+    background: #e3f2fd;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    border: 1px solid #90caf9;
+    cursor: help;
+    position: relative;
+}
+
+.lawyer-card__pro-bono:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--navy-800);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 400;
+    padding: 6px 10px;
+    border-radius: var(--radius-md);
+    white-space: normal;
+    width: 200px;
+    line-height: 1.5;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .lawyer-card__actions {
     display: flex;
     gap: var(--space-2);
