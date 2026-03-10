@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { initiateEmailVerification } from '../utils/emailClient';
+import toast from 'react-hot-toast';
 import './Auth.css';
 
 export default function Register() {
@@ -13,6 +14,7 @@ export default function Register() {
     const [role, setRole] = useState('user');
     const [error, setError] = useState('');
     const [verificationSent, setVerificationSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,13 +35,20 @@ export default function Register() {
             return;
         }
 
-        const result = register({ name, email, password, role });
-        if (result.success) {
-            // Send verification email — do NOT auto-login
-            await initiateEmailVerification(email.toLowerCase(), name);
-            setVerificationSent(true);
-        } else {
-            setError(result.message);
+        setLoading(true);
+        try {
+            const result = await register({ name, email, password, role });
+            if (result.success) {
+                toast.success("Account created successfully!");
+
+                // Send verification email — do NOT auto-login
+                await initiateEmailVerification(email.toLowerCase(), name);
+                setVerificationSent(true);
+            } else {
+                setError(result.message);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -97,6 +106,7 @@ export default function Register() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Enter your full name"
+                            disabled={loading}
                         />
                     </div>
 
@@ -110,6 +120,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
                             autoComplete="email"
+                            disabled={loading}
                         />
                     </div>
 
@@ -123,6 +134,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Create a password"
                             autoComplete="new-password"
+                            disabled={loading}
                         />
                     </div>
 
@@ -136,6 +148,7 @@ export default function Register() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Confirm your password"
                             autoComplete="new-password"
+                            disabled={loading}
                         />
                     </div>
 
@@ -150,6 +163,7 @@ export default function Register() {
                                     value="user"
                                     checked={role === 'user'}
                                     onChange={(e) => setRole(e.target.value)}
+                                    disabled={loading}
                                 />
                                 <label htmlFor="role-user">
                                     <span className="auth-role-option__icon">👤</span>
@@ -164,6 +178,7 @@ export default function Register() {
                                     value="lawyer"
                                     checked={role === 'lawyer'}
                                     onChange={(e) => setRole(e.target.value)}
+                                    disabled={loading}
                                 />
                                 <label htmlFor="role-lawyer">
                                     <span className="auth-role-option__icon">⚖️</span>
@@ -173,8 +188,8 @@ export default function Register() {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn--gold btn--lg" style={{ width: '100%' }}>
-                        Create Account
+                    <button type="submit" className="btn btn--gold btn--lg" style={{ width: '100%' }} disabled={loading}>
+                        {loading ? 'Creating account...' : 'Create Account'}
                     </button>
                 </form>
 

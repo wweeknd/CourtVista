@@ -1,5 +1,11 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+
+import { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
+
 const AuthContext = createContext(null);
 
 // Hardcoded admin account
@@ -89,47 +95,81 @@ export function AuthProvider({ children }) {
         }
     }, [user]);
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                const users = getStoredUsers();
+                const found = users.find((u) => u.id === firebaseUser.uid);
+
+                if (found) {
+                    setUser(found);
+                }
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     /**
      * Register a new user (role = 'user' or 'lawyer').
      * Does NOT auto-login — user must verify email first for booking.
      */
-    function register({ name, email, password, role }) {
-        const users = getStoredUsers();
+    async function register({ name, email, password, role }) {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email.toLowerCase(),
+                password
+            );
 
-        // Check if email already taken (also check admin)
-        if (email.toLowerCase() === ADMIN_ACCOUNT.email) {
-            return { success: false, message: 'This email is already registered.' };
+            const firebaseUser = userCredential.user;
+            await setDoc(doc(db, "users", firebaseUser.uid), {
+                name,
+                email: email.toLowerCase(),
+                role,
+                createdAt: new Date()
+            });
+
+            const newUser = {
+                id: firebaseUser.uid,
+                name,
+                email: email.toLowerCase(),
+                role,
+                emailVerified: firebaseUser.emailVerified
+            };
+
+            // still store additional profile info locally (for now)
+            const users = getStoredUsers();
+            localStorage.setItem(
+                "courtvista_users",
+                JSON.stringify([...users, { ...newUser }])
+            );
+            setUser(newUser);
+
+            return { success: true, user: newUser };
+
         }
-        if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
-            return { success: false, message: 'This email is already registered.' };
+        catch (error) {
+            return { success: false, message: error.message };
         }
-
-        const newUser = {
-            id: 'user-' + Date.now(),
-            name,
-            email: email.toLowerCase(),
-            role,
-            emailVerified: false,
-        };
-
-        // Save to users list (password stored in user record only)
-        localStorage.setItem('courtvista_users', JSON.stringify([...users, { ...newUser, password }]));
-
-        // Do NOT auto-login — return needsVerification flag
-        return { success: true, user: newUser, needsVerification: true };
     }
 
     /**
      * Login with email + password.
      * Does NOT block unverified users — verification is enforced at booking time.
      */
-    function login(email, password) {
-        // Check admin first
-        if (
+    async function login(email, password) {
+
+        // Admin login stays the same
+        if
+            (
             email.toLowerCase() === ADMIN_ACCOUNT.email &&
             password === ADMIN_ACCOUNT.password
         ) {
-            const adminUser = {
+            const adminUser =
+            {
                 id: ADMIN_ACCOUNT.id,
                 name: ADMIN_ACCOUNT.name,
                 email: ADMIN_ACCOUNT.email,
@@ -140,24 +180,34 @@ export function AuthProvider({ children }) {
             return { success: true, user: adminUser };
         }
 
-        // Check registered users
-        const users = getStoredUsers();
-        const found = users.find(
-            (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-        );
+        try {
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email.toLowerCase(),
+                password
+            );
 
-        if (!found) {
-            return { success: false, message: 'Invalid email or password.' };
+            const firebaseUser = userCredential.user;
+
+            const users = getStoredUsers();
+            const found = users.find((u) => u.id === firebaseUser.uid);
+
+            if (!found) {
+                return { success: false, message: "User profile not found." };
+            }
+
+            setUser(found);
+            return { success: true, user: found };
+
         }
-
-        // Don't store password in session
-        const { password: _unused, ...safeUser } = found;
-        setUser(safeUser);
-        return { success: true, user: safeUser };
+        catch (error) {
+            return { success: false, message: "Invalid email or password." };
+        }
     }
 
     // Logout
-    function logout() {
+    async function logout() {
+        await signOut(auth);
         setUser(null);
     }
 

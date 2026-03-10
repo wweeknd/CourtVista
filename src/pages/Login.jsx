@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 import './Auth.css';
 
 export default function Login() {
-    const { login } = useAuth();
+    const { login, getDashboardPath, user } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -19,14 +21,19 @@ export default function Login() {
             return;
         }
 
-        const result = login(email, password);
-        if (result.success) {
-            const role = result.user.role;
-            if (role === 'admin') navigate('/dashboard/admin');
-            else if (role === 'lawyer') navigate('/dashboard/lawyer');
-            else navigate('/dashboard/user');
-        } else {
-            setError(result.message);
+        setLoading(true);
+        try {
+            const result = await login(email, password);
+            if (result.success) {
+                toast.success(`Welcome back, ${result.user.name}!`);
+                navigate(getDashboardPath());
+            } else {
+                setError(result.message);
+            }
+        } catch (err) {
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -52,6 +59,7 @@ export default function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
                             autoComplete="email"
+                            disabled={loading}
                         />
                     </div>
 
@@ -65,11 +73,12 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             autoComplete="current-password"
+                            disabled={loading}
                         />
                     </div>
 
-                    <button type="submit" className="btn btn--gold btn--lg" style={{ width: '100%' }}>
-                        Sign In
+                    <button type="submit" className="btn btn--gold btn--lg" style={{ width: '100%' }} disabled={loading}>
+                        {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
 
