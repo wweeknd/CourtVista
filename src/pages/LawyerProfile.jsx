@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
-import { getDynamicLawyers } from '../context/AuthContext';
+import { practiceAreas, getInitials } from '../data/lawyers';
 import { useAuth } from '../context/AuthContext';
 import RatingBadge from '../components/RatingBadge';
 import ReviewCard from '../components/ReviewCard';
 import './LawyerProfile.css';
+
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
 
 // ── localStorage helpers for user-submitted reviews ──────────────────────────
 function getStoredReviews(lawyerId) {
@@ -69,7 +72,10 @@ function StarSelector({ value, onChange }) {
 export default function LawyerProfile() {
     const { id } = useParams();
     const { user } = useAuth();
-    const lawyer = findLawyer(id);
+
+    const [lawyer, setLawyer] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // ── User-submitted reviews ───────────────────────────────────────────────
     const [userReviews, setUserReviews] = useState(() => getStoredReviews(id));
@@ -80,6 +86,7 @@ export default function LawyerProfile() {
     // Check if this user already left a review
     const alreadyReviewed = userReviews.some((r) => String(r.reviewerUserId) === String(user?.id));
 
+    //For reviews
     useEffect(() => {
         const reviews = getStoredReviews(id);
         setUserReviews(reviews);
@@ -92,17 +99,57 @@ export default function LawyerProfile() {
         }
     }, [id, user]);
 
+    //For Firestore
+    useEffect(() => {
+        const fetchLawyer = async () => {
+            try {
+                const docRef = doc(db, "lawyers", id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+
+                    setLawyer({
+                        id: docSnap.id,
+                        ...data,
+                        specializations: data.specializations || [],
+                        languages: data.languages || [],
+                    });
+                } else {
+                    setError("Lawyer not found");
+                }
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load lawyer");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLawyer();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="profile-loading">
+                <div className="spinner"></div>
+                <p>Loading lawyer profile...</p>
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="profile-error">
+                <h3>Error</h3>
+                <p>{error}</p>
+            </div>
+        );
+    }
     if (!lawyer) {
         return (
-            <div className="profile-page container">
-                <div className="search-page__no-results">
-                    <div className="search-page__no-results-icon">🔍</div>
-                    <h3>Lawyer not found</h3>
-                    <p>The profile you&apos;re looking for doesn&apos;t exist.</p>
-                    <Link to="/search" className="btn btn--primary" style={{ marginTop: '1rem' }}>
-                        Browse Lawyers
-                    </Link>
-                </div>
+            <div className="profile-not-found">
+                <h3>Lawyer not found</h3>
+                <p>The lawyer you are looking for does not exist.</p>
             </div>
         );
     }

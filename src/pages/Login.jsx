@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import './Auth.css';
 
 export default function Login() {
-    const { login, getDashboardPath, user } = useAuth();
+    const { login, loginWithGoogle, getDashboardPath } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,6 +13,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
+        if (loading) return;
+
         e.preventDefault();
         setError('');
 
@@ -32,6 +34,32 @@ export default function Login() {
             }
         } catch (err) {
             setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        if (loading) return;
+
+        setError('');
+        setLoading(true);
+
+        try {
+            const result = await loginWithGoogle();
+
+            if (result.success) {
+                if (result.needsRole) {
+                    navigate("/select-role");
+                } else {
+                    toast.success(`Welcome, ${result.user.name}!`);
+                    navigate(getDashboardPath());
+                }
+            } else {
+                setError(result.message);
+            }
+        } catch (err) {
+            setError(err.message || "Google sign-in failed.");
         } finally {
             setLoading(false);
         }
@@ -80,6 +108,37 @@ export default function Login() {
                     <button type="submit" className="btn btn--gold btn--lg" style={{ width: '100%' }} disabled={loading}>
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>
+                    <div style={{ textAlign: 'center', margin: '15px 0' }}>
+                        <span style={{ color: '#888' }}>OR</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={handleGoogleLogin}
+                        className="btn google-btn"
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            border: '1px solid #ddd',
+                            background: '#fff',
+                            borderRadius: '8px',
+                            padding: '10px',
+                            cursor: 'pointer',
+                            transition: '0.2s ease'
+                        }}
+                        disabled={loading}
+                    >
+                        <img
+                            src="https://developers.google.com/identity/images/g-logo.png"
+                            width="20"
+                            alt="Google"
+                        />
+                        Continue with Google
+                    </button>
+
                 </form>
 
                 <div className="auth-card__footer">

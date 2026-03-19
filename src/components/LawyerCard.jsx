@@ -53,7 +53,7 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                         </Link>
                         <div className="lawyer-card__specializations">{specNames || 'Legal Professional'}</div>
                     </div>
-                    <RatingBadge rating={realRating} small />
+                    <RatingBadge rating={realRating || null} small />
                 </div>
 
                 <div className="lawyer-card__meta">
@@ -61,13 +61,13 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                         <span className="lawyer-card__meta-icon">📍</span> {lawyer.city || 'Location N/A'}
                     </span>
                     <span className="lawyer-card__meta-item">
-                        <span className="lawyer-card__meta-icon">⏳</span> {lawyer.experience || 0} yrs exp
+                        <span className="lawyer-card__meta-icon">⏳</span> {lawyer.experience ? `${lawyer.experience} yrs exp` : 'Experience N/A'}
                     </span>
                     <span className="lawyer-card__meta-item">
-                        <span className="lawyer-card__meta-icon">💬</span> {realReviewCount} reviews
+                        <span className="lawyer-card__meta-icon">💬</span> {realReviewCount ? `${realReviewCount} reviews` : 'No reviews yet'}
                     </span>
                     <span className="lawyer-card__meta-item">
-                        <span className="lawyer-card__meta-icon">💰</span> {lawyer.feesRange || (lawyer.consultationFee ? `₹${lawyer.consultationFee}` : '—')}
+                        <span className="lawyer-card__meta-icon">💰</span> {lawyer.feesRange || (lawyer.consultationFee ? `₹${lawyer.consultationFee}` : 'Fee not specified')}
                     </span>
                 </div>
 
@@ -80,7 +80,7 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                             🤝 Pro Bono
                         </span>
                     )}
-                    {lawyer.languages.map((lang) => (
+                    {(lawyer.languages || []).map((lang) => (
                         <span key={lang} className="chip">{lang}</span>
                     ))}
                 </div>

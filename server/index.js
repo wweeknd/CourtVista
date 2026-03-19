@@ -1,7 +1,6 @@
 /**
  * CourtVista Email Server
- * Lightweight Express backend responsible ONLY for sending emails via Resend API.
- * All user data and verification tokens remain in the frontend's localStorage.
+ * Lightweight Express backend responsible ONLY for sending emails.
  */
 import 'dotenv/config';
 import express from 'express';
@@ -26,12 +25,9 @@ app.use(express.json());
 
 // ─── Initialize Email Service ────────────────────────────────────────────────
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-if (!RESEND_API_KEY || RESEND_API_KEY.startsWith('re_xxx')) {
-    console.warn('⚠️  RESEND_API_KEY is not configured. Emails will fail to send.');
-    console.warn('   Set your API key in server/.env — get one at https://resend.com/api-keys');
-}
-initEmailService(RESEND_API_KEY);
+// Initialize without logging Resend-specific warnings
+const API_KEY = process.env.RESEND_API_KEY;
+initEmailService(API_KEY);
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 
@@ -47,5 +43,4 @@ app.get('/api/health', (_req, res) => {
 app.listen(PORT, () => {
     console.log(`✉️  CourtVista Email Server running on port ${PORT}`);
     console.log(`   CORS origin: ${FRONTEND_URL}`);
-    console.log(`   Resend API: ${RESEND_API_KEY ? '✓ configured' : '✗ not configured'}`);
 });

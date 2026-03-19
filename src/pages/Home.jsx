@@ -1,14 +1,37 @@
 import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import LawyerCard from '../components/LawyerCard';
-import { lawyers, practiceAreas } from '../data/lawyers';
+import { practiceAreas } from '../data/lawyers';
 import './Home.css';
 
-const featuredLawyers = [...lawyers]
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 4);
+import { useEffect, useState } from 'react';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function Home() {
+
+    const [lawyers, setLawyers] = useState([]);
+
+    useEffect(() => {
+        const fetchLawyers = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "lawyers"));
+                const data = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setLawyers(data);
+            } catch (error) {
+                console.error("Error fetching lawyers:", error);
+            }
+        };
+
+        fetchLawyers();
+    }, []);
+
+    // Show first 4 lawyers
+    const featuredLawyers = lawyers.slice(0, 4);
+
     return (
         <div className="home">
             {/* ─── HERO ─── */}
@@ -68,10 +91,15 @@ export default function Home() {
                         Highest-rated lawyers on CourtVista, verified and trusted by thousands
                     </p>
                 </div>
+
                 <div className="featured__grid">
-                    {featuredLawyers.map((lawyer) => (
-                        <LawyerCard key={lawyer.id} lawyer={lawyer} />
-                    ))}
+                    {featuredLawyers.length === 0 ? (
+                        <p>No lawyers found</p>
+                    ) : (
+                        featuredLawyers.map((lawyer) => (
+                            <LawyerCard key={lawyer.id} lawyer={lawyer} />
+                        ))
+                    )}
                 </div>
             </section>
 

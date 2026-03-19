@@ -157,3 +157,39 @@
 .auth-card__footer a:hover {
     text-decoration: underline;
 }
+
+.google-btn:hover {
+    background: #f5f5f5;
+}
+
+.role-cards {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.role-card {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    background: var(--white);
+}
+
+.role-card:hover {
+    border-color: var(--navy-300);
+    transform: translateY(-2px);
+}
+
+.role-card.active {
+    border-color: var(--navy-800);
+    background: var(--navy-50);
+}
+
+.role-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}

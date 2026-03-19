@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import logo from "../assets/logo.png";
 import './Navbar.css';
 
 export default function Navbar() {
@@ -64,7 +65,7 @@ export default function Navbar() {
         <nav className="navbar">
             <div className="navbar__inner">
                 <Link to="/" className="navbar__brand">
-                    <div className="navbar__logo">CV</div>
+                    <img src={logo} alt="CourtVista Logo" className="navbar__logo" />
                     <span className="navbar__brand-text">
                         Court<span>Vista</span>
                     </span>

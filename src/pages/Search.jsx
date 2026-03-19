@@ -4,51 +4,66 @@ import Fuse from 'fuse.js';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
 import LawyerCard from '../components/LawyerCard';
-import { lawyers } from '../data/lawyers';
-import { getDynamicLawyers } from '../context/AuthContext';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 import './Search.css';
 
 const ITEMS_PER_PAGE = 6;
 
 export default function Search({ compareIds, onCompareToggle }) {
     const [searchParams] = useSearchParams();
+
     const initialArea = searchParams.get('area') || '';
     const initialCity = searchParams.get('city') || '';
     const initialName = searchParams.get('name') || '';
 
-    // Dynamic lawyers from localStorage
-    const [dynamicLawyers, setDynamicLawyers] = useState(() => getDynamicLawyers());
+    const [allLawyers, setAllLawyers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    // 🔥 Fetch from Firestore
     useEffect(() => {
-        const handleStorage = () => setDynamicLawyers(getDynamicLawyers());
-        window.addEventListener('storage', handleStorage);
-        setDynamicLawyers(getDynamicLawyers());
-        return () => window.removeEventListener('storage', handleStorage);
+        const fetchLawyers = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "lawyers"));
+
+                const data = querySnapshot.docs.map(doc => {
+                    const d = doc.data();
+
+                    return {
+                        id: doc.id,
+                        name: d.name || 'Unknown',
+                        city: d.city || '',
+                        experience: d.experience || 0,
+                        specializations: d.specializations || (d.specialization ? [d.specialization.toLowerCase()] : []),
+                        languages: d.languages || [],
+                        consultationFee: d.consultationFee || 0,
+                        verified: d.verified || false,
+                        isProBono: d.isProBono || false,
+                        gender: d.gender || '',
+                        photo: d.photo || '',
+                        rating: d.rating || 0,
+                        reviewCount: d.reviewCount || 0,
+
+                        // computed
+                        liveRating: d.rating || 0,
+                        liveReviewCount: d.reviewCount || 0
+                    };
+                });
+
+                setAllLawyers(data);
+            } catch (err) {
+                console.error("Error fetching lawyers:", err);
+                setError("Failed to load lawyers");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLawyers();
     }, []);
 
-    // Merge static + dynamic lawyers
-    const allLawyers = useMemo(() => {
-        const staticIds = new Set(lawyers.map((l) => l.id));
-        const newOnes = dynamicLawyers.filter((dl) => !staticIds.has(dl.id));
-        const combined = [...lawyers, ...newOnes];
-
-        return combined.map(l => {
-            try {
-                const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
-                if (reviews.length > 0) {
-                    const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-                    return {
-                        ...l,
-                        liveRating: parseFloat(avg.toFixed(1)),
-                        liveReviewCount: reviews.length + (l.reviewCount || 0)
-                    };
-                }
-            } catch { /* ignore */ }
-            return { ...l, liveRating: l.rating || 0, liveReviewCount: l.reviewCount || 0 };
-        });
-    }, [dynamicLawyers]);
-
-    // Fuse.js instance for fuzzy search on name + specializations
+    // 🔥 Fuse search
     const fuse = useMemo(() => new Fuse(allLawyers, {
         keys: [
             { name: 'name', weight: 0.7 },
@@ -56,9 +71,9 @@ export default function Search({ compareIds, onCompareToggle }) {
         ],
         threshold: 0.4,
         ignoreLocation: true,
-        includeScore: true,
     }), [allLawyers]);
 
+    // 🔥 Filters
     const [filters, setFilters] = useState({
         areas: initialArea ? [initialArea] : [],
         city: initialCity,
@@ -76,7 +91,7 @@ export default function Search({ compareIds, onCompareToggle }) {
     const [showFilters, setShowFilters] = useState(false);
 
     const handleFilterChange = (key, value) => {
-        setFilters((prev) => ({ ...prev, [key]: value }));
+        setFilters(prev => ({ ...prev, [key]: value }));
         setCurrentPage(1);
     };
 
@@ -95,71 +110,72 @@ export default function Search({ compareIds, onCompareToggle }) {
         setCurrentPage(1);
     };
 
+    // 🔥 Filtering logic
     const filtered = useMemo(() => {
-        // Start with fuzzy search if name query is provided
         let result;
-        if (filters.nameQuery && filters.nameQuery.trim()) {
-            const fuseResults = fuse.search(filters.nameQuery.trim());
-            result = fuseResults.map((r) => r.item);
+
+        // Search
+        if (filters.nameQuery.trim()) {
+            result = fuse.search(filters.nameQuery).map(r => r.item);
         } else {
             result = [...allLawyers];
         }
 
-        // Apply filters
+        // Filters
         if (filters.areas.length > 0) {
-            result = result.filter((l) =>
-                l.specializations.some((s) => filters.areas.includes(s))
+            result = result.filter(l =>
+                (l.specializations || []).some(s => filters.areas.includes(s))
             );
         }
 
         if (filters.city) {
-            result = result.filter((l) =>
-                l.city.toLowerCase().includes(filters.city.toLowerCase())
+            result = result.filter(l =>
+                (l.city || '').toLowerCase().includes(filters.city.toLowerCase())
             );
         }
 
         if (filters.minExperience) {
-            result = result.filter((l) => l.experience >= filters.minExperience);
+            result = result.filter(l => (l.experience || 0) >= filters.minExperience);
         }
 
         if (filters.minRating) {
-            result = result.filter((l) => l.liveRating >= filters.minRating);
+            result = result.filter(l => (l.liveRating || 0) >= filters.minRating);
         }
 
         if (filters.languages.length > 0) {
-            result = result.filter((l) =>
-                filters.languages.some((lang) => l.languages.includes(lang))
+            result = result.filter(l =>
+                filters.languages.some(lang => (l.languages || []).includes(lang))
             );
         }
 
         if (filters.gender) {
-            result = result.filter((l) => l.gender === filters.gender);
+            result = result.filter(l => l.gender === filters.gender);
         }
 
         if (filters.verifiedOnly) {
-            result = result.filter((l) => l.verified);
+            result = result.filter(l => l.verified);
         }
 
         if (filters.proBonoOnly) {
-            result = result.filter((l) => l.isProBono);
+            result = result.filter(l => l.isProBono);
         }
 
-        // Sort (skip if fuzzy search is active and no explicit sort chosen, to preserve relevance)
+        // Sorting
         switch (sortBy) {
             case 'rating':
-                result.sort((a, b) => b.liveRating - a.liveRating);
+                result.sort((a, b) => (b.liveRating || 0) - (a.liveRating || 0));
                 break;
             case 'experience':
-                result.sort((a, b) => b.experience - a.experience);
+                result.sort((a, b) => (b.experience || 0) - (a.experience || 0));
                 break;
             case 'reviews':
-                result.sort((a, b) => b.liveReviewCount - a.liveReviewCount);
+                result.sort((a, b) => (b.liveReviewCount || 0) - (a.liveReviewCount || 0));
                 break;
             case 'fees_low':
-                result.sort((a, b) => a.consultationFee - b.consultationFee);
+                result.sort((a, b) => (a.consultationFee || 0) - (b.consultationFee || 0));
                 break;
             case 'fees_high':
-                result.sort((a, b) => b.consultationFee - a.consultationFee);
+                result.sort((a, b) => (b.consultationFee || 0) - (a.consultationFee || 0));
                 break;
             case 'location':
                 result.sort((a, b) => (a.city || '').localeCompare(b.city || ''));
@@ -172,6 +188,7 @@ export default function Search({ compareIds, onCompareToggle }) {
     }, [filters, sortBy, allLawyers, fuse]);
 
     const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+
     const paginatedResults = filtered.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
@@ -179,6 +196,8 @@ export default function Search({ compareIds, onCompareToggle }) {
 
     return (
         <div className="search-page container">
+
+            {/* HEADER */}
             <div className="search-page__header">
                 <h1 className="search-page__title">Find a Lawyer</h1>
                 <div className="search-page__search-wrap">
@@ -191,6 +210,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                 </div>
             </div>
 
+            {/* MOBILE FILTER BUTTON */}
             <button
                 className="search-page__mobile-filter-btn"
                 onClick={() => setShowFilters(!showFilters)}
@@ -199,7 +219,12 @@ export default function Search({ compareIds, onCompareToggle }) {
             </button>
 
             <div className="search-page__layout">
-                <div className={showFilters ? 'search-page__sidebar' : 'search-page__sidebar search-page__sidebar--hidden'}>
+
+                {/* SIDEBAR */}
+                <div className={showFilters
+                    ? 'search-page__sidebar'
+                    : 'search-page__sidebar search-page__sidebar--hidden'}
+                >
                     <FilterSidebar
                         filters={filters}
                         onFilterChange={handleFilterChange}
@@ -207,16 +232,16 @@ export default function Search({ compareIds, onCompareToggle }) {
                     />
                 </div>
 
+                {/* RESULTS */}
                 <div className="search-page__results">
+
                     <div className="search-page__results-header">
                         <div className="search-page__count">
                             Showing <strong>{filtered.length}</strong> lawyer{filtered.length !== 1 ? 's' : ''}
-                            {filters.nameQuery && (
-                                <span> matching &quot;{filters.nameQuery}&quot;</span>
-                            )}
                         </div>
+
                         <div className="search-page__sort">
-                            <span className="search-page__sort-label">Sort by:</span>
+                            <span>Sort by:</span>
                             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                                 <option value="rating">Highest Rating</option>
                                 <option value="experience">Most Experienced</option>
@@ -228,7 +253,12 @@ export default function Search({ compareIds, onCompareToggle }) {
                         </div>
                     </div>
 
-                    {paginatedResults.length > 0 ? (
+                    {/* 🔥 MAIN STATE HANDLING */}
+                    {loading ? (
+                        <p>Loading lawyers...</p>
+                    ) : error ? (
+                        <p>{error}</p>
+                    ) : paginatedResults.length > 0 ? (
                         <div className="search-page__results-list">
                             {paginatedResults.map((lawyer) => (
                                 <LawyerCard
@@ -241,18 +271,18 @@ export default function Search({ compareIds, onCompareToggle }) {
                         </div>
                     ) : (
                         <div className="search-page__no-results">
-                            <div className="search-page__no-results-icon">🔍</div>
                             <h3>No lawyers found</h3>
-                            <p>Try adjusting your filters or search criteria</p>
+                            <p>Try adjusting your filters</p>
                         </div>
                     )}
 
+                    {/* PAGINATION */}
                     {totalPages > 1 && (
                         <div className="search-page__pagination">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                                 <button
                                     key={page}
-                                    className={`search-page__page-btn ${page === currentPage ? 'search-page__page-btn--active' : ''}`}
+                                    className={page === currentPage ? 'active' : ''}
                                     onClick={() => setCurrentPage(page)}
                                 >
                                     {page}
@@ -260,6 +290,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                             ))}
                         </div>
                     )}
+
                 </div>
             </div>
         </div>

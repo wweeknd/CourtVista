@@ -5,8 +5,10 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, on
 
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const AuthContext = createContext(null);
+const googleProvider = new GoogleAuthProvider();
 
 // Hardcoded admin account
 const ADMIN_ACCOUNT = {
@@ -205,6 +207,42 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function loginWithGoogle() {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const firebaseUser = result.user;
+
+            const users = getStoredUsers();
+            let found = users.find((u) => u.id === firebaseUser.uid);
+
+            if (!found) {
+                const newUser = {
+                    id: firebaseUser.uid,
+                    name: firebaseUser.displayName || "User",
+                    email: firebaseUser.email,
+                    emailVerified: firebaseUser.emailVerified,
+                    profilePicture: firebaseUser.photoURL || null
+                };
+
+                // TEMP: set user (no role yet)
+                setUser(newUser);
+
+                return {
+                    success: true,
+                    user: newUser,
+                    needsRole: true   // 👈 KEY LINE
+                };
+            }
+
+            setUser(found);
+
+            return { success: true, user: found };
+
+        } catch (error) {
+            return { success: false, message: error.message };
+        }
+    }
+
     // Logout
     async function logout() {
         await signOut(auth);
@@ -212,18 +250,35 @@ export function AuthProvider({ children }) {
     }
 
     // Update user profile
-    function updateProfile(updates) {
+    async function updateProfile(updates) {
         if (!user) return { success: false, message: 'Not logged in.' };
 
         const updatedUser = { ...user, ...updates };
         setUser(updatedUser);
 
-        // Also update in the users list
         const users = getStoredUsers();
-        const updatedUsers = users.map((u) =>
-            u.id === user.id ? { ...u, ...updates } : u
-        );
+        const existing = users.find((u) => u.id === user.id);
+
+        let updatedUsers;
+
+        if (existing) {
+            updatedUsers = users.map((u) =>
+                u.id === user.id ? { ...u, ...updates } : u
+            );
+        } else {
+            updatedUsers = [...users, updatedUser];
+        }
+
         localStorage.setItem('courtvista_users', JSON.stringify(updatedUsers));
+
+        try {
+            await setDoc(doc(db, "users", user.id), {
+                ...updatedUser,
+                updatedAt: new Date()
+            });
+        } catch (err) {
+            console.error("Firestore update failed:", err);
+        }
 
         return { success: true, user: updatedUser };
     }
@@ -260,7 +315,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, refreshUser, getDashboardPath, getLawyerProfile }}>
+        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, refreshUser, getDashboardPath, getLawyerProfile, loginWithGoogle }}>
             {children}
         </AuthContext.Provider>
     );
