@@ -21,7 +21,7 @@ export default function Search({ compareIds, onCompareToggle }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 🔥 Fetch from Firestore
+    // Fetch from Firestore
     useEffect(() => {
         const fetchLawyers = async () => {
             try {
@@ -33,21 +33,26 @@ export default function Search({ compareIds, onCompareToggle }) {
                     return {
                         id: doc.id,
                         name: d.name || 'Unknown',
-                        city: d.city || '',
+                        city: d.location || '',
                         experience: d.experience || 0,
-                        specializations: d.specializations || (d.specialization ? [d.specialization.toLowerCase()] : []),
-                        languages: d.languages || [],
-                        consultationFee: d.consultationFee || 0,
-                        verified: d.verified || false,
-                        isProBono: d.isProBono || false,
-                        gender: d.gender || '',
-                        photo: d.photo || '',
-                        rating: d.rating || 0,
-                        reviewCount: d.reviewCount || 0,
+                        specializations: d.specialization
+                            ? [d.specialization.toLowerCase().replace(" law", "")]
+                            : [],
 
-                        // computed
+                        languages: d.languages || [],
+
+                        consultationFee: Math.floor(Math.random() * 4000) + 500,
+                        verified: false,
+                        isProBono: false,
+                        gender: '',
+
+                        photo: d.image || '',
+
+                        rating: d.rating || 0,
+                        reviewCount: 0,
+
                         liveRating: d.rating || 0,
-                        liveReviewCount: d.reviewCount || 0
+                        liveReviewCount: 0
                     };
                 });
 
@@ -63,17 +68,18 @@ export default function Search({ compareIds, onCompareToggle }) {
         fetchLawyers();
     }, []);
 
-    // 🔥 Fuse search
+    // Fuse search
     const fuse = useMemo(() => new Fuse(allLawyers, {
         keys: [
-            { name: 'name', weight: 0.7 },
+            { name: 'name', weight: 0.5 },
             { name: 'specializations', weight: 0.3 },
+            { name: 'city', weight: 0.2 },
         ],
         threshold: 0.4,
         ignoreLocation: true,
     }), [allLawyers]);
 
-    // 🔥 Filters
+    //  Filters
     const [filters, setFilters] = useState({
         areas: initialArea ? [initialArea] : [],
         city: initialCity,
@@ -110,7 +116,7 @@ export default function Search({ compareIds, onCompareToggle }) {
         setCurrentPage(1);
     };
 
-    // 🔥 Filtering logic
+    //  Filtering logic
     const filtered = useMemo(() => {
         let result;
 
@@ -130,7 +136,7 @@ export default function Search({ compareIds, onCompareToggle }) {
 
         if (filters.city) {
             result = result.filter(l =>
-                (l.city || '').toLowerCase().includes(filters.city.toLowerCase())
+                l.city.toLowerCase() === filters.city.toLowerCase()
             );
         }
 
@@ -253,7 +259,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                         </div>
                     </div>
 
-                    {/* 🔥 MAIN STATE HANDLING */}
+                    {/*  MAIN STATE HANDLING */}
                     {loading ? (
                         <p>Loading lawyers...</p>
                     ) : error ? (
@@ -279,15 +285,21 @@ export default function Search({ compareIds, onCompareToggle }) {
                     {/* PAGINATION */}
                     {totalPages > 1 && (
                         <div className="search-page__pagination">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                <button
-                                    key={page}
-                                    className={page === currentPage ? 'active' : ''}
-                                    onClick={() => setCurrentPage(page)}
-                                >
-                                    {page}
-                                </button>
-                            ))}
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(prev => prev - 1)}
+                            >
+                                ← Prev
+                            </button>
+
+                            <span>Page {currentPage} of {totalPages}</span>
+
+                            <button
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(prev => prev + 1)}
+                            >
+                                Next →
+                            </button>
                         </div>
                     )}
 

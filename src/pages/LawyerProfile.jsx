@@ -302,7 +302,7 @@ export default function LawyerProfile() {
                     )}
 
                     {/* Case Statistics — only show for static (they have real data) */}
-                    {!lawyer.isDynamic && (
+                    {lawyer.totalCases && lawyer.pendingCases && (
                         <div className="profile-section">
                             <h2 className="profile-section__title">Case Statistics</h2>
                             <div className="profile-case-stats">
@@ -482,7 +482,9 @@ export default function LawyerProfile() {
                             <div className="profile-sidebar__fee-row">
                                 <span className="profile-sidebar__fee-label">Consultation</span>
                                 <span className="profile-sidebar__fee-value">
-                                    {lawyer.feesRange || (lawyer.consultationFee ? `₹${lawyer.consultationFee}` : 'Contact for fees')}
+                                    {lawyer.consultationFee
+                                        ? `₹${lawyer.consultationFee}`
+                                        : '₹500 – ₹3000'}
                                 </span>
                             </div>
                         </div>

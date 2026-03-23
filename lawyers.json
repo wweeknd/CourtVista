@@ -1,0 +1,1407 @@
+[
+  {
+    "id": "lawyer_001",
+    "name": "Deepak Singh",
+    "specialization": "Corporate Law",
+    "location": "Chennai",
+    "experience": 2,
+    "rating": 4.1,
+    "casesHandled": 434,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/71.jpg"
+  },
+  {
+    "id": "lawyer_002",
+    "name": "Suresh Patel",
+    "specialization": "Cyber Law",
+    "location": "Kolkata",
+    "experience": 20,
+    "rating": 4.5,
+    "casesHandled": 335,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/28.jpg"
+  },
+  {
+    "id": "lawyer_003",
+    "name": "Kavya Choudhary",
+    "specialization": "Cyber Law",
+    "location": "Kolkata",
+    "experience": 16,
+    "rating": 3.7,
+    "casesHandled": 487,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/44.jpg"
+  },
+  {
+    "id": "lawyer_004",
+    "name": "Kiran Khan",
+    "specialization": "Corporate Law",
+    "location": "Mumbai",
+    "experience": 25,
+    "rating": 4.7,
+    "casesHandled": 254,
+    "languages": [
+      "English",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/30.jpg"
+  },
+  {
+    "id": "lawyer_005",
+    "name": "Aditya Naidu",
+    "specialization": "Real Estate Law",
+    "location": "Delhi",
+    "experience": 8,
+    "rating": 4.9,
+    "casesHandled": 437,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/89.jpg"
+  },
+  {
+    "id": "lawyer_006",
+    "name": "Anjali Gupta",
+    "specialization": "Tax Law",
+    "location": "Pune",
+    "experience": 11,
+    "rating": 4.2,
+    "casesHandled": 185,
+    "languages": [
+      "English",
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/77.jpg"
+  },
+  {
+    "id": "lawyer_007",
+    "name": "Vikram Nair",
+    "specialization": "Tax Law",
+    "location": "Chennai",
+    "experience": 16,
+    "rating": 3.9,
+    "casesHandled": 29,
+    "languages": [
+      "Tamil",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/29.jpg"
+  },
+  {
+    "id": "lawyer_008",
+    "name": "Anjali Iyer",
+    "specialization": "Criminal Law",
+    "location": "Hyderabad",
+    "experience": 21,
+    "rating": 5,
+    "casesHandled": 413,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/23.jpg"
+  },
+  {
+    "id": "lawyer_009",
+    "name": "Pooja Yadav",
+    "specialization": "Tax Law",
+    "location": "Ahmedabad",
+    "experience": 19,
+    "rating": 3.6,
+    "casesHandled": 460,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/3.jpg"
+  },
+  {
+    "id": "lawyer_010",
+    "name": "Kiran Sharma",
+    "specialization": "Civil Law",
+    "location": "Bangalore",
+    "experience": 14,
+    "rating": 3.9,
+    "casesHandled": 275,
+    "languages": [
+      "Tamil",
+      "English",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/13.jpg"
+  },
+  {
+    "id": "lawyer_011",
+    "name": "Harsha Nair",
+    "specialization": "Criminal Law",
+    "location": "Delhi",
+    "experience": 8,
+    "rating": 3.3,
+    "casesHandled": 273,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/50.jpg"
+  },
+  {
+    "id": "lawyer_012",
+    "name": "Harsha Patel",
+    "specialization": "Criminal Law",
+    "location": "Kolkata",
+    "experience": 5,
+    "rating": 4.4,
+    "casesHandled": 99,
+    "languages": [
+      "Telugu",
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+  },
+  {
+    "id": "lawyer_013",
+    "name": "Divya Nair",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 1,
+    "rating": 4,
+    "casesHandled": 66,
+    "languages": [
+      "Kannada",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/63.jpg"
+  },
+  {
+    "id": "lawyer_014",
+    "name": "Arjun Gupta",
+    "specialization": "Cyber Law",
+    "location": "Bangalore",
+    "experience": 16,
+    "rating": 4.2,
+    "casesHandled": 158,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/82.jpg"
+  },
+  {
+    "id": "lawyer_015",
+    "name": "Kiran Nair",
+    "specialization": "Intellectual Property",
+    "location": "Chennai",
+    "experience": 25,
+    "rating": 4.2,
+    "casesHandled": 99,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/82.jpg"
+  },
+  {
+    "id": "lawyer_016",
+    "name": "Arjun Yadav",
+    "specialization": "Civil Law",
+    "location": "Mumbai",
+    "experience": 21,
+    "rating": 4.7,
+    "casesHandled": 120,
+    "languages": [
+      "English",
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/47.jpg"
+  },
+  {
+    "id": "lawyer_017",
+    "name": "Meera Verma",
+    "specialization": "Cyber Law",
+    "location": "Bangalore",
+    "experience": 10,
+    "rating": 4.6,
+    "casesHandled": 412,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/39.jpg"
+  },
+  {
+    "id": "lawyer_018",
+    "name": "Divya Iyer",
+    "specialization": "Family Law",
+    "location": "Delhi",
+    "experience": 15,
+    "rating": 3.5,
+    "casesHandled": 216,
+    "languages": [
+      "English",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/61.jpg"
+  },
+  {
+    "id": "lawyer_019",
+    "name": "Priya Sharma",
+    "specialization": "Tax Law",
+    "location": "Ahmedabad",
+    "experience": 22,
+    "rating": 3.5,
+    "casesHandled": 74,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/1.jpg"
+  },
+  {
+    "id": "lawyer_020",
+    "name": "Rohan Gupta",
+    "specialization": "Real Estate Law",
+    "location": "Delhi",
+    "experience": 3,
+    "rating": 4.5,
+    "casesHandled": 269,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/69.jpg"
+  },
+  {
+    "id": "lawyer_021",
+    "name": "Meera Patel",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 4,
+    "rating": 3.6,
+    "casesHandled": 505,
+    "languages": [
+      "Telugu",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/33.jpg"
+  },
+  {
+    "id": "lawyer_022",
+    "name": "Pooja Mehta",
+    "specialization": "Tax Law",
+    "location": "Delhi",
+    "experience": 24,
+    "rating": 4.4,
+    "casesHandled": 311,
+    "languages": [
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+  },
+  {
+    "id": "lawyer_023",
+    "name": "Rohan Naidu",
+    "specialization": "Civil Law",
+    "location": "Mumbai",
+    "experience": 11,
+    "rating": 4,
+    "casesHandled": 151,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/1.jpg"
+  },
+  {
+    "id": "lawyer_024",
+    "name": "Rahul Sharma",
+    "specialization": "Real Estate Law",
+    "location": "Hyderabad",
+    "experience": 4,
+    "rating": 3.6,
+    "casesHandled": 416,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/34.jpg"
+  },
+  {
+    "id": "lawyer_025",
+    "name": "Priya Nair",
+    "specialization": "Intellectual Property",
+    "location": "Delhi",
+    "experience": 12,
+    "rating": 3.2,
+    "casesHandled": 148,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/44.jpg"
+  },
+  {
+    "id": "lawyer_026",
+    "name": "Neha Choudhary",
+    "specialization": "Cyber Law",
+    "location": "Ahmedabad",
+    "experience": 5,
+    "rating": 4.3,
+    "casesHandled": 275,
+    "languages": [
+      "English",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/49.jpg"
+  },
+  {
+    "id": "lawyer_027",
+    "name": "Pooja Patel",
+    "specialization": "Tax Law",
+    "location": "Pune",
+    "experience": 1,
+    "rating": 4.5,
+    "casesHandled": 367,
+    "languages": [
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/29.jpg"
+  },
+  {
+    "id": "lawyer_028",
+    "name": "Pooja Singh",
+    "specialization": "Cyber Law",
+    "location": "Chennai",
+    "experience": 13,
+    "rating": 4.4,
+    "casesHandled": 128,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/62.jpg"
+  },
+  {
+    "id": "lawyer_029",
+    "name": "Kavya Reddy",
+    "specialization": "Family Law",
+    "location": "Kolkata",
+    "experience": 14,
+    "rating": 4.3,
+    "casesHandled": 404,
+    "languages": [
+      "Hindi",
+      "English",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/71.jpg"
+  },
+  {
+    "id": "lawyer_030",
+    "name": "Rohan Choudhary",
+    "specialization": "Civil Law",
+    "location": "Mumbai",
+    "experience": 15,
+    "rating": 4.7,
+    "casesHandled": 509,
+    "languages": [
+      "English",
+      "Tamil",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/54.jpg"
+  },
+  {
+    "id": "lawyer_031",
+    "name": "Amit Choudhary",
+    "specialization": "Tax Law",
+    "location": "Bangalore",
+    "experience": 6,
+    "rating": 4,
+    "casesHandled": 285,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/47.jpg"
+  },
+  {
+    "id": "lawyer_032",
+    "name": "Suresh Patel",
+    "specialization": "Family Law",
+    "location": "Hyderabad",
+    "experience": 20,
+    "rating": 3.1,
+    "casesHandled": 327,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/65.jpg"
+  },
+  {
+    "id": "lawyer_033",
+    "name": "Sneha Yadav",
+    "specialization": "Civil Law",
+    "location": "Kolkata",
+    "experience": 15,
+    "rating": 4.5,
+    "casesHandled": 138,
+    "languages": [
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/7.jpg"
+  },
+  {
+    "id": "lawyer_034",
+    "name": "Priya Singh",
+    "specialization": "Corporate Law",
+    "location": "Bangalore",
+    "experience": 11,
+    "rating": 4.8,
+    "casesHandled": 95,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/78.jpg"
+  },
+  {
+    "id": "lawyer_035",
+    "name": "Rahul Sharma",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 13,
+    "rating": 3.6,
+    "casesHandled": 125,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/22.jpg"
+  },
+  {
+    "id": "lawyer_036",
+    "name": "Rahul Choudhary",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 11,
+    "rating": 3.7,
+    "casesHandled": 504,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/36.jpg"
+  },
+  {
+    "id": "lawyer_037",
+    "name": "Anjali Khan",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 19,
+    "rating": 3.1,
+    "casesHandled": 72,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/6.jpg"
+  },
+  {
+    "id": "lawyer_038",
+    "name": "Kavya Reddy",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 3,
+    "rating": 3.7,
+    "casesHandled": 293,
+    "languages": [
+      "Hindi",
+      "Tamil",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/10.jpg"
+  },
+  {
+    "id": "lawyer_039",
+    "name": "Anjali Naidu",
+    "specialization": "Corporate Law",
+    "location": "Hyderabad",
+    "experience": 19,
+    "rating": 5,
+    "casesHandled": 128,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/57.jpg"
+  },
+  {
+    "id": "lawyer_040",
+    "name": "Nikhil Verma",
+    "specialization": "Intellectual Property",
+    "location": "Hyderabad",
+    "experience": 11,
+    "rating": 3.8,
+    "casesHandled": 455,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/83.jpg"
+  },
+  {
+    "id": "lawyer_041",
+    "name": "Sneha Reddy",
+    "specialization": "Criminal Law",
+    "location": "Hyderabad",
+    "experience": 10,
+    "rating": 4.1,
+    "casesHandled": 395,
+    "languages": [
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/53.jpg"
+  },
+  {
+    "id": "lawyer_042",
+    "name": "Arjun Khan",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 9,
+    "rating": 3.9,
+    "casesHandled": 327,
+    "languages": [
+      "Tamil",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/85.jpg"
+  },
+  {
+    "id": "lawyer_043",
+    "name": "Suresh Singh",
+    "specialization": "Tax Law",
+    "location": "Kolkata",
+    "experience": 4,
+    "rating": 4.9,
+    "casesHandled": 385,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/5.jpg"
+  },
+  {
+    "id": "lawyer_044",
+    "name": "Kavya Patel",
+    "specialization": "Criminal Law",
+    "location": "Kolkata",
+    "experience": 2,
+    "rating": 4,
+    "casesHandled": 396,
+    "languages": [
+      "English",
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/54.jpg"
+  },
+  {
+    "id": "lawyer_045",
+    "name": "Rahul Verma",
+    "specialization": "Cyber Law",
+    "location": "Kolkata",
+    "experience": 15,
+    "rating": 3.6,
+    "casesHandled": 216,
+    "languages": [
+      "Telugu",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+  },
+  {
+    "id": "lawyer_046",
+    "name": "Rohan Nair",
+    "specialization": "Civil Law",
+    "location": "Ahmedabad",
+    "experience": 21,
+    "rating": 3.8,
+    "casesHandled": 38,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/76.jpg"
+  },
+  {
+    "id": "lawyer_047",
+    "name": "Priya Naidu",
+    "specialization": "Corporate Law",
+    "location": "Kolkata",
+    "experience": 23,
+    "rating": 4.1,
+    "casesHandled": 486,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/66.jpg"
+  },
+  {
+    "id": "lawyer_048",
+    "name": "Nikhil Naidu",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 19,
+    "rating": 4.4,
+    "casesHandled": 235,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/29.jpg"
+  },
+  {
+    "id": "lawyer_049",
+    "name": "Swathi Naidu",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 11,
+    "rating": 3.2,
+    "casesHandled": 473,
+    "languages": [
+      "Kannada",
+      "Telugu",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/90.jpg"
+  },
+  {
+    "id": "lawyer_050",
+    "name": "Suresh Choudhary",
+    "specialization": "Real Estate Law",
+    "location": "Delhi",
+    "experience": 16,
+    "rating": 3,
+    "casesHandled": 515,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/5.jpg"
+  },
+  {
+    "id": "lawyer_051",
+    "name": "Vikram Reddy",
+    "specialization": "Family Law",
+    "location": "Chennai",
+    "experience": 23,
+    "rating": 4,
+    "casesHandled": 320,
+    "languages": [
+      "Tamil",
+      "Telugu",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+  },
+  {
+    "id": "lawyer_052",
+    "name": "Harsha Khan",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 20,
+    "rating": 4,
+    "casesHandled": 515,
+    "languages": [
+      "Hindi",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+  },
+  {
+    "id": "lawyer_053",
+    "name": "Vikram Gupta",
+    "specialization": "Family Law",
+    "location": "Delhi",
+    "experience": 12,
+    "rating": 3.1,
+    "casesHandled": 422,
+    "languages": [
+      "Telugu",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/36.jpg"
+  },
+  {
+    "id": "lawyer_054",
+    "name": "Divya Yadav",
+    "specialization": "Civil Law",
+    "location": "Kolkata",
+    "experience": 21,
+    "rating": 3.9,
+    "casesHandled": 387,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/71.jpg"
+  },
+  {
+    "id": "lawyer_055",
+    "name": "Rahul Verma",
+    "specialization": "Intellectual Property",
+    "location": "Bangalore",
+    "experience": 25,
+    "rating": 4.6,
+    "casesHandled": 160,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/40.jpg"
+  },
+  {
+    "id": "lawyer_056",
+    "name": "Vikram Yadav",
+    "specialization": "Tax Law",
+    "location": "Hyderabad",
+    "experience": 20,
+    "rating": 4.9,
+    "casesHandled": 87,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/68.jpg"
+  },
+  {
+    "id": "lawyer_057",
+    "name": "Divya Patel",
+    "specialization": "Family Law",
+    "location": "Bangalore",
+    "experience": 24,
+    "rating": 3.8,
+    "casesHandled": 260,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/48.jpg"
+  },
+  {
+    "id": "lawyer_058",
+    "name": "Kiran Das",
+    "specialization": "Family Law",
+    "location": "Mumbai",
+    "experience": 4,
+    "rating": 3.7,
+    "casesHandled": 148,
+    "languages": [
+      "Tamil",
+      "Telugu",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/86.jpg"
+  },
+  {
+    "id": "lawyer_059",
+    "name": "Aditya Reddy",
+    "specialization": "Corporate Law",
+    "location": "Bangalore",
+    "experience": 12,
+    "rating": 4.2,
+    "casesHandled": 159,
+    "languages": [
+      "Telugu",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/59.jpg"
+  },
+  {
+    "id": "lawyer_060",
+    "name": "Anjali Iyer",
+    "specialization": "Cyber Law",
+    "location": "Bangalore",
+    "experience": 3,
+    "rating": 4.1,
+    "casesHandled": 469,
+    "languages": [
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+  },
+  {
+    "id": "lawyer_061",
+    "name": "Nikhil Das",
+    "specialization": "Family Law",
+    "location": "Bangalore",
+    "experience": 14,
+    "rating": 3.7,
+    "casesHandled": 389,
+    "languages": [
+      "Telugu",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/23.jpg"
+  },
+  {
+    "id": "lawyer_062",
+    "name": "Arjun Mehta",
+    "specialization": "Criminal Law",
+    "location": "Hyderabad",
+    "experience": 9,
+    "rating": 3.3,
+    "casesHandled": 346,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/47.jpg"
+  },
+  {
+    "id": "lawyer_063",
+    "name": "Rahul Mehta",
+    "specialization": "Intellectual Property",
+    "location": "Pune",
+    "experience": 21,
+    "rating": 3.8,
+    "casesHandled": 384,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/21.jpg"
+  },
+  {
+    "id": "lawyer_064",
+    "name": "Arjun Nair",
+    "specialization": "Tax Law",
+    "location": "Pune",
+    "experience": 7,
+    "rating": 4.7,
+    "casesHandled": 90,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/23.jpg"
+  },
+  {
+    "id": "lawyer_065",
+    "name": "Aditya Naidu",
+    "specialization": "Real Estate Law",
+    "location": "Chennai",
+    "experience": 20,
+    "rating": 3.9,
+    "casesHandled": 167,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/80.jpg"
+  },
+  {
+    "id": "lawyer_066",
+    "name": "Priya Singh",
+    "specialization": "Intellectual Property",
+    "location": "Hyderabad",
+    "experience": 21,
+    "rating": 3.1,
+    "casesHandled": 301,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/51.jpg"
+  },
+  {
+    "id": "lawyer_067",
+    "name": "Priya Reddy",
+    "specialization": "Cyber Law",
+    "location": "Ahmedabad",
+    "experience": 20,
+    "rating": 4.1,
+    "casesHandled": 53,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/12.jpg"
+  },
+  {
+    "id": "lawyer_068",
+    "name": "Harsha Mehta",
+    "specialization": "Real Estate Law",
+    "location": "Chennai",
+    "experience": 22,
+    "rating": 4.8,
+    "casesHandled": 62,
+    "languages": [
+      "Telugu",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/33.jpg"
+  },
+  {
+    "id": "lawyer_069",
+    "name": "Amit Mehta",
+    "specialization": "Criminal Law",
+    "location": "Delhi",
+    "experience": 11,
+    "rating": 3.2,
+    "casesHandled": 145,
+    "languages": [
+      "Tamil",
+      "Telugu",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/61.jpg"
+  },
+  {
+    "id": "lawyer_070",
+    "name": "Pooja Patel",
+    "specialization": "Intellectual Property",
+    "location": "Mumbai",
+    "experience": 3,
+    "rating": 3.9,
+    "casesHandled": 173,
+    "languages": [
+      "English",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/57.jpg"
+  },
+  {
+    "id": "lawyer_071",
+    "name": "Kavya Sharma",
+    "specialization": "Cyber Law",
+    "location": "Delhi",
+    "experience": 3,
+    "rating": 3.7,
+    "casesHandled": 311,
+    "languages": [
+      "English",
+      "Kannada",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/77.jpg"
+  },
+  {
+    "id": "lawyer_072",
+    "name": "Kavya Khan",
+    "specialization": "Civil Law",
+    "location": "Bangalore",
+    "experience": 22,
+    "rating": 4.8,
+    "casesHandled": 344,
+    "languages": [
+      "English",
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/44.jpg"
+  },
+  {
+    "id": "lawyer_073",
+    "name": "Anjali Verma",
+    "specialization": "Cyber Law",
+    "location": "Kolkata",
+    "experience": 14,
+    "rating": 4.6,
+    "casesHandled": 454,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/83.jpg"
+  },
+  {
+    "id": "lawyer_074",
+    "name": "Priya Mehta",
+    "specialization": "Civil Law",
+    "location": "Mumbai",
+    "experience": 23,
+    "rating": 3.7,
+    "casesHandled": 431,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/89.jpg"
+  },
+  {
+    "id": "lawyer_075",
+    "name": "Priya Singh",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 20,
+    "rating": 3.6,
+    "casesHandled": 281,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/13.jpg"
+  },
+  {
+    "id": "lawyer_076",
+    "name": "Kiran Iyer",
+    "specialization": "Corporate Law",
+    "location": "Pune",
+    "experience": 20,
+    "rating": 3.7,
+    "casesHandled": 409,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/90.jpg"
+  },
+  {
+    "id": "lawyer_077",
+    "name": "Suresh Sharma",
+    "specialization": "Intellectual Property",
+    "location": "Bangalore",
+    "experience": 15,
+    "rating": 3.5,
+    "casesHandled": 513,
+    "languages": [
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/26.jpg"
+  },
+  {
+    "id": "lawyer_078",
+    "name": "Priya Patel",
+    "specialization": "Intellectual Property",
+    "location": "Delhi",
+    "experience": 16,
+    "rating": 3.5,
+    "casesHandled": 385,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/47.jpg"
+  },
+  {
+    "id": "lawyer_079",
+    "name": "Rohan Verma",
+    "specialization": "Real Estate Law",
+    "location": "Mumbai",
+    "experience": 13,
+    "rating": 4.5,
+    "casesHandled": 276,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/75.jpg"
+  },
+  {
+    "id": "lawyer_080",
+    "name": "Meera Nair",
+    "specialization": "Intellectual Property",
+    "location": "Chennai",
+    "experience": 12,
+    "rating": 4.7,
+    "casesHandled": 308,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/84.jpg"
+  },
+  {
+    "id": "lawyer_081",
+    "name": "Sneha Choudhary",
+    "specialization": "Real Estate Law",
+    "location": "Chennai",
+    "experience": 10,
+    "rating": 4.4,
+    "casesHandled": 172,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/48.jpg"
+  },
+  {
+    "id": "lawyer_082",
+    "name": "Deepak Khan",
+    "specialization": "Corporate Law",
+    "location": "Kolkata",
+    "experience": 19,
+    "rating": 4.1,
+    "casesHandled": 325,
+    "languages": [
+      "Tamil",
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/31.jpg"
+  },
+  {
+    "id": "lawyer_083",
+    "name": "Anjali Sharma",
+    "specialization": "Intellectual Property",
+    "location": "Ahmedabad",
+    "experience": 15,
+    "rating": 4.5,
+    "casesHandled": 234,
+    "languages": [
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/85.jpg"
+  },
+  {
+    "id": "lawyer_084",
+    "name": "Swathi Iyer",
+    "specialization": "Real Estate Law",
+    "location": "Pune",
+    "experience": 17,
+    "rating": 4.5,
+    "casesHandled": 363,
+    "languages": [
+      "Tamil",
+      "English",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/20.jpg"
+  },
+  {
+    "id": "lawyer_085",
+    "name": "Amit Patel",
+    "specialization": "Tax Law",
+    "location": "Chennai",
+    "experience": 22,
+    "rating": 3.6,
+    "casesHandled": 426,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/11.jpg"
+  },
+  {
+    "id": "lawyer_086",
+    "name": "Rohan Yadav",
+    "specialization": "Criminal Law",
+    "location": "Hyderabad",
+    "experience": 18,
+    "rating": 4.9,
+    "casesHandled": 151,
+    "languages": [
+      "Tamil",
+      "English",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/77.jpg"
+  },
+  {
+    "id": "lawyer_087",
+    "name": "Kiran Gupta",
+    "specialization": "Criminal Law",
+    "location": "Delhi",
+    "experience": 1,
+    "rating": 3.8,
+    "casesHandled": 60,
+    "languages": [
+      "Telugu",
+      "Kannada",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/43.jpg"
+  },
+  {
+    "id": "lawyer_088",
+    "name": "Neha Das",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 20,
+    "rating": 4.6,
+    "casesHandled": 26,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/73.jpg"
+  },
+  {
+    "id": "lawyer_089",
+    "name": "Priya Naidu",
+    "specialization": "Cyber Law",
+    "location": "Chennai",
+    "experience": 14,
+    "rating": 3.9,
+    "casesHandled": 141,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/16.jpg"
+  },
+  {
+    "id": "lawyer_090",
+    "name": "Meera Das",
+    "specialization": "Real Estate Law",
+    "location": "Hyderabad",
+    "experience": 19,
+    "rating": 3.5,
+    "casesHandled": 277,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/50.jpg"
+  },
+  {
+    "id": "lawyer_091",
+    "name": "Amit Nair",
+    "specialization": "Intellectual Property",
+    "location": "Bangalore",
+    "experience": 17,
+    "rating": 4.8,
+    "casesHandled": 426,
+    "languages": [
+      "Telugu",
+      "Tamil",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/18.jpg"
+  },
+  {
+    "id": "lawyer_092",
+    "name": "Priya Yadav",
+    "specialization": "Real Estate Law",
+    "location": "Mumbai",
+    "experience": 24,
+    "rating": 4.5,
+    "casesHandled": 330,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/66.jpg"
+  },
+  {
+    "id": "lawyer_093",
+    "name": "Suresh Verma",
+    "specialization": "Family Law",
+    "location": "Chennai",
+    "experience": 17,
+    "rating": 4.6,
+    "casesHandled": 127,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/89.jpg"
+  },
+  {
+    "id": "lawyer_094",
+    "name": "Deepak Iyer",
+    "specialization": "Corporate Law",
+    "location": "Mumbai",
+    "experience": 7,
+    "rating": 3.4,
+    "casesHandled": 508,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+  },
+  {
+    "id": "lawyer_095",
+    "name": "Rohan Singh",
+    "specialization": "Corporate Law",
+    "location": "Hyderabad",
+    "experience": 20,
+    "rating": 3.3,
+    "casesHandled": 419,
+    "languages": [
+      "English",
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/81.jpg"
+  },
+  {
+    "id": "lawyer_096",
+    "name": "Vikram Iyer",
+    "specialization": "Corporate Law",
+    "location": "Hyderabad",
+    "experience": 25,
+    "rating": 3.6,
+    "casesHandled": 57,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/79.jpg"
+  },
+  {
+    "id": "lawyer_097",
+    "name": "Kiran Singh",
+    "specialization": "Civil Law",
+    "location": "Bangalore",
+    "experience": 7,
+    "rating": 4.2,
+    "casesHandled": 162,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/90.jpg"
+  },
+  {
+    "id": "lawyer_098",
+    "name": "Rahul Khan",
+    "specialization": "Corporate Law",
+    "location": "Bangalore",
+    "experience": 14,
+    "rating": 5,
+    "casesHandled": 434,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/88.jpg"
+  },
+  {
+    "id": "lawyer_099",
+    "name": "Rahul Gupta",
+    "specialization": "Intellectual Property",
+    "location": "Pune",
+    "experience": 24,
+    "rating": 4,
+    "casesHandled": 192,
+    "languages": [
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/12.jpg"
+  },
+  {
+    "id": "lawyer_100",
+    "name": "Nikhil Reddy",
+    "specialization": "Family Law",
+    "location": "Hyderabad",
+    "experience": 25,
+    "rating": 4.5,
+    "casesHandled": 76,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/31.jpg"
+  }
+]

@@ -28,3 +28,6 @@ Thumbs.db
 deleteLater
 lint_output.txt
 lint_results.txt
+
+# Firebase
+serviceAccountKey.json
