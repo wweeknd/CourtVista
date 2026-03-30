@@ -351,13 +351,26 @@ export default function LawyerProfile() {
                     </div>
 
                     <div className="profile-header__actions">
-                        <Link to={`/book/${lawyer.id}`} className="btn btn--gold">
-                            Book a Consultation
-                        </Link>
-                        {lawyer.phone && (
-                            <a href={`tel:${lawyer.phone}`} className="btn btn--outline">
-                                📞 Contact
-                            </a>
+                        {user && user.role === 'lawyer' && String(user.id) === String(lawyer.id) ? (
+                            <>
+                                <Link to="/profile/edit" className="btn btn--gold">
+                                    ✏️ Edit Your Profile
+                                </Link>
+                                <Link to="/dashboard/lawyer" className="btn btn--outline">
+                                    📊 View Dashboard
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to={`/book/${lawyer.id}`} className="btn btn--gold">
+                                    Book a Consultation
+                                </Link>
+                                {lawyer.phone && (
+                                    <a href={`tel:${lawyer.phone}`} className="btn btn--outline">
+                                        📞 Contact
+                                    </a>
+                                )}
+                            </>
                         )}
                     </div>
                 </div>
@@ -565,13 +578,23 @@ export default function LawyerProfile() {
                                 </span>
                             </div>
                         </div>
-                        <Link
-                            to={`/book/${lawyer.id}`}
-                            className="btn btn--gold btn--lg"
-                            style={{ width: '100%', marginTop: 'var(--space-5)' }}
-                        >
-                            Book a Consultation
-                        </Link>
+                        {user && user.role === 'lawyer' && String(user.id) === String(lawyer.id) ? (
+                            <Link
+                                to="/profile/edit"
+                                className="btn btn--gold btn--lg"
+                                style={{ width: '100%', marginTop: 'var(--space-5)' }}
+                            >
+                                ✏️ Edit Your Profile
+                            </Link>
+                        ) : (
+                            <Link
+                                to={`/book/${lawyer.id}`}
+                                className="btn btn--gold btn--lg"
+                                style={{ width: '100%', marginTop: 'var(--space-5)' }}
+                            >
+                                Book a Consultation
+                            </Link>
+                        )}
                     </div>
 
                     {(lawyer.languages || []).length > 0 && (

@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
-import { isUserVerified, initiateEmailVerification, sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../utils/emailClient';
+import { sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../utils/emailClient';
 import AuthModal from '../components/AuthModal';
 import './BookConsultation.css';
 
@@ -39,7 +39,6 @@ export default function BookConsultation() {
     const lawyer = findLawyer(id);
     const [submitted, setSubmitted] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [resendStatus, setResendStatus] = useState('');
     const [formData, setFormData] = useState({
         name: user?.name || '',
         email: user?.email || '',
@@ -70,14 +69,6 @@ export default function BookConsultation() {
 
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    const handleResendVerification = async () => {
-        if (!user) return;
-        setResendStatus('sending');
-        await initiateEmailVerification(user.email, user.name);
-        setResendStatus('sent');
-        setTimeout(() => setResendStatus(''), 5000);
     };
 
     const handleSubmit = async (e) => {
@@ -185,43 +176,23 @@ export default function BookConsultation() {
         );
     }
 
-    // If user is logged in but email NOT verified
-    if (!isUserVerified(user.email)) {
+    // If user is a lawyer trying to book with themselves — block it
+    const isOwnProfile = user && user.role === 'lawyer' && String(user.id) === String(lawyer.id);
+    if (isOwnProfile) {
         return (
             <div className="book-page container">
-                <div className="book-page__header">
-                    <h1 className="book-page__title">Email Verification Required</h1>
-                </div>
-
-                <div className="book-page__lawyer-summary">
-                    <div className="book-page__lawyer-avatar">{getInitials(lawyer.name)}</div>
-                    <div>
-                        <div className="book-page__lawyer-name">{lawyer.name}</div>
-                        <div className="book-page__lawyer-spec">{specNames}</div>
-                    </div>
-                </div>
-
-                <div style={{ textAlign: 'center', padding: 'var(--space-8)', maxWidth: '480px', margin: '0 auto' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: 'var(--space-4)' }}>📧</div>
-                    <h2 style={{ color: 'var(--navy-800)', marginBottom: 'var(--space-3)' }}>
-                        Please verify your email to complete the booking.
-                    </h2>
-                    <p style={{ color: 'var(--gray-600)', marginBottom: 'var(--space-5)', lineHeight: 1.6 }}>
-                        Check your inbox at <strong>{user.email}</strong> for a verification link.
-                        Once verified, you can proceed with booking.
+                <div className="book-confirmation animate-fade-in-up">
+                    <div className="book-confirmation__icon">⚖️</div>
+                    <h2 className="book-confirmation__title">This is Your Profile</h2>
+                    <p className="book-confirmation__text">
+                        You cannot book a consultation with yourself. This is your own lawyer profile.
                     </p>
-
-                    <button
-                        className="btn btn--gold"
-                        onClick={handleResendVerification}
-                        disabled={resendStatus === 'sending'}
-                    >
-                        {resendStatus === 'sending' ? 'Sending...' : resendStatus === 'sent' ? '✓ Verification Email Sent!' : 'Resend Verification Email'}
-                    </button>
-
-                    <div style={{ marginTop: 'var(--space-5)' }}>
-                        <Link to={`/lawyer/${lawyer.id}`} className="btn btn--outline btn--sm">
+                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: 'var(--space-5)' }}>
+                        <Link to={`/lawyer/${lawyer.id}`} className="btn btn--outline">
                             ← Back to Profile
+                        </Link>
+                        <Link to="/dashboard/lawyer" className="btn btn--gold">
+                            📊 Go to Dashboard
                         </Link>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ export default function Home() {
                     return {
                         id: doc.id,
                         ...d,
-                        photo: d.image || ''
+                        photo: d.profilePicture || d.photo || d.image || ''
                     };
                 });
 
