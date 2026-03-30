@@ -15,7 +15,8 @@ dist/
 .env.*.local
 serviceAccountKey.json
 
-# Admin/utility scripts (contain sensitive Firebase Admin SDK usage)
+# Admin/utility scripts (contain Firebase Admin SDK usage or credentials)
+# Catch ALL admin scripts regardless of extension
 fixAuth.js
 fixHarveyAccounts.js
 findAllAccounts.js
@@ -30,6 +31,10 @@ populateMattMurdock.js
 testLogin.js
 harvey_data.js
 reginald_data.js
+fixMattMurdock.js
+fixMattMurdock.cjs
+fixLanguagesField.cjs
+removeUnsplashPlaceholder.cjs
 
 # Script output files
 findAllAccounts_output.txt
@@ -60,3 +65,4 @@ server/.env
 
 # Gemini
 .gemini/
+

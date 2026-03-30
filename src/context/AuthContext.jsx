@@ -14,8 +14,8 @@ const googleProvider = new GoogleAuthProvider();
 const ADMIN_ACCOUNT = {
     id: 'admin-001',
     name: 'Admin',
-    email: 'admin@courtvista.com',
-    password: 'admin123',
+    email: import.meta.env.VITE_ADMIN_EMAIL || 'admin@courtvista.com',
+    password: import.meta.env.VITE_ADMIN_PASSWORD || '',
     role: 'admin',
     emailVerified: true,
 };
