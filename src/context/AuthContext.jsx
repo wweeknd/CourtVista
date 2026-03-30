@@ -4,7 +4,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 import { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const AuthContext = createContext(null);
@@ -98,13 +98,53 @@ export function AuthProvider({ children }) {
     }, [user]);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
                 const users = getStoredUsers();
-                const found = users.find((u) => u.id === firebaseUser.uid);
+                const userArray = Array.isArray(users) ? users : [];
+                const found = userArray.find((u) => u.id === firebaseUser.uid);
 
                 if (found) {
                     setUser(found);
+                } else {
+                    // Try Firestore before giving up
+                    try {
+                        const userDocRef = doc(db, "users", firebaseUser.uid);
+                        const userDocSnap = await getDoc(userDocRef);
+
+                        if (userDocSnap.exists()) {
+                            const data = userDocSnap.data();
+                            const resolvedUser = {
+                                id: firebaseUser.uid,
+                                name: data.name || firebaseUser.displayName || 'User',
+                                email: data.email || firebaseUser.email,
+                                role: data.role || 'user',
+                                emailVerified: firebaseUser.emailVerified,
+                                ...data // Include all profile fields
+                            };
+                            
+                            // Also update localStorage
+                            localStorage.setItem(
+                                "courtvista_users",
+                                JSON.stringify([...userArray, resolvedUser])
+                            );
+                            
+                            setUser(resolvedUser);
+                        } else {
+                            // Minimal user if absolutely nothing found
+                            const minUser = {
+                                id: firebaseUser.uid,
+                                name: firebaseUser.displayName || 'User',
+                                email: firebaseUser.email,
+                                role: 'user',
+                                emailVerified: firebaseUser.emailVerified
+                            };
+                            setUser(minUser);
+                        }
+                    } catch (e) {
+                        console.error("Auth state recovery error:", e);
+                        setUser(null);
+                    }
                 }
             } else {
                 setUser(null);
@@ -196,23 +236,62 @@ export function AuthProvider({ children }) {
             const found = userArray.find((u) => u.id === firebaseUser.uid);
 
             if (!found) {
-                // Let's create a minimal user locally if it exists in Firebase
-                const minUser = {
-                    id: firebaseUser.uid,
-                    name: firebaseUser.displayName || 'Unknown User',
-                    email: firebaseUser.email,
-                    role: 'user', // default
-                    emailVerified: firebaseUser.emailVerified
-                };
-                
-                // Save it so it's found next time
+                // Not in localStorage — fetch from Firestore
+                let resolvedUser = null;
+                try {
+                    const userDocRef = doc(db, "users", firebaseUser.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    if (userDocSnap.exists()) {
+                        const data = userDocSnap.data();
+                        resolvedUser = {
+                            id: firebaseUser.uid,
+                            name: data.name || firebaseUser.displayName || 'User',
+                            email: data.email || firebaseUser.email,
+                            role: data.role || 'user',
+                            emailVerified: firebaseUser.emailVerified,
+                            // Carry all profile fields
+                            ...(data.gender && { gender: data.gender }),
+                            ...(data.bio && { bio: data.bio }),
+                            ...(data.city && { city: data.city }),
+                            ...(data.jurisdiction && { jurisdiction: data.jurisdiction }),
+                            ...(data.experience !== undefined && { experience: data.experience }),
+                            ...(data.experienceStartDate && { experienceStartDate: data.experienceStartDate }),
+                            ...(data.languages && { languages: data.languages }),
+                            ...(data.specializations && { specializations: data.specializations }),
+                            ...(data.consultationFee !== undefined && { consultationFee: data.consultationFee }),
+                            ...(data.feesRange && { feesRange: data.feesRange }),
+                            ...(data.education && { education: data.education }),
+                            ...(data.barCouncilNumber && { barCouncilNumber: data.barCouncilNumber }),
+                            ...(data.profilePicture && { profilePicture: data.profilePicture }),
+                            ...(data.phone && { phone: data.phone }),
+                            ...(data.isProBono !== undefined && { isProBono: data.isProBono }),
+                            ...(data.verified !== undefined && { verified: data.verified }),
+                        };
+                    }
+                } catch (firestoreErr) {
+                    console.warn("Could not fetch user from Firestore:", firestoreErr);
+                }
+
+                // Final fallback if not in Firestore either
+                if (!resolvedUser) {
+                    resolvedUser = {
+                        id: firebaseUser.uid,
+                        name: firebaseUser.displayName || 'User',
+                        email: firebaseUser.email,
+                        role: 'user',
+                        emailVerified: firebaseUser.emailVerified
+                    };
+                }
+
+                // Cache it in localStorage for future logins
                 localStorage.setItem(
                     "courtvista_users",
-                    JSON.stringify([...userArray, minUser])
+                    JSON.stringify([...userArray, resolvedUser])
                 );
                 
-                setUser(minUser);
-                return { success: true, user: minUser };
+                setUser(resolvedUser);
+                return { success: true, user: resolvedUser };
             }
 
             setUser(found);
@@ -232,32 +311,64 @@ export function AuthProvider({ children }) {
             const firebaseUser = result.user;
 
             const users = getStoredUsers();
-            let found = users.find((u) => u.id === firebaseUser.uid);
+            const userArray = Array.isArray(users) ? users : [];
+            let found = userArray.find((u) => u.id === firebaseUser.uid);
 
             if (!found) {
+                // Check Firestore for existing profile
+                try {
+                    const userDocRef = doc(db, "users", firebaseUser.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    if (userDocSnap.exists()) {
+                        const data = userDocSnap.data();
+                        found = {
+                            id: firebaseUser.uid,
+                            name: data.name || firebaseUser.displayName || "User",
+                            email: data.email || firebaseUser.email,
+                            role: data.role || 'user',
+                            emailVerified: firebaseUser.emailVerified,
+                            profilePicture: data.profilePicture || firebaseUser.photoURL || null,
+                            ...data
+                        };
+                        
+                        // Cache it
+                        localStorage.setItem(
+                            "courtvista_users",
+                            JSON.stringify([...userArray, found])
+                        );
+                        
+                        setUser(found);
+                        return { success: true, user: found };
+                    }
+                } catch (e) {
+                    console.error("Firestore lookup during Google login failed:", e);
+                }
+
+                // If not in Firestore or localStorage, then it's a NEW user
                 const newUser = {
                     id: firebaseUser.uid,
                     name: firebaseUser.displayName || "User",
                     email: firebaseUser.email,
+                    role: 'user', // Default role for new users
                     emailVerified: firebaseUser.emailVerified,
                     profilePicture: firebaseUser.photoURL || null
                 };
 
-                // TEMP: set user (no role yet)
                 setUser(newUser);
 
                 return {
                     success: true,
                     user: newUser,
-                    needsRole: true   // 👈 KEY LINE
+                    needsRole: true
                 };
             }
 
             setUser(found);
-
             return { success: true, user: found };
 
         } catch (error) {
+            console.error("Google login error:", error);
             return { success: false, message: error.message };
         }
     }
