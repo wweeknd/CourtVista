@@ -44,18 +44,22 @@ export default function Search({ compareIds, onCompareToggle }) {
                         name: d.name || 'Unknown',
                         city: d.location || '',
                         experience: d.experience || 0,
-                        specializations: d.specialization
-                            ? [d.specialization.toLowerCase().replace(" law", "")]
-                            : [],
+                        specializations: typeof d.specializations === 'string'
+                            ? d.specializations.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(d.specializations) ? d.specializations : (
+                                d.specialization ? [d.specialization.toLowerCase().replace(" law", "")] : []
+                            )),
 
-                        languages: d.languages || [],
+                        languages: typeof d.languages === 'string'
+                            ? d.languages.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(d.languages) ? d.languages : []),
 
                         consultationFee: d.consultationFee || 1000,
                         verified: !!d.verified,
                         isProBono: !!d.isProBono,
                         gender: d.gender || '',
 
-                        photo: d.image || '',
+                        photo: d.profilePicture || d.image || d.photo || '',
 
                         rating: d.rating || 0,
                         reviewCount: d.reviewCount || 0,

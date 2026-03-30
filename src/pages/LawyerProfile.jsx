@@ -111,8 +111,13 @@ export default function LawyerProfile() {
                     setLawyer({
                         id: lawyerDocSnap.id,
                         ...data,
-                        specializations: data.specializations || [],
-                        languages: data.languages || [],
+                        photo: data.profilePicture || data.photo || data.image || '',
+                        specializations: typeof data.specializations === 'string'
+                            ? data.specializations.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(data.specializations) ? data.specializations : []),
+                        languages: typeof data.languages === 'string'
+                            ? data.languages.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(data.languages) ? data.languages : []),
                     });
                     setLoading(false);
                     return;
