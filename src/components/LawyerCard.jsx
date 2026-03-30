@@ -94,7 +94,12 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                             🤝 Pro Bono
                         </span>
                     )}
-                    {(lawyer.languages || []).map((lang) => (
+                    {(Array.isArray(lawyer.languages)
+                        ? lawyer.languages
+                        : typeof lawyer.languages === 'string'
+                            ? lawyer.languages.split(',').map(l => l.trim()).filter(Boolean)
+                            : []
+                    ).map((lang) => (
                         <span key={lang} className="chip">{lang}</span>
                     ))}
                 </div>

@@ -110,7 +110,9 @@ export default function EditProfile() {
             updates.city = formData.city.trim();
             updates.experienceStartDate = formData.experienceStartDate;
             updates.experience = calcExperience(formData.experienceStartDate);
-            updates.languages = formData.languages.trim();
+            updates.languages = formData.languages.trim()
+                ? formData.languages.split(',').map(l => l.trim()).filter(Boolean)
+                : [];
             updates.gender = formData.gender;
             updates.specializations = formData.specializations;
             updates.consultationFee = formData.consultationFee.toString().trim();
