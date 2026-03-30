@@ -446,16 +446,32 @@ export function AuthProvider({ children }) {
 
         localStorage.setItem('courtvista_users', JSON.stringify(updatedUsers));
 
+        // Exclude profilePicture from Firestore — base64 images can exceed the 1MB doc limit.
+        // profilePicture is persisted in localStorage only.
+        const { profilePicture, ...firestoreUpdates } = updatedUser;
+
         try {
-            // Exclude profilePicture from Firestore — base64 images can exceed the 1MB doc limit.
-            // profilePicture is persisted in localStorage/sessionStorage only.
-            const { profilePicture, ...firestoreUpdates } = updatedUser;
+            // 1. Always update the 'users' collection
             await setDoc(doc(db, "users", user.id), {
                 ...firestoreUpdates,
                 updatedAt: new Date()
             });
         } catch (err) {
-            console.error("Firestore update failed:", err);
+            console.error("Firestore users update failed:", err);
+        }
+
+        // 2. For lawyers: ALSO update the 'lawyers' collection
+        //    LawyerProfile.jsx reads from 'lawyers' first, so this is essential
+        //    for profile changes (jurisdiction, city, bio, etc.) to show on View Profile.
+        if (updatedUser.role === 'lawyer') {
+            try {
+                await setDoc(doc(db, "lawyers", user.id), {
+                    ...firestoreUpdates,
+                    updatedAt: new Date()
+                }, { merge: true }); // merge: true preserves fields we don't manage (reviews, awards, etc.)
+            } catch (err) {
+                console.error("Firestore lawyers update failed:", err);
+            }
         }
 
         return { success: true, user: updatedUser };
