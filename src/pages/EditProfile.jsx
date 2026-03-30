@@ -90,7 +90,7 @@ export default function EditProfile() {
         reader.readAsDataURL(file);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.name.trim()) {
@@ -120,12 +120,12 @@ export default function EditProfile() {
             updates.isProBono = formData.isProBono;
         }
 
-        const result = updateProfile(updates);
-        if (result.success) {
+        const result = await updateProfile(updates);
+        if (result && result.success) {
             setSaved(true);
             setTimeout(() => setSaved(false), 3000);
         } else {
-            setError(result.message);
+            setError((result && result.message) || 'Failed to save profile.');
         }
     };
 

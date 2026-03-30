@@ -108,10 +108,19 @@ export default function LawyerProfile() {
 
                 if (lawyerDocSnap.exists()) {
                     const data = lawyerDocSnap.data();
+
+                    // Check localStorage for a user-uploaded profilePicture (takes priority over Firestore placeholder)
+                    let localProfilePic = null;
+                    try {
+                        const localUsers = JSON.parse(localStorage.getItem('courtvista_users')) || [];
+                        const localUser = localUsers.find(u => u.id === id);
+                        localProfilePic = localUser?.profilePicture || null;
+                    } catch { /* ignore */ }
+
                     setLawyer({
                         id: lawyerDocSnap.id,
                         ...data,
-                        photo: data.profilePicture || data.photo || data.image || '',
+                        photo: localProfilePic || data.profilePicture || data.photo || data.image || '',
                         specializations: typeof data.specializations === 'string'
                             ? data.specializations.split(',').map(s => s.trim()).filter(Boolean)
                             : (Array.isArray(data.specializations) ? data.specializations : []),
@@ -141,10 +150,19 @@ export default function LawyerProfile() {
                                 : data.specializations.split(',').map(s => s.trim()).filter(Boolean))
                             : [];
 
+                        // profilePicture is stored in localStorage (not Firestore) for dynamic lawyers
+                        // Fall back to localStorage user cache for the photo
+                        let localProfilePicture = null;
+                        try {
+                            const localUsers = JSON.parse(localStorage.getItem('courtvista_users')) || [];
+                            const localUser = localUsers.find(u => u.id === id);
+                            localProfilePicture = localUser?.profilePicture || null;
+                        } catch { /* ignore */ }
+
                         setLawyer({
                             id: userDocSnap.id,
                             name: data.name || 'Unknown',
-                            photo: data.profilePicture || data.image || '',
+                            photo: localProfilePicture || data.profilePicture || data.image || '',
                             gender: data.gender || '',
                             specializations,
                             experience: Number(data.experience) || 0,

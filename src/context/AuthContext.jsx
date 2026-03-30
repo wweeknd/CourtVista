@@ -104,49 +104,51 @@ export function AuthProvider({ children }) {
                 const userArray = Array.isArray(users) ? users : [];
                 const found = userArray.find((u) => u.id === firebaseUser.uid);
 
+                // Always refresh from Firestore to get latest profile data (e.g. profilePicture)
+                try {
+                    const userDocRef = doc(db, "users", firebaseUser.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    if (userDocSnap.exists()) {
+                        const data = userDocSnap.data();
+                        // Remove Firestore Timestamps that can't serialize to JSON
+                        const { createdAt, updatedAt, ...safeData } = data;
+                        const resolvedUser = {
+                            ...(found || {}), // base: cached copy
+                            id: firebaseUser.uid,
+                            name: data.name || firebaseUser.displayName || 'User',
+                            email: data.email || firebaseUser.email,
+                            role: data.role || (found?.role) || 'user',
+                            emailVerified: firebaseUser.emailVerified,
+                            ...safeData // Fresh Firestore fields win (includes profilePicture)
+                        };
+                        
+                        // Update localStorage cache
+                        const updatedUsers = found
+                            ? userArray.map(u => u.id === firebaseUser.uid ? resolvedUser : u)
+                            : [...userArray, resolvedUser];
+                        localStorage.setItem("courtvista_users", JSON.stringify(updatedUsers));
+                        
+                        setUser(resolvedUser);
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Auth state recovery error:", e);
+                }
+
+                // Firestore unavailable — use cached copy if available
                 if (found) {
                     setUser(found);
                 } else {
-                    // Try Firestore before giving up
-                    try {
-                        const userDocRef = doc(db, "users", firebaseUser.uid);
-                        const userDocSnap = await getDoc(userDocRef);
-
-                        if (userDocSnap.exists()) {
-                            const data = userDocSnap.data();
-                            // Remove Firestore Timestamps that can't serialize to JSON
-                            const { createdAt, updatedAt, ...safeData } = data;
-                            const resolvedUser = {
-                                id: firebaseUser.uid,
-                                name: data.name || firebaseUser.displayName || 'User',
-                                email: data.email || firebaseUser.email,
-                                role: data.role || 'user',
-                                emailVerified: firebaseUser.emailVerified,
-                                ...safeData // Include all profile fields except timestamps
-                            };
-                            
-                            // Also update localStorage
-                            localStorage.setItem(
-                                "courtvista_users",
-                                JSON.stringify([...userArray, resolvedUser])
-                            );
-                            
-                            setUser(resolvedUser);
-                        } else {
-                            // Minimal user if absolutely nothing found
-                            const minUser = {
-                                id: firebaseUser.uid,
-                                name: firebaseUser.displayName || 'User',
-                                email: firebaseUser.email,
-                                role: 'user',
-                                emailVerified: firebaseUser.emailVerified
-                            };
-                            setUser(minUser);
-                        }
-                    } catch (e) {
-                        console.error("Auth state recovery error:", e);
-                        setUser(null);
-                    }
+                    // Minimal fallback
+                    const minUser = {
+                        id: firebaseUser.uid,
+                        name: firebaseUser.displayName || 'User',
+                        email: firebaseUser.email,
+                        role: 'user',
+                        emailVerified: firebaseUser.emailVerified
+                    };
+                    setUser(minUser);
                 }
             } else {
                 setUser(null);
@@ -296,8 +298,49 @@ export function AuthProvider({ children }) {
                 return { success: true, user: resolvedUser };
             }
 
-            setUser(found);
-            return { success: true, user: found };
+            // User IS in localStorage — refresh from Firestore to get latest profilePicture, etc.
+            let freshUser = found;
+            try {
+                const userDocRef = doc(db, "users", firebaseUser.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    // Merge fresh Firestore data over cached copy (Firestore wins for profile fields)
+                    freshUser = {
+                        ...found,
+                        name: data.name || found.name,
+                        role: data.role || found.role,
+                        emailVerified: firebaseUser.emailVerified,
+                        ...(data.gender && { gender: data.gender }),
+                        ...(data.bio && { bio: data.bio }),
+                        ...(data.city && { city: data.city }),
+                        ...(data.jurisdiction && { jurisdiction: data.jurisdiction }),
+                        ...(data.experience !== undefined && { experience: data.experience }),
+                        ...(data.experienceStartDate && { experienceStartDate: data.experienceStartDate }),
+                        ...(data.languages && { languages: data.languages }),
+                        ...(data.specializations && { specializations: data.specializations }),
+                        ...(data.consultationFee !== undefined && { consultationFee: data.consultationFee }),
+                        ...(data.feesRange && { feesRange: data.feesRange }),
+                        ...(data.education && { education: data.education }),
+                        ...(data.barCouncilNumber && { barCouncilNumber: data.barCouncilNumber }),
+                        // Always overwrite profilePicture from Firestore (null/undefined clears it)
+                        profilePicture: data.profilePicture || found.profilePicture || null,
+                        ...(data.phone && { phone: data.phone }),
+                        ...(data.isProBono !== undefined && { isProBono: data.isProBono }),
+                        ...(data.verified !== undefined && { verified: data.verified }),
+                    };
+                    // Update the localStorage cache with fresh data
+                    const updatedUsers = userArray.map(u =>
+                        u.id === firebaseUser.uid ? freshUser : u
+                    );
+                    localStorage.setItem("courtvista_users", JSON.stringify(updatedUsers));
+                }
+            } catch (firestoreErr) {
+                console.warn("Could not refresh user from Firestore on login:", firestoreErr);
+            }
+
+            setUser(freshUser);
+            return { success: true, user: freshUser };
 
         }
         catch (error) {
@@ -404,8 +447,11 @@ export function AuthProvider({ children }) {
         localStorage.setItem('courtvista_users', JSON.stringify(updatedUsers));
 
         try {
+            // Exclude profilePicture from Firestore — base64 images can exceed the 1MB doc limit.
+            // profilePicture is persisted in localStorage/sessionStorage only.
+            const { profilePicture, ...firestoreUpdates } = updatedUser;
             await setDoc(doc(db, "users", user.id), {
-                ...updatedUser,
+                ...firestoreUpdates,
                 updatedAt: new Date()
             });
         } catch (err) {
