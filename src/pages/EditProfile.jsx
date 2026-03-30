@@ -8,6 +8,15 @@ export default function EditProfile() {
     const { user, updateProfile, getDashboardPath } = useAuth();
     const navigate = useNavigate();
 
+    // Compute experience from start date
+    const calcExperience = (dateStr) => {
+        if (!dateStr) return 0;
+        const start = new Date(dateStr);
+        const now = new Date();
+        const years = (now - start) / (1000 * 60 * 60 * 24 * 365.25);
+        return Math.max(0, Math.floor(years));
+    };
+
     const [formData, setFormData] = useState({
         name: user?.name || '',
         email: user?.email || '',
@@ -16,7 +25,7 @@ export default function EditProfile() {
         // Lawyer-specific
         jurisdiction: user?.jurisdiction || '',
         city: user?.city || '',
-        experience: user?.experience || '',
+        experienceStartDate: user?.experienceStartDate || '',
         languages: Array.isArray(user?.languages)
             ? user.languages.join(', ')
             : user?.languages || '',
@@ -99,7 +108,8 @@ export default function EditProfile() {
         if (isLawyer) {
             updates.jurisdiction = formData.jurisdiction.trim();
             updates.city = formData.city.trim();
-            updates.experience = formData.experience.toString().trim();
+            updates.experienceStartDate = formData.experienceStartDate;
+            updates.experience = calcExperience(formData.experienceStartDate);
             updates.languages = formData.languages.trim();
             updates.gender = formData.gender;
             updates.specializations = formData.specializations;
@@ -349,6 +359,30 @@ export default function EditProfile() {
                                     placeholder="e.g. MH/1234/2018"
                                 />
                             </div>
+                        </div>
+
+                        {/* Experience Start Date */}
+                        <div className="edit-profile__field">
+                            <label htmlFor="ep-exp-start">When did you start practicing law?</label>
+                            <input
+                                id="ep-exp-start"
+                                name="experienceStartDate"
+                                type="date"
+                                value={formData.experienceStartDate}
+                                onChange={handleChange}
+                                max={new Date().toISOString().split('T')[0]}
+                            />
+                            {formData.experienceStartDate && (
+                                <span className="edit-profile__hint" style={{ color: 'var(--emerald-600)', fontWeight: 500 }}>
+                                    ⏳ Experience: {calcExperience(formData.experienceStartDate)} year{calcExperience(formData.experienceStartDate) !== 1 ? 's' : ''}
+                                    {' '}(auto-calculated from start date)
+                                </span>
+                            )}
+                            {!formData.experienceStartDate && (
+                                <span className="edit-profile__hint">
+                                    Your experience in years is automatically calculated from this date and updates in real-time
+                                </span>
+                            )}
                         </div>
 
                         {/* Practice Areas */}

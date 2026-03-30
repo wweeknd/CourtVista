@@ -4,9 +4,17 @@ import Fuse from 'fuse.js';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
 import LawyerCard from '../components/LawyerCard';
+import { getDynamicLawyers } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import './Search.css';
+
+// Profiles to hide from public search results (case-insensitive match)
+const HIDDEN_PROFILES = [
+    'saul goodman',
+    'harvey specter',
+    'harvey reginald specter',
+];
 
 const ITEMS_PER_PAGE = 6;
 
@@ -21,13 +29,14 @@ export default function Search({ compareIds, onCompareToggle }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch from Firestore
+    // Fetch from Firestore + merge registered lawyer profiles
     useEffect(() => {
         const fetchLawyers = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "lawyers"));
+                // 1. Fetch from 'lawyers' collection
+                const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
 
-                const data = querySnapshot.docs.map(doc => {
+                const firestoreLawyers = lawyersSnapshot.docs.map(doc => {
                     const d = doc.data();
 
                     return {
@@ -41,22 +50,86 @@ export default function Search({ compareIds, onCompareToggle }) {
 
                         languages: d.languages || [],
 
-                        consultationFee: Math.floor(Math.random() * 4000) + 500,
-                        verified: false,
-                        isProBono: false,
-                        gender: '',
+                        consultationFee: d.consultationFee || 1000,
+                        verified: !!d.verified,
+                        isProBono: !!d.isProBono,
+                        gender: d.gender || '',
 
                         photo: d.image || '',
 
                         rating: d.rating || 0,
-                        reviewCount: 0,
+                        reviewCount: d.reviewCount || 0,
 
                         liveRating: d.rating || 0,
-                        liveReviewCount: 0
+                        liveReviewCount: d.reviewCount || 0
                     };
                 });
 
-                setAllLawyers(data);
+                // 2. Fetch from 'users' collection (newly registered lawyers)
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const userLawyers = usersSnapshot.docs
+                    .filter(doc => doc.data().role === 'lawyer')
+                    .map(doc => {
+                        const d = doc.data();
+                        const languages = d.languages
+                            ? (typeof d.languages === 'string'
+                                ? d.languages.split(',').map(l => l.trim()).filter(Boolean)
+                                : d.languages)
+                            : ['English'];
+                        const specializations = d.specializations
+                            ? (Array.isArray(d.specializations)
+                                ? d.specializations
+                                : d.specializations.split(',').map(s => s.trim()).filter(Boolean))
+                            : [];
+
+                        return {
+                            id: doc.id,
+                            name: d.name || 'Unknown',
+                            city: d.city || d.location || d.jurisdiction || '',
+                            experience: Number(d.experience) || 0,
+                            specializations,
+                            languages,
+                            consultationFee: Number(d.consultationFee) || 0,
+                            verified: !!d.verified,
+                            isProBono: !!d.isProBono,
+                            gender: d.gender || '',
+                            photo: d.profilePicture || d.image || '',
+                            rating: Number(d.rating) || 0,
+                            reviewCount: Number(d.reviewCount) || 0,
+                            liveRating: Number(d.rating) || 0,
+                            liveReviewCount: Number(d.reviewCount) || 0,
+                            isDynamic: true,
+                        };
+                    });
+
+                // 3. Merge localStorage dynamic lawyers
+                const dynamicLawyers = getDynamicLawyers().map(dl => ({
+                    ...dl,
+                    city: dl.city || '',
+                    liveRating: dl.rating || 0,
+                    liveReviewCount: dl.reviewCount || 0,
+                }));
+
+                // De-duplicate by ID (lawyers collection > users collection > localStorage)
+                const seenIds = new Set();
+                const merged = [];
+
+                for (const l of firestoreLawyers) {
+                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+                for (const l of userLawyers) {
+                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+                for (const l of dynamicLawyers) {
+                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+
+                // Filter out hidden profiles
+                const visible = merged.filter(l =>
+                    !HIDDEN_PROFILES.includes((l.name || '').toLowerCase())
+                );
+
+                setAllLawyers(visible);
             } catch (err) {
                 console.error("Error fetching lawyers:", err);
                 setError("Failed to load lawyers");
@@ -70,12 +143,8 @@ export default function Search({ compareIds, onCompareToggle }) {
 
     // Fuse search
     const fuse = useMemo(() => new Fuse(allLawyers, {
-        keys: [
-            { name: 'name', weight: 0.5 },
-            { name: 'specializations', weight: 0.3 },
-            { name: 'city', weight: 0.2 },
-        ],
-        threshold: 0.4,
+        keys: ['name'],
+        threshold: 0.2,
         ignoreLocation: true,
     }), [allLawyers]);
 
@@ -287,18 +356,66 @@ export default function Search({ compareIds, onCompareToggle }) {
                         <div className="search-page__pagination">
                             <button
                                 disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(1)}
+                            >
+                                «
+                            </button>
+                            <button
+                                disabled={currentPage === 1}
                                 onClick={() => setCurrentPage(prev => prev - 1)}
                             >
-                                ← Prev
+                                ‹
                             </button>
 
-                            <span>Page {currentPage} of {totalPages}</span>
+                            {(() => {
+                                const pages = [];
+                                const maxVisible = 5;
+                                let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                                let end = Math.min(totalPages, start + maxVisible - 1);
+                                if (end - start < maxVisible - 1) {
+                                    start = Math.max(1, end - maxVisible + 1);
+                                }
+
+                                if (start > 1) {
+                                    pages.push(
+                                        <button key={1} onClick={() => setCurrentPage(1)} className="search-page__page-btn">1</button>
+                                    );
+                                    if (start > 2) pages.push(<span key="dots-start" className="search-page__dots">…</span>);
+                                }
+
+                                for (let i = start; i <= end; i++) {
+                                    pages.push(
+                                        <button
+                                            key={i}
+                                            onClick={() => setCurrentPage(i)}
+                                            className={`search-page__page-btn ${i === currentPage ? 'search-page__page-btn--active' : ''}`}
+                                        >
+                                            {i}
+                                        </button>
+                                    );
+                                }
+
+                                if (end < totalPages) {
+                                    if (end < totalPages - 1) pages.push(<span key="dots-end" className="search-page__dots">…</span>);
+                                    pages.push(
+                                        <button key={totalPages} onClick={() => setCurrentPage(totalPages)} className="search-page__page-btn">{totalPages}</button>
+                                    );
+                                }
+
+                                return pages;
+                            })()}
 
                             <button
                                 disabled={currentPage === totalPages}
                                 onClick={() => setCurrentPage(prev => prev + 1)}
                             >
-                                Next →
+                                ›
+                            </button>
+                            <button
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(totalPages)}
+                            >
+                                »
                             </button>
                         </div>
                     )}

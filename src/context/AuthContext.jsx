@@ -192,10 +192,27 @@ export function AuthProvider({ children }) {
             const firebaseUser = userCredential.user;
 
             const users = getStoredUsers();
-            const found = users.find((u) => u.id === firebaseUser.uid);
+            const userArray = Array.isArray(users) ? users : (users ? Object.values(users) : []);
+            const found = userArray.find((u) => u.id === firebaseUser.uid);
 
             if (!found) {
-                return { success: false, message: "User profile not found." };
+                // Let's create a minimal user locally if it exists in Firebase
+                const minUser = {
+                    id: firebaseUser.uid,
+                    name: firebaseUser.displayName || 'Unknown User',
+                    email: firebaseUser.email,
+                    role: 'user', // default
+                    emailVerified: firebaseUser.emailVerified
+                };
+                
+                // Save it so it's found next time
+                localStorage.setItem(
+                    "courtvista_users",
+                    JSON.stringify([...userArray, minUser])
+                );
+                
+                setUser(minUser);
+                return { success: true, user: minUser };
             }
 
             setUser(found);
@@ -203,7 +220,9 @@ export function AuthProvider({ children }) {
 
         }
         catch (error) {
-            return { success: false, message: "Invalid email or password." };
+            console.error("Login Error:", error);
+            // Return actual error message temporarily to help user debug
+            return { success: false, message: error.message || "Invalid email or password." };
         }
     }
 

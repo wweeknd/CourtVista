@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
+// Profiles to hide from public view (case-insensitive match)
+const HIDDEN_PROFILES = [
+    'saul goodman',
+    'harvey specter',
+    'harvey reginald specter',
+];
+
 export default function Home() {
 
     const [lawyers, setLawyers] = useState([]);
@@ -15,12 +22,52 @@ export default function Home() {
     useEffect(() => {
         const fetchLawyers = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "lawyers"));
-                const data = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setLawyers(data);
+                // 1. Fetch from 'lawyers' collection
+                const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
+                const lawyersData = lawyersSnapshot.docs.map(doc => {
+                    const d = doc.data();
+                    return {
+                        id: doc.id,
+                        ...d,
+                        photo: d.image || ''
+                    };
+                });
+
+                // 2. Fetch from 'users' collection (newly registered lawyers)
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const userLawyers = usersSnapshot.docs
+                    .filter(doc => doc.data().role === 'lawyer')
+                    .map(doc => {
+                        const d = doc.data();
+                        return {
+                            id: doc.id,
+                            name: d.name || 'Unknown',
+                            photo: d.profilePicture || d.image || '',
+                            city: d.city || d.location || '',
+                            experience: Number(d.experience) || 0,
+                            rating: Number(d.rating) || 0,
+                            reviewCount: Number(d.reviewCount) || 0,
+                            languages: d.languages || ['English'],
+                            isDynamic: true,
+                        };
+                    });
+
+                // De-duplicate (lawyers collection takes precedence)
+                const seenIds = new Set();
+                const merged = [];
+                for (const l of lawyersData) {
+                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+                for (const l of userLawyers) {
+                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+
+                // Filter out hidden profiles
+                const visible = merged.filter(l =>
+                    !HIDDEN_PROFILES.includes((l.name || '').toLowerCase())
+                );
+
+                setLawyers(visible);
             } catch (error) {
                 console.error("Error fetching lawyers:", error);
             }

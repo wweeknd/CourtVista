@@ -9,11 +9,23 @@ export default function SelectRole() {
 
     const [selectedRole, setSelectedRole] = useState(null);
 
-    const handleContinue = () => {
-        if (!selectedRole) return;
+    const [loading, setLoading] = useState(false);
 
-        updateProfile({ role: selectedRole });
-        navigate(getDashboardPath());
+    const handleContinue = async () => {
+        if (!selectedRole || loading) return;
+
+        setLoading(true);
+        try {
+            await updateProfile({ role: selectedRole });
+            // getDashboardPath uses the updated user state, but it may not
+            // have propagated yet. Navigate based on the selected role directly.
+            const path = selectedRole === 'lawyer' ? '/dashboard/lawyer' : '/dashboard/user';
+            navigate(path);
+        } catch (err) {
+            console.error("Failed to set role:", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { practiceAreas, getInitials } from '../data/lawyers';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, getDynamicLawyers } from '../context/AuthContext';
 import RatingBadge from '../components/RatingBadge';
 import ReviewCard from '../components/ReviewCard';
 import './LawyerProfile.css';
@@ -46,11 +46,10 @@ function findLawyer(id) {
 // ── Star selector component ───────────────────────────────────────────────────
 function StarSelector({ value, onChange }) {
     const [hovered, setHovered] = useState(0);
-    const labels = ['', 'Terrible', 'Poor', 'Below Average', 'Average', 'Okay',
-        'Good', 'Very Good', 'Great', 'Excellent', 'Outstanding'];
+    const labels = ['', 'Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
     return (
         <div className="star-selector">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+            {[1, 2, 3, 4, 5].map((star) => (
                 <button
                     key={star}
                     type="button"
@@ -63,7 +62,7 @@ function StarSelector({ value, onChange }) {
                 </button>
             ))}
             <span className="star-selector__label">
-                {value === 0 ? 'Select rating (1–10)' : `${value}/10 — ${labels[value]}`}
+                {value === 0 ? 'Select rating (1–5)' : `${value}/5 — ${labels[value]}`}
             </span>
         </div>
     );
@@ -103,21 +102,85 @@ export default function LawyerProfile() {
     useEffect(() => {
         const fetchLawyer = async () => {
             try {
-                const docRef = doc(db, "lawyers", id);
-                const docSnap = await getDoc(docRef);
+                // 1. Try 'lawyers' collection first
+                const lawyerDocRef = doc(db, "lawyers", id);
+                const lawyerDocSnap = await getDoc(lawyerDocRef);
 
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-
+                if (lawyerDocSnap.exists()) {
+                    const data = lawyerDocSnap.data();
                     setLawyer({
-                        id: docSnap.id,
+                        id: lawyerDocSnap.id,
                         ...data,
                         specializations: data.specializations || [],
                         languages: data.languages || [],
                     });
-                } else {
-                    setError("Lawyer not found");
+                    setLoading(false);
+                    return;
                 }
+
+                // 2. Fallback: try 'users' collection (newly registered lawyers)
+                const userDocRef = doc(db, "users", id);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    if (data.role === 'lawyer') {
+                        const languages = data.languages
+                            ? (typeof data.languages === 'string'
+                                ? data.languages.split(',').map(l => l.trim()).filter(Boolean)
+                                : data.languages)
+                            : ['English'];
+                        const specializations = data.specializations
+                            ? (Array.isArray(data.specializations)
+                                ? data.specializations
+                                : data.specializations.split(',').map(s => s.trim()).filter(Boolean))
+                            : [];
+
+                        setLawyer({
+                            id: userDocSnap.id,
+                            name: data.name || 'Unknown',
+                            photo: data.profilePicture || data.image || '',
+                            gender: data.gender || '',
+                            specializations,
+                            experience: Number(data.experience) || 0,
+                            rating: Number(data.rating) || 0,
+                            reviewCount: Number(data.reviewCount) || 0,
+                            verified: !!data.verified,
+                            city: data.city || data.location || data.jurisdiction || '',
+                            jurisdiction: data.jurisdiction || '',
+                            languages,
+                            feesRange: data.feesRange || null,
+                            consultationFee: Number(data.consultationFee) || 0,
+                            education: data.education || '',
+                            barCouncilNumber: data.barCouncilNumber || '',
+                            bio: data.bio || '',
+                            totalCases: 0,
+                            pendingCases: 0,
+                            awards: data.awards || [],
+                            reviews: [],
+                            isProBono: !!data.isProBono,
+                            isDynamic: true,
+                        });
+                        setLoading(false);
+                        return;
+                    }
+                }
+
+                // 3. Fallback: try dynamic lawyers from localStorage
+                const dynamicLawyers = getDynamicLawyers();
+                const dynamicMatch = dynamicLawyers.find(l => String(l.id) === String(id));
+                if (dynamicMatch) {
+                    setLawyer({
+                        ...dynamicMatch,
+                        specializations: dynamicMatch.specializations || [],
+                        languages: dynamicMatch.languages || [],
+                        reviews: dynamicMatch.reviews || [],
+                    });
+                    setLoading(false);
+                    return;
+                }
+
+                setError("Lawyer not found");
             } catch (err) {
                 console.error(err);
                 setError("Failed to load lawyer");
@@ -163,27 +226,16 @@ export default function LawyerProfile() {
         .filter(Boolean);
 
     // ── Rating calculation ─────────────────────────────────────────────────────
-    // User reviews are on 0–10 scale (matching platform standard).
-    // Static reviews use a 1–5 star scale — we do NOT mix them into displayRating.
+    // All ratings are on a 1–5 star scale.
     const userAvg = userReviews.length
         ? parseFloat((userReviews.reduce((sum, r) => sum + r.rating, 0) / userReviews.length).toFixed(1))
         : null;
 
-    // displayRating feeds RatingBadge (0–10). Use live user avg if available, else static.
     const displayRating = userAvg !== null ? userAvg : (lawyer.rating || 0);
 
-    // Summary bar shows breakdown of ALL reviews (10→1).
-    // Static reviews (1–5) are scaled to (2, 4, 6, 8, 10) to match platform standard.
-    const starCounts = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((star) => {
-        const count = allReviews.filter(r => {
-            let effectiveRating = r.rating;
-            // Scale static 5-star reviews to 10-pt scale
-            if (effectiveRating <= 5 && !String(r.id).startsWith('ureview-')) {
-                effectiveRating = effectiveRating * 2;
-            }
-            return effectiveRating === star;
-        }).length;
-
+    // Summary bar shows breakdown of ALL reviews (5→1).
+    const starCounts = [5, 4, 3, 2, 1].map((star) => {
+        const count = allReviews.filter(r => r.rating === star).length;
         return {
             star,
             count,
@@ -231,17 +283,29 @@ export default function LawyerProfile() {
         setReviewSubmitted(true);
     };
 
+    // Dynamic experience calculation
+    const computedExperience = (() => {
+        if (lawyer.experienceStartDate) {
+            const start = new Date(lawyer.experienceStartDate);
+            const now = new Date();
+            return Math.max(0, Math.floor((now - start) / (1000 * 60 * 60 * 24 * 365.25)));
+        }
+        return Number(lawyer.experience) || 0;
+    })();
+
+    const displayCity = lawyer.city || lawyer.location || '';
+
     return (
         <div className="profile-page container">
             {/* ─── HEADER ─── */}
             <div className="profile-header animate-fade-in-up">
                 <div className="profile-header__avatar" style={{
-                    backgroundImage: lawyer.photo ? `url(${lawyer.photo})` : undefined,
+                    backgroundImage: (lawyer.photo || lawyer.image) ? `url(${lawyer.photo || lawyer.image})` : undefined,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    color: lawyer.photo ? 'transparent' : 'white'
+                    color: (lawyer.photo || lawyer.image) ? 'transparent' : 'white'
                 }}>
-                    {!lawyer.photo && (lawyer.name ? getInitials(lawyer.name) : '?')}
+                    {!(lawyer.photo || lawyer.image) && (lawyer.name ? getInitials(lawyer.name) : '?')}
                 </div>
                 <div className="profile-header__info">
                     <h1 className="profile-header__name">{lawyer.name}</h1>
@@ -250,9 +314,9 @@ export default function LawyerProfile() {
                     </div>
 
                     <div className="profile-header__meta">
-                        {lawyer.city && <span className="profile-header__meta-item">📍 {lawyer.city}</span>}
+                        {displayCity && <span className="profile-header__meta-item">📍 {displayCity}</span>}
                         {lawyer.jurisdiction && <span className="profile-header__meta-item">🏛️ {lawyer.jurisdiction}</span>}
-                        {lawyer.experience > 0 && <span className="profile-header__meta-item">⏳ {lawyer.experience} years experience</span>}
+                        {computedExperience > 0 && <span className="profile-header__meta-item">⏳ {computedExperience} years experience</span>}
                         <span className="profile-header__meta-item">💬 {allReviews.length} reviews</span>
                     </div>
 
@@ -398,7 +462,7 @@ export default function LawyerProfile() {
                                         {/* Show the platform rating (0-10) */}
                                         {displayRating}
                                     </div>
-                                    <div className="reviews-summary__count">out of 10 · {allReviews.length} review{allReviews.length !== 1 ? 's' : ''}</div>
+                                    <div className="reviews-summary__count">out of 5 · {allReviews.length} review{allReviews.length !== 1 ? 's' : ''}</div>
                                 </div>
                                 <div className="reviews-summary__bars">
                                     {starCounts.map(({ star, count, pct }) => (

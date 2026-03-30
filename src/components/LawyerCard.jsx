@@ -29,6 +29,18 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
         }
     }, [lawyer, storageVersion]);
 
+    // Dynamic experience from start date
+    const displayExperience = (() => {
+        if (lawyer.experienceStartDate) {
+            const start = new Date(lawyer.experienceStartDate);
+            const now = new Date();
+            return Math.max(0, Math.floor((now - start) / (1000 * 60 * 60 * 24 * 365.25)));
+        }
+        return Number(lawyer.experience) || 0;
+    })();
+
+    const avatarPhoto = lawyer.photo || lawyer.image || null;
+
     const specNames = (lawyer.specializations || [])
         .map((s) => practiceAreas.find((pa) => pa.id === s)?.name)
         .filter(Boolean)
@@ -37,12 +49,12 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
     return (
         <div className="lawyer-card animate-fade-in-up">
             <Link to={`/lawyer/${lawyer.id}`} className="lawyer-card__avatar" style={{
-                backgroundImage: lawyer.photo ? `url(${lawyer.photo})` : undefined,
+                backgroundImage: avatarPhoto ? `url(${avatarPhoto})` : undefined,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                color: lawyer.photo ? 'transparent' : 'white'
+                color: avatarPhoto ? 'transparent' : 'white'
             }}>
-                {!lawyer.photo && getInitials(lawyer.name)}
+                {!avatarPhoto && getInitials(lawyer.name)}
             </Link>
 
             <div className="lawyer-card__content">
@@ -58,10 +70,10 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
 
                 <div className="lawyer-card__meta">
                     <span className="lawyer-card__meta-item">
-                        <span className="lawyer-card__meta-icon">📍</span> {lawyer.city || 'Location N/A'}
+                        <span className="lawyer-card__meta-icon">📍</span> {lawyer.city || lawyer.location || 'Location N/A'}
                     </span>
                     <span className="lawyer-card__meta-item">
-                        <span className="lawyer-card__meta-icon">⏳</span> {lawyer.experience ? `${lawyer.experience} yrs exp` : 'Experience N/A'}
+                        <span className="lawyer-card__meta-icon">⏳</span> {displayExperience ? `${displayExperience} yrs exp` : 'Experience N/A'}
                     </span>
                     <span className="lawyer-card__meta-item">
                         <span className="lawyer-card__meta-icon">💬</span> {realReviewCount ? `${realReviewCount} reviews` : 'No reviews yet'}

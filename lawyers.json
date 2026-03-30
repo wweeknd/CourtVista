@@ -1,1407 +1,5104 @@
 [
   {
     "id": "lawyer_001",
-    "name": "Deepak Singh",
-    "specialization": "Corporate Law",
-    "location": "Chennai",
-    "experience": 2,
-    "rating": 4.1,
-    "casesHandled": 434,
+    "name": "Neha Verma",
+    "gender": "Female",
+    "specialization": "Tax Law",
+    "location": "Mumbai",
+    "experience": 7,
+    "rating": 3.8,
+    "reviewCount": 183,
+    "casesHandled": 293,
     "languages": [
-      "Tamil",
-      "Telugu"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/71.jpg"
+    "image": "https://randomuser.me/api/portraits/women/18.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_64tsoqlhw",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-23"
+      },
+      {
+        "id": "rev_6a5xcj7n2",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_8lwige3gn",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_k8f733g2e",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-17"
+      },
+      {
+        "id": "rev_xx818ukye",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-16"
+      }
+    ]
   },
   {
     "id": "lawyer_002",
-    "name": "Suresh Patel",
-    "specialization": "Cyber Law",
-    "location": "Kolkata",
-    "experience": 20,
-    "rating": 4.5,
-    "casesHandled": 335,
+    "name": "Simran Yadav",
+    "gender": "Female",
+    "specialization": "Tax Law",
+    "location": "Chennai",
+    "experience": 4,
+    "rating": 4.2,
+    "reviewCount": 58,
+    "casesHandled": 499,
     "languages": [
-      "English",
-      "Hindi",
-      "Telugu"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/women/28.jpg"
+    "image": "https://randomuser.me/api/portraits/women/93.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_1gcygtaa9",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_8yett3qdx",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_oqqtmcqzd",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-18"
+      },
+      {
+        "id": "rev_yucy7yfs5",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-13"
+      },
+      {
+        "id": "rev_bi8x7ycos",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-06"
+      }
+    ]
   },
   {
     "id": "lawyer_003",
-    "name": "Kavya Choudhary",
-    "specialization": "Cyber Law",
-    "location": "Kolkata",
-    "experience": 16,
-    "rating": 3.7,
-    "casesHandled": 487,
+    "name": "Sneha Khan",
+    "gender": "Female",
+    "specialization": "Corporate Law",
+    "location": "Mumbai",
+    "experience": 11,
+    "rating": 3.6,
+    "reviewCount": 147,
+    "casesHandled": 381,
     "languages": [
-      "Telugu"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/women/44.jpg"
+    "image": "https://randomuser.me/api/portraits/women/48.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_oabw3si37",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-12"
+      },
+      {
+        "id": "rev_kmfcyfmiv",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-08"
+      },
+      {
+        "id": "rev_g6dp7tc92",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-23"
+      },
+      {
+        "id": "rev_699ljgwhw",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-07"
+      },
+      {
+        "id": "rev_fq2g49880",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-17"
+      }
+    ]
   },
   {
     "id": "lawyer_004",
-    "name": "Kiran Khan",
-    "specialization": "Corporate Law",
-    "location": "Mumbai",
-    "experience": 25,
-    "rating": 4.7,
-    "casesHandled": 254,
+    "name": "Deepak Yadav",
+    "gender": "Male",
+    "specialization": "Intellectual Property",
+    "location": "Delhi",
+    "experience": 20,
+    "rating": 3.8,
+    "reviewCount": 147,
+    "casesHandled": 392,
     "languages": [
+      "Hindi",
       "English",
-      "Kannada"
+      "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/30.jpg"
+    "image": "https://randomuser.me/api/portraits/men/53.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_g5il6ilw3",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-13"
+      },
+      {
+        "id": "rev_ulagvs4e5",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_qoj6snndl",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_1reyu4la3",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-11"
+      },
+      {
+        "id": "rev_tpq1gb9ob",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-01"
+      }
+    ]
   },
   {
     "id": "lawyer_005",
-    "name": "Aditya Naidu",
+    "name": "Ravi Das",
+    "gender": "Male",
     "specialization": "Real Estate Law",
-    "location": "Delhi",
-    "experience": 8,
-    "rating": 4.9,
-    "casesHandled": 437,
+    "location": "Mumbai",
+    "experience": 9,
+    "rating": 4.2,
+    "reviewCount": 174,
+    "casesHandled": 434,
     "languages": [
       "Kannada",
-      "Tamil",
       "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/89.jpg"
+    "image": "https://randomuser.me/api/portraits/men/48.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_lb2dlsdgf",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-28"
+      },
+      {
+        "id": "rev_dbww6xece",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-01"
+      },
+      {
+        "id": "rev_5ntpgdvof",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_fyhdt3ald",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-14"
+      },
+      {
+        "id": "rev_iglybyccs",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-05"
+      }
+    ]
   },
   {
     "id": "lawyer_006",
-    "name": "Anjali Gupta",
+    "name": "Sunil Reddy",
+    "gender": "Male",
     "specialization": "Tax Law",
-    "location": "Pune",
-    "experience": 11,
-    "rating": 4.2,
-    "casesHandled": 185,
+    "location": "Kolkata",
+    "experience": 22,
+    "rating": 4.7,
+    "reviewCount": 83,
+    "casesHandled": 36,
     "languages": [
-      "English",
-      "Tamil",
+      "Kannada",
+      "Telugu",
       "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/men/77.jpg"
+    "image": "https://randomuser.me/api/portraits/men/92.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_pa6d26lax",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-03"
+      },
+      {
+        "id": "rev_dd7w3faeb",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-25"
+      },
+      {
+        "id": "rev_cyguqftbo",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_8qcxficv3",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_ejk2p97qc",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-24"
+      }
+    ]
   },
   {
     "id": "lawyer_007",
-    "name": "Vikram Nair",
-    "specialization": "Tax Law",
-    "location": "Chennai",
-    "experience": 16,
-    "rating": 3.9,
-    "casesHandled": 29,
+    "name": "Priya Iyer",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 18,
+    "rating": 4.9,
+    "reviewCount": 17,
+    "casesHandled": 49,
     "languages": [
-      "Tamil",
-      "English"
+      "English",
+      "Hindi",
+      "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/women/29.jpg"
+    "image": "https://randomuser.me/api/portraits/women/34.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_a4mpt3zvf",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-22"
+      },
+      {
+        "id": "rev_0t38wvrgu",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-28"
+      },
+      {
+        "id": "rev_ld15bf7mg",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-27"
+      },
+      {
+        "id": "rev_qx96pfs4i",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-30"
+      },
+      {
+        "id": "rev_46vf4u33k",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-07"
+      }
+    ]
   },
   {
     "id": "lawyer_008",
-    "name": "Anjali Iyer",
+    "name": "Priya Yadav",
+    "gender": "Female",
     "specialization": "Criminal Law",
-    "location": "Hyderabad",
-    "experience": 21,
-    "rating": 5,
-    "casesHandled": 413,
+    "location": "Chennai",
+    "experience": 18,
+    "rating": 4.5,
+    "reviewCount": 77,
+    "casesHandled": 252,
     "languages": [
-      "Kannada",
-      "Tamil",
+      "English",
+      "Hindi",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/women/23.jpg"
+    "image": "https://randomuser.me/api/portraits/women/54.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_2jtqm5k4r",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-02"
+      },
+      {
+        "id": "rev_qv0z5oymu",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-02"
+      },
+      {
+        "id": "rev_ozecjysmo",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-15"
+      },
+      {
+        "id": "rev_4by1q8z0y",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-14"
+      },
+      {
+        "id": "rev_vgsglyz68",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-23"
+      }
+    ]
   },
   {
     "id": "lawyer_009",
-    "name": "Pooja Yadav",
-    "specialization": "Tax Law",
-    "location": "Ahmedabad",
-    "experience": 19,
-    "rating": 3.6,
-    "casesHandled": 460,
+    "name": "Rajesh Verma",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Mumbai",
+    "experience": 8,
+    "rating": 3.9,
+    "reviewCount": 30,
+    "casesHandled": 514,
     "languages": [
-      "Tamil"
+      "English",
+      "Hindi",
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/3.jpg"
+    "image": "https://randomuser.me/api/portraits/men/44.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_hgxzk2yji",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-02"
+      },
+      {
+        "id": "rev_hv9um9itu",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-11"
+      },
+      {
+        "id": "rev_e2bes19bh",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-19"
+      },
+      {
+        "id": "rev_axpcvdu24",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-23"
+      },
+      {
+        "id": "rev_25o66fp21",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-13"
+      }
+    ]
   },
   {
     "id": "lawyer_010",
-    "name": "Kiran Sharma",
-    "specialization": "Civil Law",
-    "location": "Bangalore",
-    "experience": 14,
-    "rating": 3.9,
-    "casesHandled": 275,
+    "name": "Vivek Verma",
+    "gender": "Male",
+    "specialization": "Criminal Law",
+    "location": "Ahmedabad",
+    "experience": 9,
+    "rating": 3.6,
+    "reviewCount": 204,
+    "casesHandled": 138,
     "languages": [
       "Tamil",
-      "English",
-      "Kannada"
+      "Telugu",
+      "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/women/13.jpg"
+    "image": "https://randomuser.me/api/portraits/men/41.jpg",
+    "consultationFee": 3000,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_hyd8xg60h",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-14"
+      },
+      {
+        "id": "rev_u8eapammu",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_xrlw8aevd",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-29"
+      },
+      {
+        "id": "rev_t8e67ckvf",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-15"
+      },
+      {
+        "id": "rev_6uxksvef1",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-29"
+      }
+    ]
   },
   {
     "id": "lawyer_011",
-    "name": "Harsha Nair",
-    "specialization": "Criminal Law",
-    "location": "Delhi",
-    "experience": 8,
-    "rating": 3.3,
-    "casesHandled": 273,
+    "name": "Arjun Iyer",
+    "gender": "Male",
+    "specialization": "Intellectual Property",
+    "location": "Pune",
+    "experience": 19,
+    "rating": 4,
+    "reviewCount": 164,
+    "casesHandled": 438,
     "languages": [
-      "English"
+      "Kannada",
+      "Telugu",
+      "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/women/50.jpg"
+    "image": "https://randomuser.me/api/portraits/men/27.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_jctrt86j2",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_s9q0m94ag",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_lwrzyndlb",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-14"
+      },
+      {
+        "id": "rev_4qvys5maf",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_7u5fay4xu",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-03"
+      }
+    ]
   },
   {
     "id": "lawyer_012",
-    "name": "Harsha Patel",
+    "name": "Amit Nair",
+    "gender": "Male",
     "specialization": "Criminal Law",
-    "location": "Kolkata",
-    "experience": 5,
-    "rating": 4.4,
-    "casesHandled": 99,
+    "location": "Chennai",
+    "experience": 21,
+    "rating": 4.2,
+    "reviewCount": 158,
+    "casesHandled": 305,
     "languages": [
-      "Telugu",
-      "Kannada",
-      "Tamil"
+      "English",
+      "Tamil",
+      "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+    "image": "https://randomuser.me/api/portraits/men/83.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_33gaemteu",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-19"
+      },
+      {
+        "id": "rev_4wffqkotp",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_eqzlew3j0",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-17"
+      },
+      {
+        "id": "rev_eu8jzlqie",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_hvs6r341i",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-06"
+      }
+    ]
   },
   {
     "id": "lawyer_013",
-    "name": "Divya Nair",
-    "specialization": "Family Law",
-    "location": "Pune",
-    "experience": 1,
-    "rating": 4,
-    "casesHandled": 66,
+    "name": "Vikram Khan",
+    "gender": "Male",
+    "specialization": "Intellectual Property",
+    "location": "Delhi",
+    "experience": 11,
+    "rating": 3.7,
+    "reviewCount": 182,
+    "casesHandled": 408,
     "languages": [
-      "Kannada",
+      "Tamil",
       "English"
     ],
-    "image": "https://randomuser.me/api/portraits/women/63.jpg"
+    "image": "https://randomuser.me/api/portraits/men/82.jpg",
+    "consultationFee": 1500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_lsrtolye4",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-23"
+      },
+      {
+        "id": "rev_fe9j52xd2",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-04"
+      },
+      {
+        "id": "rev_g5csgs0xm",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-24"
+      },
+      {
+        "id": "rev_ja88xovq0",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-08"
+      },
+      {
+        "id": "rev_nb25rhuba",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-07"
+      }
+    ]
   },
   {
     "id": "lawyer_014",
-    "name": "Arjun Gupta",
-    "specialization": "Cyber Law",
-    "location": "Bangalore",
-    "experience": 16,
-    "rating": 4.2,
-    "casesHandled": 158,
+    "name": "Sunil Khan",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Kolkata",
+    "experience": 3,
+    "rating": 3.7,
+    "reviewCount": 42,
+    "casesHandled": 476,
     "languages": [
-      "Tamil"
+      "Tamil",
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/women/82.jpg"
+    "image": "https://randomuser.me/api/portraits/men/8.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_k3timgz4l",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_1nhnsh5tu",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_244hr970q",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-25"
+      },
+      {
+        "id": "rev_a9tf5zwoz",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_7andx84ff",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-11"
+      }
+    ]
   },
   {
     "id": "lawyer_015",
-    "name": "Kiran Nair",
-    "specialization": "Intellectual Property",
-    "location": "Chennai",
-    "experience": 25,
-    "rating": 4.2,
-    "casesHandled": 99,
+    "name": "Vivek Patel",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Bangalore",
+    "experience": 13,
+    "rating": 5,
+    "reviewCount": 81,
+    "casesHandled": 191,
     "languages": [
+      "Telugu",
       "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/82.jpg"
+    "image": "https://randomuser.me/api/portraits/men/18.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_rnfhfreig",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-13"
+      },
+      {
+        "id": "rev_y7rp84ljx",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_ia73apq2f",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-06"
+      },
+      {
+        "id": "rev_e6eky21b7",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_rnp1zhj9p",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-06"
+      }
+    ]
   },
   {
     "id": "lawyer_016",
-    "name": "Arjun Yadav",
-    "specialization": "Civil Law",
-    "location": "Mumbai",
-    "experience": 21,
-    "rating": 4.7,
-    "casesHandled": 120,
+    "name": "Pankaj Verma",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Bangalore",
+    "experience": 20,
+    "rating": 3.5,
+    "reviewCount": 23,
+    "casesHandled": 441,
     "languages": [
       "English",
       "Hindi",
-      "Tamil"
+      "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/47.jpg"
+    "image": "https://randomuser.me/api/portraits/men/65.jpg",
+    "consultationFee": 3000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_4a6utwt5l",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_qn3w48meg",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_i1an7hrok",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-15"
+      },
+      {
+        "id": "rev_jxfw19k9b",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_2g2ikrhi6",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-05"
+      }
+    ]
   },
   {
     "id": "lawyer_017",
-    "name": "Meera Verma",
-    "specialization": "Cyber Law",
-    "location": "Bangalore",
-    "experience": 10,
-    "rating": 4.6,
-    "casesHandled": 412,
+    "name": "Kriti Naidu",
+    "gender": "Female",
+    "specialization": "Real Estate Law",
+    "location": "Mumbai",
+    "experience": 25,
+    "rating": 3.8,
+    "reviewCount": 75,
+    "casesHandled": 311,
     "languages": [
+      "Tamil",
       "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/women/39.jpg"
+    "image": "https://randomuser.me/api/portraits/women/19.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_l5p7c6159",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-15"
+      },
+      {
+        "id": "rev_95tvc89d8",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-16"
+      },
+      {
+        "id": "rev_1zn1z6ff0",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-15"
+      },
+      {
+        "id": "rev_dwxwgzsud",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-16"
+      },
+      {
+        "id": "rev_suynu6qnh",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-15"
+      }
+    ]
   },
   {
     "id": "lawyer_018",
-    "name": "Divya Iyer",
-    "specialization": "Family Law",
+    "name": "Meera Mehta",
+    "gender": "Female",
+    "specialization": "Intellectual Property",
     "location": "Delhi",
-    "experience": 15,
-    "rating": 3.5,
-    "casesHandled": 216,
+    "experience": 13,
+    "rating": 4.2,
+    "reviewCount": 140,
+    "casesHandled": 335,
     "languages": [
-      "English",
-      "Tamil"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/61.jpg"
+    "image": "https://randomuser.me/api/portraits/women/14.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_ci7hev908",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-04"
+      },
+      {
+        "id": "rev_nu0kguz8i",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-20"
+      },
+      {
+        "id": "rev_6gfs0fqff",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-12"
+      },
+      {
+        "id": "rev_hol53g66j",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_1178npahk",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-25"
+      }
+    ]
   },
   {
     "id": "lawyer_019",
-    "name": "Priya Sharma",
+    "name": "Tanvi Choudhary",
+    "gender": "Female",
     "specialization": "Tax Law",
     "location": "Ahmedabad",
-    "experience": 22,
-    "rating": 3.5,
-    "casesHandled": 74,
+    "experience": 3,
+    "rating": 4.1,
+    "reviewCount": 115,
+    "casesHandled": 140,
     "languages": [
+      "Hindi",
+      "Telugu",
       "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/women/1.jpg"
+    "image": "https://randomuser.me/api/portraits/women/56.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_2it5tmom6",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-16"
+      },
+      {
+        "id": "rev_sxk0jknv3",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-11"
+      },
+      {
+        "id": "rev_i3p2isf3u",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_ww19i26jk",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-27"
+      },
+      {
+        "id": "rev_efhbc1hay",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-19"
+      }
+    ]
   },
   {
     "id": "lawyer_020",
-    "name": "Rohan Gupta",
-    "specialization": "Real Estate Law",
-    "location": "Delhi",
-    "experience": 3,
-    "rating": 4.5,
-    "casesHandled": 269,
+    "name": "Shreya Nair",
+    "gender": "Female",
+    "specialization": "Tax Law",
+    "location": "Kolkata",
+    "experience": 1,
+    "rating": 3.6,
+    "reviewCount": 137,
+    "casesHandled": 130,
     "languages": [
-      "Kannada"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/69.jpg"
+    "image": "https://randomuser.me/api/portraits/women/80.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_s65ngu3qr",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-28"
+      },
+      {
+        "id": "rev_ce0dywjpm",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-19"
+      },
+      {
+        "id": "rev_hwoqosa1h",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-14"
+      },
+      {
+        "id": "rev_wa1iryxr7",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-26"
+      },
+      {
+        "id": "rev_zkc2c9efg",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-08"
+      }
+    ]
   },
   {
     "id": "lawyer_021",
-    "name": "Meera Patel",
+    "name": "Divya Iyer",
+    "gender": "Female",
     "specialization": "Corporate Law",
-    "location": "Delhi",
-    "experience": 4,
-    "rating": 3.6,
-    "casesHandled": 505,
+    "location": "Kolkata",
+    "experience": 1,
+    "rating": 4.9,
+    "reviewCount": 145,
+    "casesHandled": 493,
     "languages": [
-      "Telugu",
-      "English"
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/33.jpg"
+    "image": "https://randomuser.me/api/portraits/women/31.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_b170jhvdq",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-20"
+      },
+      {
+        "id": "rev_56ah5une0",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-23"
+      },
+      {
+        "id": "rev_4969y1d68",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-16"
+      },
+      {
+        "id": "rev_ira05nt25",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_tv6g77wm0",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-21"
+      }
+    ]
   },
   {
     "id": "lawyer_022",
-    "name": "Pooja Mehta",
-    "specialization": "Tax Law",
-    "location": "Delhi",
-    "experience": 24,
-    "rating": 4.4,
-    "casesHandled": 311,
+    "name": "Suresh Mehta",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Kolkata",
+    "experience": 14,
+    "rating": 4.8,
+    "reviewCount": 114,
+    "casesHandled": 282,
     "languages": [
-      "Kannada",
-      "Tamil"
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+    "image": "https://randomuser.me/api/portraits/men/14.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_hrbijyf4h",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-22"
+      },
+      {
+        "id": "rev_pnkein9mf",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_t0syy4o5i",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-11"
+      },
+      {
+        "id": "rev_p71osb5ox",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-08"
+      },
+      {
+        "id": "rev_dtzlmgviy",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-15"
+      }
+    ]
   },
   {
     "id": "lawyer_023",
-    "name": "Rohan Naidu",
-    "specialization": "Civil Law",
-    "location": "Mumbai",
-    "experience": 11,
-    "rating": 4,
-    "casesHandled": 151,
+    "name": "Abhishek Khan",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 17,
+    "rating": 3.9,
+    "reviewCount": 47,
+    "casesHandled": 503,
     "languages": [
-      "Telugu",
-      "Hindi",
-      "English"
+      "English",
+      "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/1.jpg"
+    "image": "https://randomuser.me/api/portraits/men/13.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_mxbo3gb7i",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-19"
+      },
+      {
+        "id": "rev_5daatxq3o",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_13pdrymww",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_te3w85hb7",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_cm857jei4",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-22"
+      }
+    ]
   },
   {
     "id": "lawyer_024",
-    "name": "Rahul Sharma",
-    "specialization": "Real Estate Law",
-    "location": "Hyderabad",
-    "experience": 4,
-    "rating": 3.6,
-    "casesHandled": 416,
+    "name": "Arjun Khan",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Kolkata",
+    "experience": 2,
+    "rating": 4.9,
+    "reviewCount": 78,
+    "casesHandled": 342,
     "languages": [
+      "Kannada",
       "Tamil",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/34.jpg"
+    "image": "https://randomuser.me/api/portraits/men/85.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_c0ejsjczy",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-27"
+      },
+      {
+        "id": "rev_7fvuvqxuz",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-04"
+      },
+      {
+        "id": "rev_uzzku4csi",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_faaeaqsbc",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-26"
+      },
+      {
+        "id": "rev_zmeaijuqi",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-21"
+      }
+    ]
   },
   {
     "id": "lawyer_025",
-    "name": "Priya Nair",
-    "specialization": "Intellectual Property",
-    "location": "Delhi",
-    "experience": 12,
-    "rating": 3.2,
-    "casesHandled": 148,
+    "name": "Aditya Nair",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Chennai",
+    "experience": 2,
+    "rating": 4.2,
+    "reviewCount": 115,
+    "casesHandled": 32,
     "languages": [
-      "Kannada"
+      "Telugu",
+      "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/men/44.jpg"
+    "image": "https://randomuser.me/api/portraits/men/29.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_mc616xoed",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-13"
+      },
+      {
+        "id": "rev_b7zeo99l0",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-20"
+      },
+      {
+        "id": "rev_g8vylkj9n",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_owjqgv111",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-28"
+      },
+      {
+        "id": "rev_h8dzv6ffv",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-20"
+      }
+    ]
   },
   {
     "id": "lawyer_026",
-    "name": "Neha Choudhary",
-    "specialization": "Cyber Law",
-    "location": "Ahmedabad",
-    "experience": 5,
-    "rating": 4.3,
-    "casesHandled": 275,
+    "name": "Suresh Das",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Chennai",
+    "experience": 17,
+    "rating": 4.1,
+    "reviewCount": 59,
+    "casesHandled": 265,
     "languages": [
-      "English",
-      "Tamil"
+      "Telugu",
+      "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/men/49.jpg"
+    "image": "https://randomuser.me/api/portraits/men/30.jpg",
+    "consultationFee": 1500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_8ixgy3uyy",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-19"
+      },
+      {
+        "id": "rev_00c2afamf",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-29"
+      },
+      {
+        "id": "rev_2llf9plna",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-26"
+      },
+      {
+        "id": "rev_945fjjtfi",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-02"
+      },
+      {
+        "id": "rev_ij704xece",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-25"
+      }
+    ]
   },
   {
     "id": "lawyer_027",
-    "name": "Pooja Patel",
-    "specialization": "Tax Law",
-    "location": "Pune",
-    "experience": 1,
-    "rating": 4.5,
-    "casesHandled": 367,
+    "name": "Priya Gupta",
+    "gender": "Female",
+    "specialization": "Civil Law",
+    "location": "Delhi",
+    "experience": 23,
+    "rating": 4.2,
+    "reviewCount": 158,
+    "casesHandled": 321,
     "languages": [
-      "Kannada",
-      "Tamil"
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/29.jpg"
+    "image": "https://randomuser.me/api/portraits/women/67.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_4vl6s4vdl",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-21"
+      },
+      {
+        "id": "rev_6gh3xtaos",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_2apn96jke",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-13"
+      },
+      {
+        "id": "rev_4ocgd82n1",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_rgka1gioh",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-16"
+      }
+    ]
   },
   {
     "id": "lawyer_028",
-    "name": "Pooja Singh",
-    "specialization": "Cyber Law",
-    "location": "Chennai",
-    "experience": 13,
-    "rating": 4.4,
-    "casesHandled": 128,
+    "name": "Ishaan Gupta",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Ahmedabad",
+    "experience": 7,
+    "rating": 3.6,
+    "reviewCount": 105,
+    "casesHandled": 432,
     "languages": [
-      "Kannada",
       "Tamil",
+      "English",
       "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/women/62.jpg"
+    "image": "https://randomuser.me/api/portraits/men/87.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_3ejbgemak",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_thkxrtdo5",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-20"
+      },
+      {
+        "id": "rev_xp5vp9oqh",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_u5cgm3lng",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-12"
+      },
+      {
+        "id": "rev_mkgc8kptq",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-23"
+      }
+    ]
   },
   {
     "id": "lawyer_029",
-    "name": "Kavya Reddy",
-    "specialization": "Family Law",
-    "location": "Kolkata",
-    "experience": 14,
-    "rating": 4.3,
-    "casesHandled": 404,
-    "languages": [
-      "Hindi",
-      "English",
-      "Kannada"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/71.jpg"
-  },
-  {
-    "id": "lawyer_030",
-    "name": "Rohan Choudhary",
-    "specialization": "Civil Law",
-    "location": "Mumbai",
-    "experience": 15,
-    "rating": 4.7,
-    "casesHandled": 509,
-    "languages": [
-      "English",
-      "Tamil",
-      "Kannada"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/54.jpg"
-  },
-  {
-    "id": "lawyer_031",
-    "name": "Amit Choudhary",
-    "specialization": "Tax Law",
-    "location": "Bangalore",
-    "experience": 6,
-    "rating": 4,
-    "casesHandled": 285,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/47.jpg"
-  },
-  {
-    "id": "lawyer_032",
-    "name": "Suresh Patel",
-    "specialization": "Family Law",
-    "location": "Hyderabad",
-    "experience": 20,
-    "rating": 3.1,
-    "casesHandled": 327,
-    "languages": [
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/65.jpg"
-  },
-  {
-    "id": "lawyer_033",
-    "name": "Sneha Yadav",
-    "specialization": "Civil Law",
-    "location": "Kolkata",
-    "experience": 15,
-    "rating": 4.5,
-    "casesHandled": 138,
-    "languages": [
-      "Hindi",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/7.jpg"
-  },
-  {
-    "id": "lawyer_034",
-    "name": "Priya Singh",
-    "specialization": "Corporate Law",
-    "location": "Bangalore",
-    "experience": 11,
-    "rating": 4.8,
-    "casesHandled": 95,
-    "languages": [
-      "English",
-      "Hindi",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/78.jpg"
-  },
-  {
-    "id": "lawyer_035",
-    "name": "Rahul Sharma",
+    "name": "Ishani Singh",
+    "gender": "Female",
     "specialization": "Cyber Law",
     "location": "Hyderabad",
-    "experience": 13,
-    "rating": 3.6,
-    "casesHandled": 125,
-    "languages": [
-      "Kannada",
-      "Tamil",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/22.jpg"
-  },
-  {
-    "id": "lawyer_036",
-    "name": "Rahul Choudhary",
-    "specialization": "Corporate Law",
-    "location": "Delhi",
-    "experience": 11,
+    "experience": 24,
     "rating": 3.7,
-    "casesHandled": 504,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/36.jpg"
-  },
-  {
-    "id": "lawyer_037",
-    "name": "Anjali Khan",
-    "specialization": "Corporate Law",
-    "location": "Delhi",
-    "experience": 19,
-    "rating": 3.1,
-    "casesHandled": 72,
-    "languages": [
-      "English",
-      "Hindi",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/6.jpg"
-  },
-  {
-    "id": "lawyer_038",
-    "name": "Kavya Reddy",
-    "specialization": "Corporate Law",
-    "location": "Delhi",
-    "experience": 3,
-    "rating": 3.7,
-    "casesHandled": 293,
-    "languages": [
-      "Hindi",
-      "Tamil",
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/10.jpg"
-  },
-  {
-    "id": "lawyer_039",
-    "name": "Anjali Naidu",
-    "specialization": "Corporate Law",
-    "location": "Hyderabad",
-    "experience": 19,
-    "rating": 5,
-    "casesHandled": 128,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/57.jpg"
-  },
-  {
-    "id": "lawyer_040",
-    "name": "Nikhil Verma",
-    "specialization": "Intellectual Property",
-    "location": "Hyderabad",
-    "experience": 11,
-    "rating": 3.8,
-    "casesHandled": 455,
-    "languages": [
-      "Tamil",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/83.jpg"
-  },
-  {
-    "id": "lawyer_041",
-    "name": "Sneha Reddy",
-    "specialization": "Criminal Law",
-    "location": "Hyderabad",
-    "experience": 10,
-    "rating": 4.1,
-    "casesHandled": 395,
-    "languages": [
-      "Tamil",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/53.jpg"
-  },
-  {
-    "id": "lawyer_042",
-    "name": "Arjun Khan",
-    "specialization": "Cyber Law",
-    "location": "Hyderabad",
-    "experience": 9,
-    "rating": 3.9,
-    "casesHandled": 327,
-    "languages": [
-      "Tamil",
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/85.jpg"
-  },
-  {
-    "id": "lawyer_043",
-    "name": "Suresh Singh",
-    "specialization": "Tax Law",
-    "location": "Kolkata",
-    "experience": 4,
-    "rating": 4.9,
-    "casesHandled": 385,
-    "languages": [
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/5.jpg"
-  },
-  {
-    "id": "lawyer_044",
-    "name": "Kavya Patel",
-    "specialization": "Criminal Law",
-    "location": "Kolkata",
-    "experience": 2,
-    "rating": 4,
-    "casesHandled": 396,
-    "languages": [
-      "English",
-      "Kannada",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/54.jpg"
-  },
-  {
-    "id": "lawyer_045",
-    "name": "Rahul Verma",
-    "specialization": "Cyber Law",
-    "location": "Kolkata",
-    "experience": 15,
-    "rating": 3.6,
-    "casesHandled": 216,
-    "languages": [
-      "Telugu",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/30.jpg"
-  },
-  {
-    "id": "lawyer_046",
-    "name": "Rohan Nair",
-    "specialization": "Civil Law",
-    "location": "Ahmedabad",
-    "experience": 21,
-    "rating": 3.8,
-    "casesHandled": 38,
-    "languages": [
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/76.jpg"
-  },
-  {
-    "id": "lawyer_047",
-    "name": "Priya Naidu",
-    "specialization": "Corporate Law",
-    "location": "Kolkata",
-    "experience": 23,
-    "rating": 4.1,
-    "casesHandled": 486,
-    "languages": [
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/66.jpg"
-  },
-  {
-    "id": "lawyer_048",
-    "name": "Nikhil Naidu",
-    "specialization": "Cyber Law",
-    "location": "Hyderabad",
-    "experience": 19,
-    "rating": 4.4,
-    "casesHandled": 235,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/29.jpg"
-  },
-  {
-    "id": "lawyer_049",
-    "name": "Swathi Naidu",
-    "specialization": "Cyber Law",
-    "location": "Hyderabad",
-    "experience": 11,
-    "rating": 3.2,
-    "casesHandled": 473,
-    "languages": [
-      "Kannada",
-      "Telugu",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/90.jpg"
-  },
-  {
-    "id": "lawyer_050",
-    "name": "Suresh Choudhary",
-    "specialization": "Real Estate Law",
-    "location": "Delhi",
-    "experience": 16,
-    "rating": 3,
-    "casesHandled": 515,
-    "languages": [
-      "Telugu",
-      "Hindi",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/5.jpg"
-  },
-  {
-    "id": "lawyer_051",
-    "name": "Vikram Reddy",
-    "specialization": "Family Law",
-    "location": "Chennai",
-    "experience": 23,
-    "rating": 4,
+    "reviewCount": 63,
     "casesHandled": 320,
     "languages": [
       "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/51.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_581y0nvb1",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-02"
+      },
+      {
+        "id": "rev_lsdqy8068",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_jww927eaw",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-26"
+      },
+      {
+        "id": "rev_w8amj04a6",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-21"
+      },
+      {
+        "id": "rev_8r0djszdh",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-16"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_030",
+    "name": "Neha Sharma",
+    "gender": "Female",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 24,
+    "rating": 4.3,
+    "reviewCount": 49,
+    "casesHandled": 413,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/63.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_0p39ycyqp",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-12"
+      },
+      {
+        "id": "rev_plmw68fq8",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-25"
+      },
+      {
+        "id": "rev_r9c9zl7vo",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-22"
+      },
+      {
+        "id": "rev_fwv2ucml4",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-29"
+      },
+      {
+        "id": "rev_wg1vd08u6",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-08"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_031",
+    "name": "Karan Nair",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Chennai",
+    "experience": 25,
+    "rating": 4.2,
+    "reviewCount": 207,
+    "casesHandled": 411,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/76.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_mvtq5axyl",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-28"
+      },
+      {
+        "id": "rev_z6odvsamu",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-09"
+      },
+      {
+        "id": "rev_binsn678z",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-16"
+      },
+      {
+        "id": "rev_ksd7xa0wm",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-26"
+      },
+      {
+        "id": "rev_ou8r6a7n1",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-03"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_032",
+    "name": "Aman Mehta",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Kolkata",
+    "experience": 7,
+    "rating": 3.6,
+    "reviewCount": 56,
+    "casesHandled": 33,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/86.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_1xmce9zmk",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-04"
+      },
+      {
+        "id": "rev_bh9j52bdj",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_n2cdl0m9y",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-29"
+      },
+      {
+        "id": "rev_1vv0m2ask",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-06"
+      },
+      {
+        "id": "rev_sa43c9ibr",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-25"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_033",
+    "name": "Nidhi Choudhary",
+    "gender": "Female",
+    "specialization": "Cyber Law",
+    "location": "Pune",
+    "experience": 20,
+    "rating": 4,
+    "reviewCount": 64,
+    "casesHandled": 148,
+    "languages": [
+      "Hindi",
+      "English",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/86.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_ml80a70jx",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-30"
+      },
+      {
+        "id": "rev_63df3gmqz",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-26"
+      },
+      {
+        "id": "rev_dulgspjhc",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-08"
+      },
+      {
+        "id": "rev_nqfhqunxj",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_ptbmozvcv",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-14"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_034",
+    "name": "Vijay Iyer",
+    "gender": "Male",
+    "specialization": "Criminal Law",
+    "location": "Delhi",
+    "experience": 23,
+    "rating": 4,
+    "reviewCount": 75,
+    "casesHandled": 425,
+    "languages": [
+      "Tamil",
       "Telugu",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/15.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_qmzy14ec9",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_kz5raqx25",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-05"
+      },
+      {
+        "id": "rev_9khd1kb6y",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-16"
+      },
+      {
+        "id": "rev_4ptpc9c1h",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_fosl3qmgp",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-17"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_035",
+    "name": "Ishaan Yadav",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Bangalore",
+    "experience": 21,
+    "rating": 3.8,
+    "reviewCount": 69,
+    "casesHandled": 232,
+    "languages": [
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/22.jpg",
+    "consultationFee": 3000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_0nmzdaeug",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-08"
+      },
+      {
+        "id": "rev_ycu8nc4um",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_irgkcuz01",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_hr5uwbfqd",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-01"
+      },
+      {
+        "id": "rev_qknokkzsl",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-02"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_036",
+    "name": "Divya Gupta",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Kolkata",
+    "experience": 7,
+    "rating": 4.5,
+    "reviewCount": 44,
+    "casesHandled": 414,
+    "languages": [
+      "Hindi",
+      "Tamil",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/24.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_q1ilv4uyw",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_bijl9cr1q",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-11"
+      },
+      {
+        "id": "rev_ubyl8v5o2",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-11"
+      },
+      {
+        "id": "rev_rbnvcj75v",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_gju33vgzf",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-04"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_037",
+    "name": "Aman Sharma",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Ahmedabad",
+    "experience": 3,
+    "rating": 4.6,
+    "reviewCount": 175,
+    "casesHandled": 59,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/42.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_offwqsdvi",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-27"
+      },
+      {
+        "id": "rev_d4eixvljd",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-05"
+      },
+      {
+        "id": "rev_pxn3foyxg",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-01"
+      },
+      {
+        "id": "rev_6f01nzz0s",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-13"
+      },
+      {
+        "id": "rev_2pmeu507h",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-08"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_038",
+    "name": "Preeti Mehta",
+    "gender": "Female",
+    "specialization": "Cyber Law",
+    "location": "Bangalore",
+    "experience": 2,
+    "rating": 3.6,
+    "reviewCount": 78,
+    "casesHandled": 78,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/20.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_2xuzzl7y7",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_k2vuqpyjy",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-29"
+      },
+      {
+        "id": "rev_1lh7gf1o7",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_td234vtbw",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-25"
+      },
+      {
+        "id": "rev_016nuunmj",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-13"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_039",
+    "name": "Nidhi Singh",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Kolkata",
+    "experience": 21,
+    "rating": 4.2,
+    "reviewCount": 88,
+    "casesHandled": 84,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/68.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_qn6qvo58h",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_ojul2tmsi",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-13"
+      },
+      {
+        "id": "rev_to2ts9k1v",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-08"
+      },
+      {
+        "id": "rev_jbet3nx2g",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_7tmgyxb57",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-12"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_040",
+    "name": "Suresh Naidu",
+    "gender": "Male",
+    "specialization": "Intellectual Property",
+    "location": "Pune",
+    "experience": 17,
+    "rating": 3.8,
+    "reviewCount": 204,
+    "casesHandled": 292,
+    "languages": [
+      "Telugu",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/50.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_n3ttz3cwr",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-25"
+      },
+      {
+        "id": "rev_4r3fgc7j7",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-15"
+      },
+      {
+        "id": "rev_w38yei5al",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-17"
+      },
+      {
+        "id": "rev_wkyswarb7",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "rev_fpu38skwq",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-07"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_041",
+    "name": "Asha Iyer",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Ahmedabad",
+    "experience": 3,
+    "rating": 4,
+    "reviewCount": 168,
+    "casesHandled": 481,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/91.jpg",
+    "consultationFee": 1000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_m2erpi7p5",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_j0e3cw6w9",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-27"
+      },
+      {
+        "id": "rev_cbep7q7fk",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_5niobr0gt",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-22"
+      },
+      {
+        "id": "rev_2ea92s1fl",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-07"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_042",
+    "name": "Kiara Patel",
+    "gender": "Female",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 4,
+    "rating": 5,
+    "reviewCount": 152,
+    "casesHandled": 398,
+    "languages": [
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/39.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_bqcq5ensk",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-27"
+      },
+      {
+        "id": "rev_wy98s10pg",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-09"
+      },
+      {
+        "id": "rev_dabxdg05g",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_oro0hsqrd",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-31"
+      },
+      {
+        "id": "rev_oafmzidr0",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-11"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_043",
+    "name": "Manoj Mehta",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Bangalore",
+    "experience": 11,
+    "rating": 3.5,
+    "reviewCount": 153,
+    "casesHandled": 451,
+    "languages": [
+      "Kannada",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/95.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_jj93cropn",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_23qaorhy3",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-17"
+      },
+      {
+        "id": "rev_561gpuonc",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-04"
+      },
+      {
+        "id": "rev_g1prw3fdl",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-27"
+      },
+      {
+        "id": "rev_v1krh9vbh",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-06"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_044",
+    "name": "Kavya Khan",
+    "gender": "Female",
+    "specialization": "Cyber Law",
+    "location": "Delhi",
+    "experience": 10,
+    "rating": 3.8,
+    "reviewCount": 181,
+    "casesHandled": 465,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/69.jpg",
+    "consultationFee": 2000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_p1jze7yqe",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-14"
+      },
+      {
+        "id": "rev_on1n2n0u0",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-04"
+      },
+      {
+        "id": "rev_wv5qrc0ja",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-27"
+      },
+      {
+        "id": "rev_67aizw7fc",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_s4w8z2i6s",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-24"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_045",
+    "name": "Ishita Khan",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Hyderabad",
+    "experience": 12,
+    "rating": 3.8,
+    "reviewCount": 170,
+    "casesHandled": 446,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/89.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_9htmfj1af",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-04"
+      },
+      {
+        "id": "rev_o9zftd0cw",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-09"
+      },
+      {
+        "id": "rev_94rs5cnxa",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-19"
+      },
+      {
+        "id": "rev_91gvf7pl5",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-23"
+      },
+      {
+        "id": "rev_mh5mcykrq",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-08"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_046",
+    "name": "Deepak Das",
+    "gender": "Male",
+    "specialization": "Criminal Law",
+    "location": "Mumbai",
+    "experience": 10,
+    "rating": 4.6,
+    "reviewCount": 94,
+    "casesHandled": 168,
+    "languages": [
+      "Tamil",
       "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+    "image": "https://randomuser.me/api/portraits/men/89.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_frtwej1ts",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_5uvoe34h8",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-17"
+      },
+      {
+        "id": "rev_6p94zn9qj",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-01"
+      },
+      {
+        "id": "rev_ejavaixwn",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_wh9u3ls91",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-30"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_047",
+    "name": "Varun Sharma",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Kolkata",
+    "experience": 18,
+    "rating": 4.7,
+    "reviewCount": 24,
+    "casesHandled": 482,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/70.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_o5jmk4edm",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-16"
+      },
+      {
+        "id": "rev_imsa2v5am",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-14"
+      },
+      {
+        "id": "rev_x0zfp17za",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-25"
+      },
+      {
+        "id": "rev_kfdjeer21",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-04"
+      },
+      {
+        "id": "rev_4o2tn7k57",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-25"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_048",
+    "name": "Anil Verma",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Ahmedabad",
+    "experience": 4,
+    "rating": 4.7,
+    "reviewCount": 106,
+    "casesHandled": 75,
+    "languages": [
+      "Kannada",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/11.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_ddpsyzm37",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-04"
+      },
+      {
+        "id": "rev_9bmwfls1o",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-26"
+      },
+      {
+        "id": "rev_b8ghljaw6",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-26"
+      },
+      {
+        "id": "rev_56hvobqc7",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_o914xd1aw",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-09"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_049",
+    "name": "Preeti Iyer",
+    "gender": "Female",
+    "specialization": "Civil Law",
+    "location": "Hyderabad",
+    "experience": 16,
+    "rating": 4.3,
+    "reviewCount": 26,
+    "casesHandled": 135,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/88.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_v849y60jr",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_p4et4fiy3",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-02"
+      },
+      {
+        "id": "rev_pmc2l3onk",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_v1gwgmv8z",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-01"
+      },
+      {
+        "id": "rev_epcrieqlo",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-03"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_050",
+    "name": "Asha Sharma",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Pune",
+    "experience": 20,
+    "rating": 3.9,
+    "reviewCount": 77,
+    "casesHandled": 509,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/15.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_ubs0j719u",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-13"
+      },
+      {
+        "id": "rev_mmib3rwxt",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-19"
+      },
+      {
+        "id": "rev_3zdbidpps",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-30"
+      },
+      {
+        "id": "rev_x4w62pmty",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_delug9its",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-21"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_051",
+    "name": "Arjun Sharma",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Kolkata",
+    "experience": 22,
+    "rating": 4.6,
+    "reviewCount": 68,
+    "casesHandled": 26,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/94.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_y1d2mnx95",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-18"
+      },
+      {
+        "id": "rev_e2y379zug",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_p3k0gljvz",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_43e9f6xy0",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-02"
+      },
+      {
+        "id": "rev_hyxps18sz",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-14"
+      }
+    ]
   },
   {
     "id": "lawyer_052",
-    "name": "Harsha Khan",
-    "specialization": "Cyber Law",
-    "location": "Hyderabad",
-    "experience": 20,
-    "rating": 4,
-    "casesHandled": 515,
+    "name": "Pooja Reddy",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Chennai",
+    "experience": 23,
+    "rating": 3.9,
+    "reviewCount": 60,
+    "casesHandled": 167,
     "languages": [
-      "Hindi",
       "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/27.jpg"
+    "image": "https://randomuser.me/api/portraits/women/52.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_7tatni1t6",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-24"
+      },
+      {
+        "id": "rev_g599sze22",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_wmn6krb99",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-30"
+      },
+      {
+        "id": "rev_mcdi8lk9m",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-16"
+      },
+      {
+        "id": "rev_3ndhmd994",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-16"
+      }
+    ]
   },
   {
     "id": "lawyer_053",
-    "name": "Vikram Gupta",
-    "specialization": "Family Law",
-    "location": "Delhi",
-    "experience": 12,
-    "rating": 3.1,
-    "casesHandled": 422,
-    "languages": [
-      "Telugu",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/36.jpg"
-  },
-  {
-    "id": "lawyer_054",
-    "name": "Divya Yadav",
-    "specialization": "Civil Law",
-    "location": "Kolkata",
-    "experience": 21,
-    "rating": 3.9,
-    "casesHandled": 387,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/71.jpg"
-  },
-  {
-    "id": "lawyer_055",
-    "name": "Rahul Verma",
-    "specialization": "Intellectual Property",
-    "location": "Bangalore",
-    "experience": 25,
-    "rating": 4.6,
-    "casesHandled": 160,
-    "languages": [
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/40.jpg"
-  },
-  {
-    "id": "lawyer_056",
-    "name": "Vikram Yadav",
-    "specialization": "Tax Law",
-    "location": "Hyderabad",
-    "experience": 20,
-    "rating": 4.9,
-    "casesHandled": 87,
-    "languages": [
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/68.jpg"
-  },
-  {
-    "id": "lawyer_057",
-    "name": "Divya Patel",
-    "specialization": "Family Law",
-    "location": "Bangalore",
-    "experience": 24,
-    "rating": 3.8,
-    "casesHandled": 260,
-    "languages": [
-      "Kannada"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/48.jpg"
-  },
-  {
-    "id": "lawyer_058",
-    "name": "Kiran Das",
-    "specialization": "Family Law",
-    "location": "Mumbai",
-    "experience": 4,
-    "rating": 3.7,
-    "casesHandled": 148,
-    "languages": [
-      "Tamil",
-      "Telugu",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/86.jpg"
-  },
-  {
-    "id": "lawyer_059",
-    "name": "Aditya Reddy",
-    "specialization": "Corporate Law",
-    "location": "Bangalore",
-    "experience": 12,
-    "rating": 4.2,
-    "casesHandled": 159,
-    "languages": [
-      "Telugu",
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/59.jpg"
-  },
-  {
-    "id": "lawyer_060",
-    "name": "Anjali Iyer",
+    "name": "Neha Verma",
+    "gender": "Female",
     "specialization": "Cyber Law",
-    "location": "Bangalore",
-    "experience": 3,
-    "rating": 4.1,
-    "casesHandled": 469,
-    "languages": [
-      "Tamil",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/30.jpg"
-  },
-  {
-    "id": "lawyer_061",
-    "name": "Nikhil Das",
-    "specialization": "Family Law",
-    "location": "Bangalore",
-    "experience": 14,
-    "rating": 3.7,
-    "casesHandled": 389,
-    "languages": [
-      "Telugu",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/23.jpg"
-  },
-  {
-    "id": "lawyer_062",
-    "name": "Arjun Mehta",
-    "specialization": "Criminal Law",
-    "location": "Hyderabad",
-    "experience": 9,
-    "rating": 3.3,
-    "casesHandled": 346,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/47.jpg"
-  },
-  {
-    "id": "lawyer_063",
-    "name": "Rahul Mehta",
-    "specialization": "Intellectual Property",
     "location": "Pune",
-    "experience": 21,
-    "rating": 3.8,
-    "casesHandled": 384,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/21.jpg"
-  },
-  {
-    "id": "lawyer_064",
-    "name": "Arjun Nair",
-    "specialization": "Tax Law",
-    "location": "Pune",
-    "experience": 7,
-    "rating": 4.7,
-    "casesHandled": 90,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/23.jpg"
-  },
-  {
-    "id": "lawyer_065",
-    "name": "Aditya Naidu",
-    "specialization": "Real Estate Law",
-    "location": "Chennai",
-    "experience": 20,
-    "rating": 3.9,
-    "casesHandled": 167,
+    "experience": 3,
+    "rating": 4.8,
+    "reviewCount": 198,
+    "casesHandled": 382,
     "languages": [
       "Tamil",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/80.jpg"
-  },
-  {
-    "id": "lawyer_066",
-    "name": "Priya Singh",
-    "specialization": "Intellectual Property",
-    "location": "Hyderabad",
-    "experience": 21,
-    "rating": 3.1,
-    "casesHandled": 301,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/51.jpg"
-  },
-  {
-    "id": "lawyer_067",
-    "name": "Priya Reddy",
-    "specialization": "Cyber Law",
-    "location": "Ahmedabad",
-    "experience": 20,
-    "rating": 4.1,
-    "casesHandled": 53,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/12.jpg"
-  },
-  {
-    "id": "lawyer_068",
-    "name": "Harsha Mehta",
-    "specialization": "Real Estate Law",
-    "location": "Chennai",
-    "experience": 22,
-    "rating": 4.8,
-    "casesHandled": 62,
-    "languages": [
-      "Telugu",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/33.jpg"
-  },
-  {
-    "id": "lawyer_069",
-    "name": "Amit Mehta",
-    "specialization": "Criminal Law",
-    "location": "Delhi",
-    "experience": 11,
-    "rating": 3.2,
-    "casesHandled": 145,
-    "languages": [
-      "Tamil",
-      "Telugu",
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/61.jpg"
-  },
-  {
-    "id": "lawyer_070",
-    "name": "Pooja Patel",
-    "specialization": "Intellectual Property",
-    "location": "Mumbai",
-    "experience": 3,
-    "rating": 3.9,
-    "casesHandled": 173,
-    "languages": [
-      "English",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/57.jpg"
-  },
-  {
-    "id": "lawyer_071",
-    "name": "Kavya Sharma",
-    "specialization": "Cyber Law",
-    "location": "Delhi",
-    "experience": 3,
-    "rating": 3.7,
-    "casesHandled": 311,
-    "languages": [
-      "English",
-      "Kannada",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/77.jpg"
-  },
-  {
-    "id": "lawyer_072",
-    "name": "Kavya Khan",
-    "specialization": "Civil Law",
-    "location": "Bangalore",
-    "experience": 22,
-    "rating": 4.8,
-    "casesHandled": 344,
-    "languages": [
-      "English",
       "Hindi",
       "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/44.jpg"
+    "image": "https://randomuser.me/api/portraits/women/7.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_y2y49iq1c",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-29"
+      },
+      {
+        "id": "rev_w4zmwe4yt",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-04"
+      },
+      {
+        "id": "rev_33k5xbeud",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-24"
+      },
+      {
+        "id": "rev_ponqg4bjr",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_wdvjx74o5",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-09"
+      }
+    ]
   },
   {
-    "id": "lawyer_073",
-    "name": "Anjali Verma",
-    "specialization": "Cyber Law",
-    "location": "Kolkata",
-    "experience": 14,
+    "id": "lawyer_054",
+    "name": "Manoj Das",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Ahmedabad",
+    "experience": 15,
     "rating": 4.6,
+    "reviewCount": 19,
+    "casesHandled": 132,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/34.jpg",
+    "consultationFee": 2000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_zkmp6u4bq",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-03"
+      },
+      {
+        "id": "rev_doe8nt7mt",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_5o0vq3qkb",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-05"
+      },
+      {
+        "id": "rev_91h35amv6",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-11"
+      },
+      {
+        "id": "rev_ln4vh50kn",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-03"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_055",
+    "name": "Aman Singh",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Ahmedabad",
+    "experience": 15,
+    "rating": 4.3,
+    "reviewCount": 137,
+    "casesHandled": 410,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/4.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_vpkr6rw02",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-06"
+      },
+      {
+        "id": "rev_tkvhuu826",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_78841e01e",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_882dyofhz",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-29"
+      },
+      {
+        "id": "rev_wg5lsew36",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-13"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_056",
+    "name": "Kiara Gupta",
+    "gender": "Female",
+    "specialization": "Real Estate Law",
+    "location": "Hyderabad",
+    "experience": 5,
+    "rating": 4,
+    "reviewCount": 75,
+    "casesHandled": 296,
+    "languages": [
+      "Hindi",
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/76.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_z64fkspf4",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-29"
+      },
+      {
+        "id": "rev_5mn2qnpjq",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-25"
+      },
+      {
+        "id": "rev_p6dl3i4fp",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-03"
+      },
+      {
+        "id": "rev_iqm2xnori",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-12"
+      },
+      {
+        "id": "rev_ih47vs7na",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-08"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_057",
+    "name": "Divya Choudhary",
+    "gender": "Female",
+    "specialization": "Civil Law",
+    "location": "Delhi",
+    "experience": 18,
+    "rating": 4.3,
+    "reviewCount": 157,
+    "casesHandled": 22,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/50.jpg",
+    "consultationFee": 3000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_p688p9y0v",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-01"
+      },
+      {
+        "id": "rev_nirsnz15k",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-23"
+      },
+      {
+        "id": "rev_71o9w14zx",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-07"
+      },
+      {
+        "id": "rev_77exnny4w",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-10"
+      },
+      {
+        "id": "rev_gc2jy8z37",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-13"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_058",
+    "name": "Ravi Patel",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Chennai",
+    "experience": 22,
+    "rating": 4.9,
+    "reviewCount": 96,
+    "casesHandled": 225,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/9.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_c4dpersre",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_mlv6055s8",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-23"
+      },
+      {
+        "id": "rev_wrs1lnlaq",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-16"
+      },
+      {
+        "id": "rev_sw78scvqm",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-15"
+      },
+      {
+        "id": "rev_er8zb3txq",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-13"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_059",
+    "name": "Anjali Khan",
+    "gender": "Female",
+    "specialization": "Tax Law",
+    "location": "Chennai",
+    "experience": 8,
+    "rating": 4.5,
+    "reviewCount": 196,
     "casesHandled": 454,
     "languages": [
       "Kannada",
       "Tamil",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/83.jpg"
+    "image": "https://randomuser.me/api/portraits/women/78.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_8zjrogcis",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-10"
+      },
+      {
+        "id": "rev_dvew1jcd1",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_cgzonqt3x",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-12"
+      },
+      {
+        "id": "rev_9uj61kybv",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-25"
+      },
+      {
+        "id": "rev_ms7yg8lm1",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-24"
+      }
+    ]
   },
   {
-    "id": "lawyer_074",
-    "name": "Priya Mehta",
+    "id": "lawyer_060",
+    "name": "Sonal Singh",
+    "gender": "Female",
     "specialization": "Civil Law",
-    "location": "Mumbai",
-    "experience": 23,
-    "rating": 3.7,
-    "casesHandled": 431,
-    "languages": [
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/89.jpg"
-  },
-  {
-    "id": "lawyer_075",
-    "name": "Priya Singh",
-    "specialization": "Family Law",
-    "location": "Pune",
-    "experience": 20,
-    "rating": 3.6,
-    "casesHandled": 281,
-    "languages": [
-      "Telugu",
-      "Hindi",
-      "Kannada"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/13.jpg"
-  },
-  {
-    "id": "lawyer_076",
-    "name": "Kiran Iyer",
-    "specialization": "Corporate Law",
-    "location": "Pune",
-    "experience": 20,
-    "rating": 3.7,
-    "casesHandled": 409,
-    "languages": [
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/90.jpg"
-  },
-  {
-    "id": "lawyer_077",
-    "name": "Suresh Sharma",
-    "specialization": "Intellectual Property",
-    "location": "Bangalore",
-    "experience": 15,
-    "rating": 3.5,
-    "casesHandled": 513,
-    "languages": [
-      "Kannada",
-      "Tamil"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/26.jpg"
-  },
-  {
-    "id": "lawyer_078",
-    "name": "Priya Patel",
-    "specialization": "Intellectual Property",
-    "location": "Delhi",
-    "experience": 16,
-    "rating": 3.5,
-    "casesHandled": 385,
-    "languages": [
-      "English",
-      "Hindi",
-      "Telugu"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/47.jpg"
-  },
-  {
-    "id": "lawyer_079",
-    "name": "Rohan Verma",
-    "specialization": "Real Estate Law",
-    "location": "Mumbai",
-    "experience": 13,
+    "location": "Ahmedabad",
+    "experience": 21,
     "rating": 4.5,
-    "casesHandled": 276,
+    "reviewCount": 93,
+    "casesHandled": 256,
     "languages": [
-      "English"
+      "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/75.jpg"
+    "image": "https://randomuser.me/api/portraits/women/99.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_sk0rws1ft",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-13"
+      },
+      {
+        "id": "rev_of9b3ef0s",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_u32s0tb7w",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_iuz73mcfk",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-08"
+      },
+      {
+        "id": "rev_mz0bq3goe",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-15"
+      }
+    ]
   },
   {
-    "id": "lawyer_080",
-    "name": "Meera Nair",
-    "specialization": "Intellectual Property",
-    "location": "Chennai",
-    "experience": 12,
-    "rating": 4.7,
-    "casesHandled": 308,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/84.jpg"
-  },
-  {
-    "id": "lawyer_081",
-    "name": "Sneha Choudhary",
-    "specialization": "Real Estate Law",
-    "location": "Chennai",
-    "experience": 10,
-    "rating": 4.4,
-    "casesHandled": 172,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/48.jpg"
-  },
-  {
-    "id": "lawyer_082",
-    "name": "Deepak Khan",
-    "specialization": "Corporate Law",
-    "location": "Kolkata",
-    "experience": 19,
-    "rating": 4.1,
-    "casesHandled": 325,
-    "languages": [
-      "Tamil",
-      "Hindi",
-      "Kannada"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/31.jpg"
-  },
-  {
-    "id": "lawyer_083",
-    "name": "Anjali Sharma",
+    "id": "lawyer_061",
+    "name": "Pankaj Naidu",
+    "gender": "Male",
     "specialization": "Intellectual Property",
     "location": "Ahmedabad",
-    "experience": 15,
-    "rating": 4.5,
-    "casesHandled": 234,
+    "experience": 9,
+    "rating": 4.8,
+    "reviewCount": 127,
+    "casesHandled": 390,
     "languages": [
+      "Hindi",
       "Tamil",
-      "Hindi"
+      "English"
     ],
-    "image": "https://randomuser.me/api/portraits/women/85.jpg"
+    "image": "https://randomuser.me/api/portraits/men/84.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_n0390196h",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-28"
+      },
+      {
+        "id": "rev_xpn18hmnf",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-17"
+      },
+      {
+        "id": "rev_cgv8w16y6",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-13"
+      },
+      {
+        "id": "rev_r78yi4zgg",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-13"
+      },
+      {
+        "id": "rev_9a7ej2xpb",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-29"
+      }
+    ]
   },
   {
-    "id": "lawyer_084",
-    "name": "Swathi Iyer",
-    "specialization": "Real Estate Law",
-    "location": "Pune",
-    "experience": 17,
-    "rating": 4.5,
-    "casesHandled": 363,
+    "id": "lawyer_062",
+    "name": "Ishani Mehta",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Hyderabad",
+    "experience": 25,
+    "rating": 3.7,
+    "reviewCount": 192,
+    "casesHandled": 146,
     "languages": [
-      "Tamil",
       "English",
+      "Hindi",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/women/20.jpg"
+    "image": "https://randomuser.me/api/portraits/women/53.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_2xns3jjv6",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-15"
+      },
+      {
+        "id": "rev_6r8eecin2",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-25"
+      },
+      {
+        "id": "rev_zgvv40zke",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-11"
+      },
+      {
+        "id": "rev_p0z561csv",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-28"
+      },
+      {
+        "id": "rev_4cdtav7jt",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-26"
+      }
+    ]
   },
   {
-    "id": "lawyer_085",
-    "name": "Amit Patel",
-    "specialization": "Tax Law",
-    "location": "Chennai",
-    "experience": 22,
-    "rating": 3.6,
-    "casesHandled": 426,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/11.jpg"
-  },
-  {
-    "id": "lawyer_086",
-    "name": "Rohan Yadav",
+    "id": "lawyer_063",
+    "name": "Sonal Singh",
+    "gender": "Female",
     "specialization": "Criminal Law",
     "location": "Hyderabad",
-    "experience": 18,
+    "experience": 14,
     "rating": 4.9,
-    "casesHandled": 151,
+    "reviewCount": 120,
+    "casesHandled": 186,
     "languages": [
-      "Tamil",
-      "English",
-      "Kannada"
+      "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/77.jpg"
+    "image": "https://randomuser.me/api/portraits/women/92.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_v3illaxgz",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2025-12-13"
+      },
+      {
+        "id": "rev_uaja9rery",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_cstl7u2q0",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-22"
+      },
+      {
+        "id": "rev_uszjs5qqk",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_tkqba7mng",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-07"
+      }
+    ]
   },
   {
-    "id": "lawyer_087",
-    "name": "Kiran Gupta",
-    "specialization": "Criminal Law",
-    "location": "Delhi",
-    "experience": 1,
-    "rating": 3.8,
-    "casesHandled": 60,
-    "languages": [
-      "Telugu",
-      "Kannada",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/43.jpg"
-  },
-  {
-    "id": "lawyer_088",
-    "name": "Neha Das",
-    "specialization": "Family Law",
-    "location": "Pune",
-    "experience": 20,
-    "rating": 4.6,
-    "casesHandled": 26,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/men/73.jpg"
-  },
-  {
-    "id": "lawyer_089",
-    "name": "Priya Naidu",
+    "id": "lawyer_064",
+    "name": "Karan Naidu",
+    "gender": "Male",
     "specialization": "Cyber Law",
     "location": "Chennai",
     "experience": 14,
-    "rating": 3.9,
-    "casesHandled": 141,
+    "rating": 4.3,
+    "reviewCount": 185,
+    "casesHandled": 456,
     "languages": [
-      "Telugu",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/90.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_75dhjv231",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_3cfr8eg3b",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-26"
+      },
+      {
+        "id": "rev_owfuzrktz",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-28"
+      },
+      {
+        "id": "rev_msaf9pz7q",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-10"
+      },
+      {
+        "id": "rev_e7oh8dq95",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-26"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_065",
+    "name": "Preeti Verma",
+    "gender": "Female",
+    "specialization": "Civil Law",
+    "location": "Chennai",
+    "experience": 11,
+    "rating": 4.6,
+    "reviewCount": 167,
+    "casesHandled": 81,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/55.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_6p5v4emwp",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-23"
+      },
+      {
+        "id": "rev_4lldlvjg7",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-23"
+      },
+      {
+        "id": "rev_a7lcy5gxv",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-29"
+      },
+      {
+        "id": "rev_184tynif6",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_93hah38rn",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-09"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_066",
+    "name": "Kiara Iyer",
+    "gender": "Female",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 24,
+    "rating": 4,
+    "reviewCount": 166,
+    "casesHandled": 143,
+    "languages": [
+      "Tamil",
+      "Kannada",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/47.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_dc2ctru33",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-01"
+      },
+      {
+        "id": "rev_h8cnsy4z2",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-23"
+      },
+      {
+        "id": "rev_urwknpr1s",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-10"
+      },
+      {
+        "id": "rev_k76awyjv5",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-10"
+      },
+      {
+        "id": "rev_1oj8ta71q",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-03"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_067",
+    "name": "Vikram Patel",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Pune",
+    "experience": 6,
+    "rating": 4.4,
+    "reviewCount": 114,
+    "casesHandled": 255,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/88.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_9vd1uagai",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-27"
+      },
+      {
+        "id": "rev_v4d90gay3",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-09"
+      },
+      {
+        "id": "rev_svjwogxbu",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-01"
+      },
+      {
+        "id": "rev_0ndroakv5",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-12"
+      },
+      {
+        "id": "rev_i2mgoshh6",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-19"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_068",
+    "name": "Nidhi Das",
+    "gender": "Female",
+    "specialization": "Family Law",
+    "location": "Pune",
+    "experience": 13,
+    "rating": 4.7,
+    "reviewCount": 35,
+    "casesHandled": 458,
+    "languages": [
+      "Kannada",
       "Hindi",
       "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/16.jpg"
+    "image": "https://randomuser.me/api/portraits/women/58.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_ssvpjw9zm",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-15"
+      },
+      {
+        "id": "rev_b1kyijjpv",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-10"
+      },
+      {
+        "id": "rev_9wkyj29jk",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-27"
+      },
+      {
+        "id": "rev_asy5taktp",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-13"
+      },
+      {
+        "id": "rev_io3j56iwy",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-11"
+      }
+    ]
   },
   {
-    "id": "lawyer_090",
-    "name": "Meera Das",
-    "specialization": "Real Estate Law",
-    "location": "Hyderabad",
-    "experience": 19,
-    "rating": 3.5,
-    "casesHandled": 277,
+    "id": "lawyer_069",
+    "name": "Rajesh Nair",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Bangalore",
+    "experience": 16,
+    "rating": 3.8,
+    "reviewCount": 49,
+    "casesHandled": 288,
     "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/26.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_4jdxa3wwz",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_loq396e9v",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-31"
+      },
+      {
+        "id": "rev_pdsblg8nc",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-02"
+      },
+      {
+        "id": "rev_92svcsmhp",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-27"
+      },
+      {
+        "id": "rev_wic196kxr",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-20"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_070",
+    "name": "Vikram Gupta",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 23,
+    "rating": 4.2,
+    "reviewCount": 185,
+    "casesHandled": 492,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/79.jpg",
+    "consultationFee": 500,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_bxn8dbg0f",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_4rr1i7kot",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-27"
+      },
+      {
+        "id": "rev_egkxfc5xx",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-02"
+      },
+      {
+        "id": "rev_5iupz0xb2",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_nrzxqps17",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-28"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_071",
+    "name": "Ravi Yadav",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Mumbai",
+    "experience": 9,
+    "rating": 3.7,
+    "reviewCount": 184,
+    "casesHandled": 222,
+    "languages": [
+      "Kannada",
+      "Tamil",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/50.jpg"
+    "image": "https://randomuser.me/api/portraits/men/52.jpg",
+    "consultationFee": 2000,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_b5kxbse3e",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-21"
+      },
+      {
+        "id": "rev_nsitopze7",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-25"
+      },
+      {
+        "id": "rev_kx5uhm8pp",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-25"
+      },
+      {
+        "id": "rev_e3nwe7t2o",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_fwox2p6ee",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-03"
+      }
+    ]
   },
   {
-    "id": "lawyer_091",
-    "name": "Amit Nair",
-    "specialization": "Intellectual Property",
+    "id": "lawyer_072",
+    "name": "Neha Yadav",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Delhi",
+    "experience": 8,
+    "rating": 4,
+    "reviewCount": 101,
+    "casesHandled": 152,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/9.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_o6pc3bql7",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_43zkpcvha",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-01"
+      },
+      {
+        "id": "rev_32zlgs9ar",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-28"
+      },
+      {
+        "id": "rev_bk8rxvf0t",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "rev_xfu721pr2",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-20"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_073",
+    "name": "Vivek Naidu",
+    "gender": "Male",
+    "specialization": "Civil Law",
+    "location": "Kolkata",
+    "experience": 13,
+    "rating": 4.3,
+    "reviewCount": 19,
+    "casesHandled": 124,
+    "languages": [
+      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/1.jpg",
+    "consultationFee": 1000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_gkeqh5acg",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-20"
+      },
+      {
+        "id": "rev_qhrp4z4i9",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_nxq8v8bpc",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_nudu1crmz",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-06"
+      },
+      {
+        "id": "rev_oub5morxf",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-07"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_074",
+    "name": "Suresh Gupta",
+    "gender": "Male",
+    "specialization": "Criminal Law",
     "location": "Bangalore",
-    "experience": 17,
-    "rating": 4.8,
-    "casesHandled": 426,
+    "experience": 11,
+    "rating": 4.2,
+    "reviewCount": 26,
+    "casesHandled": 255,
+    "languages": [
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/55.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_aldg715pg",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-18"
+      },
+      {
+        "id": "rev_vv35xto97",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-26"
+      },
+      {
+        "id": "rev_nszmn7plr",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-13"
+      },
+      {
+        "id": "rev_3yebspw17",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_3sijmy5rk",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-22"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_075",
+    "name": "Preeti Singh",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Kolkata",
+    "experience": 11,
+    "rating": 3.9,
+    "reviewCount": 122,
+    "casesHandled": 411,
     "languages": [
       "Telugu",
+      "Tamil",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/66.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_e6tqapoq7",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-05"
+      },
+      {
+        "id": "rev_nodsax1q9",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-19"
+      },
+      {
+        "id": "rev_knotf71mh",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-22"
+      },
+      {
+        "id": "rev_1il858j55",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-08"
+      },
+      {
+        "id": "rev_osvgf4iwt",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-15"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_076",
+    "name": "Tanvi Iyer",
+    "gender": "Female",
+    "specialization": "Intellectual Property",
+    "location": "Delhi",
+    "experience": 3,
+    "rating": 4.8,
+    "reviewCount": 50,
+    "casesHandled": 45,
+    "languages": [
+      "Kannada",
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/59.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_36bv6im76",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_mj8xm54fd",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-04"
+      },
+      {
+        "id": "rev_en2cv6sr4",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_gavd99f0c",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_jh5ndyyyd",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-28"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_077",
+    "name": "Sunil Singh",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Ahmedabad",
+    "experience": 22,
+    "rating": 4.7,
+    "reviewCount": 190,
+    "casesHandled": 345,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/10.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_ee1xq5a26",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-26"
+      },
+      {
+        "id": "rev_1orwbe248",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "rev_43567682y",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-01-07"
+      },
+      {
+        "id": "rev_c2cscqoz1",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-15"
+      },
+      {
+        "id": "rev_g3fpphnat",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-01"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_078",
+    "name": "Yash Singh",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Pune",
+    "experience": 24,
+    "rating": 3.7,
+    "reviewCount": 165,
+    "casesHandled": 300,
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/33.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_9h7gs9g7s",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_ts6k7qbli",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-18"
+      },
+      {
+        "id": "rev_c0jqwpnmc",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-14"
+      },
+      {
+        "id": "rev_b33a76k5p",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_5dicwno6r",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-21"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_079",
+    "name": "Rajesh Iyer",
+    "gender": "Male",
+    "specialization": "Corporate Law",
+    "location": "Delhi",
+    "experience": 5,
+    "rating": 4.9,
+    "reviewCount": 76,
+    "casesHandled": 471,
+    "languages": [
+      "Telugu",
+      "Hindi",
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/31.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_npqse2k2v",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_k0mjwhge7",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-14"
+      },
+      {
+        "id": "rev_h1gcl0f1c",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-09"
+      },
+      {
+        "id": "rev_mqerjsk3y",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-21"
+      },
+      {
+        "id": "rev_re61dkimj",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-23"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_080",
+    "name": "Manoj Singh",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Hyderabad",
+    "experience": 12,
+    "rating": 4,
+    "reviewCount": 180,
+    "casesHandled": 91,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/61.jpg",
+    "consultationFee": 2000,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_af8ze3ovt",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-07"
+      },
+      {
+        "id": "rev_8mksyg485",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2025-12-25"
+      },
+      {
+        "id": "rev_11hhe88ti",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-05"
+      },
+      {
+        "id": "rev_yx0ch2h5j",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-20"
+      },
+      {
+        "id": "rev_dps7558x1",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-20"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_081",
+    "name": "Rohan Nair",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Bangalore",
+    "experience": 12,
+    "rating": 4.1,
+    "reviewCount": 204,
+    "casesHandled": 158,
+    "languages": [
       "Tamil",
       "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/women/18.jpg"
+    "image": "https://randomuser.me/api/portraits/men/36.jpg",
+    "consultationFee": 1500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_n1ae48ayn",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_dzdzg0css",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-06"
+      },
+      {
+        "id": "rev_r1064kon6",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-24"
+      },
+      {
+        "id": "rev_1tc74nlf0",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-03-03"
+      },
+      {
+        "id": "rev_mtv6pq2t2",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-02"
+      }
+    ]
   },
   {
-    "id": "lawyer_092",
-    "name": "Priya Yadav",
-    "specialization": "Real Estate Law",
+    "id": "lawyer_082",
+    "name": "Meera Singh",
+    "gender": "Female",
+    "specialization": "Cyber Law",
     "location": "Mumbai",
-    "experience": 24,
-    "rating": 4.5,
-    "casesHandled": 330,
+    "experience": 9,
+    "rating": 4.3,
+    "reviewCount": 43,
+    "casesHandled": 110,
     "languages": [
       "English"
     ],
-    "image": "https://randomuser.me/api/portraits/men/66.jpg"
+    "image": "https://randomuser.me/api/portraits/women/87.jpg",
+    "consultationFee": 1500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_uz6yhw79p",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-16"
+      },
+      {
+        "id": "rev_fosoy5ua3",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-01-25"
+      },
+      {
+        "id": "rev_i15m3ap37",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_e9hc7cohf",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_hclbj13os",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-29"
+      }
+    ]
   },
   {
-    "id": "lawyer_093",
-    "name": "Suresh Verma",
-    "specialization": "Family Law",
+    "id": "lawyer_083",
+    "name": "Divya Nair",
+    "gender": "Female",
+    "specialization": "Tax Law",
+    "location": "Kolkata",
+    "experience": 22,
+    "rating": 4.7,
+    "reviewCount": 38,
+    "casesHandled": 223,
+    "languages": [
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/6.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_l7z93pf57",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_g6945q0nj",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-16"
+      },
+      {
+        "id": "rev_hgs5d39t1",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-19"
+      },
+      {
+        "id": "rev_wpjn3pmyi",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-02"
+      },
+      {
+        "id": "rev_uzuu2z83v",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-03-15"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_084",
+    "name": "Sanjay Nair",
+    "gender": "Male",
+    "specialization": "Cyber Law",
     "location": "Chennai",
-    "experience": 17,
+    "experience": 3,
     "rating": 4.6,
-    "casesHandled": 127,
+    "reviewCount": 32,
+    "casesHandled": 509,
     "languages": [
       "English",
-      "Hindi"
+      "Hindi",
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/men/89.jpg"
+    "image": "https://randomuser.me/api/portraits/men/6.jpg",
+    "consultationFee": 3000,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_a35mcqz5j",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-27"
+      },
+      {
+        "id": "rev_wkocb59lz",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-07"
+      },
+      {
+        "id": "rev_ftzxpsfpn",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-08"
+      },
+      {
+        "id": "rev_dqe0lahj5",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-14"
+      },
+      {
+        "id": "rev_k0f6mrfzx",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-18"
+      }
+    ]
   },
   {
-    "id": "lawyer_094",
-    "name": "Deepak Iyer",
-    "specialization": "Corporate Law",
+    "id": "lawyer_085",
+    "name": "Varun Choudhary",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
     "location": "Mumbai",
-    "experience": 7,
-    "rating": 3.4,
-    "casesHandled": 508,
+    "experience": 25,
+    "rating": 4.4,
+    "reviewCount": 133,
+    "casesHandled": 479,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/77.jpg",
+    "consultationFee": 2500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_jotyc12nb",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2025-12-25"
+      },
+      {
+        "id": "rev_z26e8fvy4",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-17"
+      },
+      {
+        "id": "rev_qj3cydf77",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-15"
+      },
+      {
+        "id": "rev_gg5okobyb",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "rev_th6pbwe7d",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-21"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_086",
+    "name": "Deepak Choudhary",
+    "gender": "Male",
+    "specialization": "Tax Law",
+    "location": "Hyderabad",
+    "experience": 2,
+    "rating": 4.1,
+    "reviewCount": 202,
+    "casesHandled": 431,
+    "languages": [
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/67.jpg",
+    "consultationFee": 2000,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_qmrkxy4rz",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-16"
+      },
+      {
+        "id": "rev_hw1use9p0",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-26"
+      },
+      {
+        "id": "rev_2e1vyp6t1",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-12"
+      },
+      {
+        "id": "rev_5n1hr0tpf",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-19"
+      },
+      {
+        "id": "rev_6z1wrnc1g",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-25"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_087",
+    "name": "Vivek Verma",
+    "gender": "Male",
+    "specialization": "Intellectual Property",
+    "location": "Pune",
+    "experience": 22,
+    "rating": 3.7,
+    "reviewCount": 17,
+    "casesHandled": 33,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/81.jpg",
+    "consultationFee": 1000,
+    "verified": false,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_obnj1d6pq",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-12"
+      },
+      {
+        "id": "rev_ymthww9nt",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-12"
+      },
+      {
+        "id": "rev_3ne63kyzc",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_2uqj83eir",
+        "rating": 5,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-01-12"
+      },
+      {
+        "id": "rev_w62n4f8on",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2025-12-13"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_088",
+    "name": "Sanjana Patel",
+    "gender": "Female",
+    "specialization": "Intellectual Property",
+    "location": "Mumbai",
+    "experience": 4,
+    "rating": 4.8,
+    "reviewCount": 59,
+    "casesHandled": 428,
     "languages": [
       "English",
       "Hindi"
     ],
-    "image": "https://randomuser.me/api/portraits/women/30.jpg"
+    "image": "https://randomuser.me/api/portraits/women/5.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_jkhc6ktu0",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-02-23"
+      },
+      {
+        "id": "rev_bov9djs0b",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-17"
+      },
+      {
+        "id": "rev_c78pa4xiq",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-18"
+      },
+      {
+        "id": "rev_b3byg2zpq",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-14"
+      },
+      {
+        "id": "rev_030n7ztpo",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-18"
+      }
+    ]
   },
   {
-    "id": "lawyer_095",
-    "name": "Rohan Singh",
-    "specialization": "Corporate Law",
+    "id": "lawyer_089",
+    "name": "Simran Reddy",
+    "gender": "Female",
+    "specialization": "Civil Law",
     "location": "Hyderabad",
     "experience": 20,
-    "rating": 3.3,
-    "casesHandled": 419,
+    "rating": 4.2,
+    "reviewCount": 183,
+    "casesHandled": 53,
+    "languages": [
+      "Kannada",
+      "Hindi"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/33.jpg",
+    "consultationFee": 2000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_gjm33cjmw",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-04"
+      },
+      {
+        "id": "rev_bg1bp0kr7",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_30g923slq",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-04"
+      },
+      {
+        "id": "rev_0b5gws63e",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-26"
+      },
+      {
+        "id": "rev_r02yvteoz",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-21"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_090",
+    "name": "Anjali Mehta",
+    "gender": "Female",
+    "specialization": "Intellectual Property",
+    "location": "Kolkata",
+    "experience": 11,
+    "rating": 4.1,
+    "reviewCount": 113,
+    "casesHandled": 377,
+    "languages": [
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/73.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_vof29wab0",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-27"
+      },
+      {
+        "id": "rev_v2gcjo6dj",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-03-19"
+      },
+      {
+        "id": "rev_dq1t0rwhx",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-05"
+      },
+      {
+        "id": "rev_bbaqlclxu",
+        "rating": 4,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-03"
+      },
+      {
+        "id": "rev_t4jgk9w7r",
+        "rating": 5,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2025-12-30"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_091",
+    "name": "Rohan Yadav",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Mumbai",
+    "experience": 8,
+    "rating": 3.7,
+    "reviewCount": 44,
+    "casesHandled": 255,
+    "languages": [
+      "Kannada",
+      "Tamil",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/59.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_arxsu1nfd",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-03-14"
+      },
+      {
+        "id": "rev_97x5on3kf",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-23"
+      },
+      {
+        "id": "rev_8rhlttyf6",
+        "rating": 4,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2025-12-09"
+      },
+      {
+        "id": "rev_65o873zv4",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-03-20"
+      },
+      {
+        "id": "rev_o4qxziw5u",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-05"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_092",
+    "name": "Ishita Verma",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Mumbai",
+    "experience": 12,
+    "rating": 4.3,
+    "reviewCount": 150,
+    "casesHandled": 286,
     "languages": [
       "English",
       "Hindi",
       "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/81.jpg"
+    "image": "https://randomuser.me/api/portraits/women/13.jpg",
+    "consultationFee": 2500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_o3ftcv6kh",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-02"
+      },
+      {
+        "id": "rev_o1aedncb8",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-02-13"
+      },
+      {
+        "id": "rev_v1kxt3q28",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_y342nit5k",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-20"
+      },
+      {
+        "id": "rev_9powb42t2",
+        "rating": 4,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-09"
+      }
+    ]
   },
   {
-    "id": "lawyer_096",
-    "name": "Vikram Iyer",
-    "specialization": "Corporate Law",
-    "location": "Hyderabad",
-    "experience": 25,
-    "rating": 3.6,
-    "casesHandled": 57,
-    "languages": [
-      "English"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/79.jpg"
-  },
-  {
-    "id": "lawyer_097",
-    "name": "Kiran Singh",
+    "id": "lawyer_093",
+    "name": "Aditya Nair",
+    "gender": "Male",
     "specialization": "Civil Law",
-    "location": "Bangalore",
-    "experience": 7,
-    "rating": 4.2,
-    "casesHandled": 162,
+    "location": "Delhi",
+    "experience": 17,
+    "rating": 4.3,
+    "reviewCount": 51,
+    "casesHandled": 408,
     "languages": [
-      "Kannada",
+      "Tamil"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/28.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_xr811ha0j",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_tjx2deu5d",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-02-12"
+      },
+      {
+        "id": "rev_4eazrlq42",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_pjmp4hy0h",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-02"
+      },
+      {
+        "id": "rev_2omfq7rbz",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2025-12-31"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_094",
+    "name": "Ishaan Sharma",
+    "gender": "Male",
+    "specialization": "Cyber Law",
+    "location": "Pune",
+    "experience": 5,
+    "rating": 4.2,
+    "reviewCount": 65,
+    "casesHandled": 297,
+    "languages": [
       "Tamil",
       "Telugu"
     ],
-    "image": "https://randomuser.me/api/portraits/men/90.jpg"
+    "image": "https://randomuser.me/api/portraits/men/47.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_mw42ea8pm",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-15"
+      },
+      {
+        "id": "rev_vgcukdg5y",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-03-21"
+      },
+      {
+        "id": "rev_qek3kfgyq",
+        "rating": 5,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-11"
+      },
+      {
+        "id": "rev_jvf6ewze7",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-06"
+      },
+      {
+        "id": "rev_ycujcifgq",
+        "rating": 5,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-05"
+      }
+    ]
   },
   {
-    "id": "lawyer_098",
-    "name": "Rahul Khan",
-    "specialization": "Corporate Law",
-    "location": "Bangalore",
-    "experience": 14,
-    "rating": 5,
-    "casesHandled": 434,
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "image": "https://randomuser.me/api/portraits/women/88.jpg"
-  },
-  {
-    "id": "lawyer_099",
-    "name": "Rahul Gupta",
-    "specialization": "Intellectual Property",
-    "location": "Pune",
+    "id": "lawyer_095",
+    "name": "Yash Gupta",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Mumbai",
     "experience": 24,
-    "rating": 4,
-    "casesHandled": 192,
+    "rating": 4.4,
+    "reviewCount": 145,
+    "casesHandled": 61,
     "languages": [
       "Kannada",
       "Tamil"
     ],
-    "image": "https://randomuser.me/api/portraits/men/12.jpg"
+    "image": "https://randomuser.me/api/portraits/men/25.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_awcrme4gp",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-24"
+      },
+      {
+        "id": "rev_zxcqmrqbi",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-03-17"
+      },
+      {
+        "id": "rev_pw3smbal6",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-01-04"
+      },
+      {
+        "id": "rev_7el04axio",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-11"
+      },
+      {
+        "id": "rev_jpyvdssmk",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-07"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_096",
+    "name": "Vikram Patel",
+    "gender": "Male",
+    "specialization": "Family Law",
+    "location": "Bangalore",
+    "experience": 15,
+    "rating": 3.5,
+    "reviewCount": 193,
+    "casesHandled": 44,
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/63.jpg",
+    "consultationFee": 1500,
+    "verified": false,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_98b6yjj95",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-03-29"
+      },
+      {
+        "id": "rev_i4s543cy2",
+        "rating": 4,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-01-18"
+      },
+      {
+        "id": "rev_5xof86odd",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2025-12-07"
+      },
+      {
+        "id": "rev_9fu8rlf3s",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-15"
+      },
+      {
+        "id": "rev_8nmqvbtem",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-15"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_097",
+    "name": "Ishita Nair",
+    "gender": "Female",
+    "specialization": "Cyber Law",
+    "location": "Hyderabad",
+    "experience": 2,
+    "rating": 4.4,
+    "reviewCount": 92,
+    "casesHandled": 470,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/38.jpg",
+    "consultationFee": 500,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_4g641dtm1",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2026-02-06"
+      },
+      {
+        "id": "rev_yk9akjeig",
+        "rating": 5,
+        "text": "Made the entire legal process straightforward. Excellent results.",
+        "date": "2026-02-26"
+      },
+      {
+        "id": "rev_gaopk72ae",
+        "rating": 4,
+        "text": "Went beyond expectations. Thorough preparation and genuine care.",
+        "date": "2025-12-17"
+      },
+      {
+        "id": "rev_gb4xfnq2v",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2026-02-21"
+      },
+      {
+        "id": "rev_f2joo3ha8",
+        "rating": 4,
+        "text": "I was very impressed with the attention to detail and commitment.",
+        "date": "2026-02-11"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_098",
+    "name": "Kriti Yadav",
+    "gender": "Female",
+    "specialization": "Criminal Law",
+    "location": "Mumbai",
+    "experience": 13,
+    "rating": 4.2,
+    "reviewCount": 188,
+    "casesHandled": 491,
+    "languages": [
+      "Kannada"
+    ],
+    "image": "https://randomuser.me/api/portraits/women/43.jpg",
+    "consultationFee": 3000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_cezjyzo0j",
+        "rating": 4,
+        "text": "Very knowledgeable and experienced. Made a complicated matter feel manageable.",
+        "date": "2025-12-18"
+      },
+      {
+        "id": "rev_ktmetk4mk",
+        "rating": 5,
+        "text": "Exceptional legal support throughout my case. Highly professional.",
+        "date": "2026-02-10"
+      },
+      {
+        "id": "rev_k69arylxa",
+        "rating": 5,
+        "text": "An outstanding lawyer who provided practical and sound legal advice.",
+        "date": "2026-03-05"
+      },
+      {
+        "id": "rev_5nthwa2pt",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-03-28"
+      },
+      {
+        "id": "rev_f4aqfms9c",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-23"
+      }
+    ]
+  },
+  {
+    "id": "lawyer_099",
+    "name": "Rohan Khan",
+    "gender": "Male",
+    "specialization": "Real Estate Law",
+    "location": "Chennai",
+    "experience": 9,
+    "rating": 4.5,
+    "reviewCount": 171,
+    "casesHandled": 412,
+    "languages": [
+      "English"
+    ],
+    "image": "https://randomuser.me/api/portraits/men/2.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": false,
+    "reviews": [
+      {
+        "id": "rev_ctkld0i65",
+        "rating": 4,
+        "text": "Responsive, well-prepared, and truly dedicated to the case.",
+        "date": "2026-01-24"
+      },
+      {
+        "id": "rev_jpple1ny2",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "rev_vxjkwpann",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-09"
+      },
+      {
+        "id": "rev_vq4k5lb62",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-29"
+      },
+      {
+        "id": "rev_mqbmyla8o",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-03-23"
+      }
+    ]
   },
   {
     "id": "lawyer_100",
-    "name": "Nikhil Reddy",
-    "specialization": "Family Law",
-    "location": "Hyderabad",
-    "experience": 25,
+    "name": "Anjali Das",
+    "gender": "Female",
+    "specialization": "Real Estate Law",
+    "location": "Delhi",
+    "experience": 6,
     "rating": 4.5,
-    "casesHandled": 76,
+    "reviewCount": 152,
+    "casesHandled": 183,
     "languages": [
-      "Tamil",
-      "Telugu"
+      "Kannada"
     ],
-    "image": "https://randomuser.me/api/portraits/men/31.jpg"
+    "image": "https://randomuser.me/api/portraits/women/35.jpg",
+    "consultationFee": 1000,
+    "verified": true,
+    "isProBono": true,
+    "reviews": [
+      {
+        "id": "rev_fadi4hv3s",
+        "rating": 4,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-23"
+      },
+      {
+        "id": "rev_7yn25mayo",
+        "rating": 5,
+        "text": "Helped me navigate a difficult property dispute with great expertise.",
+        "date": "2026-01-31"
+      },
+      {
+        "id": "rev_dsgbxyvpn",
+        "rating": 4,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-05"
+      },
+      {
+        "id": "rev_ijv3aco3v",
+        "rating": 5,
+        "text": "Professional, empathetic, and skilled. Resolved my matter efficiently.",
+        "date": "2026-03-25"
+      },
+      {
+        "id": "rev_dpr0vrmlv",
+        "rating": 5,
+        "text": "Clear communication and strong courtroom presence. Highly recommend.",
+        "date": "2026-01-26"
+      }
+    ]
   }
 ]

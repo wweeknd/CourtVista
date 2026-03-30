@@ -37,22 +37,14 @@ export default function ReviewCard({ review }) {
                     </div>
                 </div>
                 <div className="review-card__stars">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => {
-                        let effectiveRating = review.rating;
-                        // Scale static 5-star reviews to 10
-                        if (effectiveRating <= 5 && !String(review.id).startsWith('ureview-')) {
-                            effectiveRating = effectiveRating * 2;
-                        }
-
-                        return (
-                            <span
-                                key={star}
-                                className={`review-card__star ${star <= effectiveRating ? 'review-card__star--filled' : ''}`}
-                            >
-                                ★
-                            </span>
-                        );
-                    })}
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                            key={star}
+                            className={`review-card__star ${star <= review.rating ? 'review-card__star--filled' : ''}`}
+                        >
+                            ★
+                        </span>
+                    ))}
                 </div>
             </div>
             <p className="review-card__text">{review.text}</p>
