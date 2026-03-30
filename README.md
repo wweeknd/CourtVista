@@ -35,7 +35,7 @@ npm install
 npm run dev
 ```
 
-The app runs at **http://localhost:5173/**
+The app runs at **https://wweeknd.github.io/CourtVista/**
 
 ## 📁 Project Structure
 
