@@ -223,7 +223,15 @@ export default function LawyerProfile() {
     }
 
     // ── Merge static reviews with user-submitted reviews ─────────────────────
-    const staticReviews = lawyer.reviews || [];
+    // Normalize Firestore reviews which may use {user, comment} instead of {reviewer, text}
+    const staticReviews = (lawyer.reviews || []).map((r, idx) => ({
+        id: r.id || `static-${idx}`,
+        reviewer: r.reviewer || r.user || 'Anonymous',
+        text: r.text || r.comment || '',
+        rating: r.rating || 0,
+        date: r.date || '',
+        helpful: r.helpful || 0,
+    }));
     const allReviews = [...userReviews, ...staticReviews];
 
     const specNames = (lawyer.specializations || [])
@@ -449,7 +457,7 @@ export default function LawyerProfile() {
                             <div className="profile-awards">
                                 {lawyer.awards.map((award, idx) => (
                                     <div key={idx} className="profile-award">
-                                        🏆 {award}
+                                        🏆 {typeof award === 'object' ? `${award.title}${award.year ? ` (${award.year})` : ''}` : award}
                                     </div>
                                 ))}
                             </div>
