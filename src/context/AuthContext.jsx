@@ -32,7 +32,7 @@ function getStoredUsers() {
 // Helper: build a searchable lawyer object from a user record
 function userToLawyerProfile(u, index) {
     const languages = u.languages
-        ? u.languages.split(',').map((l) => l.trim()).filter(Boolean)
+        ? (Array.isArray(u.languages) ? u.languages : u.languages.split(',').map((l) => l.trim()).filter(Boolean))
         : ['English'];
     const specializations = u.specializations
         ? (Array.isArray(u.specializations) ? u.specializations : u.specializations.split(',').map((s) => s.trim()).filter(Boolean))
@@ -45,8 +45,8 @@ function userToLawyerProfile(u, index) {
         specializations,
         experience: Number(u.experience) || 0,
         rating: Number(u.rating) || 0,
-        reviewCount: 0,
-        verified: false,
+        reviewCount: Number(u.reviewCount) || 0,
+        verified: u.verified || false,
         city: u.city || u.jurisdiction || '',
         jurisdiction: u.jurisdiction || '',
         languages,
@@ -55,10 +55,10 @@ function userToLawyerProfile(u, index) {
         education: u.education || '',
         barCouncilNumber: u.barCouncilNumber || '',
         bio: u.bio || '',
-        totalCases: 0,
-        pendingCases: 0,
-        awards: [],
-        reviews: [],
+        totalCases: Number(u.totalCases) || 0,
+        pendingCases: Number(u.pendingCases) || 0,
+        awards: u.awards || [],
+        reviews: u.reviews || [],
         isProBono: u.isProBono || false,
         isDynamic: true,  // flag to distinguish from static profiles
     };
@@ -114,13 +114,15 @@ export function AuthProvider({ children }) {
 
                         if (userDocSnap.exists()) {
                             const data = userDocSnap.data();
+                            // Remove Firestore Timestamps that can't serialize to JSON
+                            const { createdAt, updatedAt, ...safeData } = data;
                             const resolvedUser = {
                                 id: firebaseUser.uid,
                                 name: data.name || firebaseUser.displayName || 'User',
                                 email: data.email || firebaseUser.email,
                                 role: data.role || 'user',
                                 emailVerified: firebaseUser.emailVerified,
-                                ...data // Include all profile fields
+                                ...safeData // Include all profile fields except timestamps
                             };
                             
                             // Also update localStorage
