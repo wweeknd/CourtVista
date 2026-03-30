@@ -39,7 +39,9 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
         return Number(lawyer.experience) || 0;
     })();
 
-    const avatarPhoto = lawyer.photo || lawyer.image || null;
+    const avatarPhoto = lawyer.profilePicture || lawyer.photo || lawyer.image || null;
+    const displayName = lawyer.name || 'Legal Professional';
+    const initials = getInitials(displayName);
 
     const specNames = (lawyer.specializations || [])
         .map((s) => practiceAreas.find((pa) => pa.id === s)?.name)
@@ -54,14 +56,14 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
                 backgroundPosition: 'center',
                 color: avatarPhoto ? 'transparent' : 'white'
             }}>
-                {!avatarPhoto && getInitials(lawyer.name)}
+                {!avatarPhoto && initials}
             </Link>
-
+ 
             <div className="lawyer-card__content">
                 <div className="lawyer-card__header">
                     <div>
                         <Link to={`/lawyer/${lawyer.id}`} className="lawyer-card__name">
-                            {lawyer.name}
+                            {displayName}
                         </Link>
                         <div className="lawyer-card__specializations">{specNames || 'Legal Professional'}</div>
                     </div>

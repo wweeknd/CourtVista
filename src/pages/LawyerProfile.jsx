@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { practiceAreas, getInitials } from '../data/lawyers';
+import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
 import { useAuth, getDynamicLawyers } from '../context/AuthContext';
 import RatingBadge from '../components/RatingBadge';
 import ReviewCard from '../components/ReviewCard';
