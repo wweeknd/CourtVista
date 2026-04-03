@@ -1,0 +1,62 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+serviceAccountKey.json
+
+# Admin/utility scripts (contain sensitive Firebase Admin SDK usage)
+fixAuth.js
+fixHarveyAccounts.js
+findAllAccounts.js
+findReginald.js
+deleteHarveyAccounts.js
+listAllAuthUsers.js
+all_auth_users.js
+updateHarveyCredentials.js
+uploadLawyers.js
+generateLawyers.js
+populateMattMurdock.js
+testLogin.js
+harvey_data.js
+reginald_data.js
+
+# Script output files
+findAllAccounts_output.txt
+findAllAccounts_utf8.txt
+harvey_output.txt
+harvey_results.json
+harvey_results.txt
+lawyers.json
+lint_output.txt
+lint_results.txt
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+deleteLater
+
+# Server
+server/node_modules/
+server/.env
+
+# Gemini
+.gemini/
