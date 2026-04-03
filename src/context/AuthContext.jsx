@@ -498,10 +498,11 @@ export function AuthProvider({ children }) {
         return found ? userToLawyerProfile(found, 0) : null;
     }, [user]);
 
-    // Get dashboard path based on role
-    function getDashboardPath() {
-        if (!user) return '/login';
-        switch (user.role) {
+    // Get dashboard path based on role (accepts optional role override to avoid stale context)
+    function getDashboardPath(role) {
+        const r = role || user?.role;
+        if (!r) return '/login';
+        switch (r) {
             case 'admin': return '/dashboard/admin';
             case 'lawyer': return '/dashboard/lawyer';
             default: return '/dashboard/user';

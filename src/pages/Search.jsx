@@ -154,10 +154,11 @@ export default function Search({ compareIds, onCompareToggle }) {
         fetchLawyers();
     }, []);
 
-    // Fuse search
+    // Fuse search — fuzzy matching across name, specializations, city, languages, bio
     const fuse = useMemo(() => new Fuse(allLawyers, {
-        keys: ['name'],
-        threshold: 0.2,
+        keys: ['name', 'specializations', 'city', 'languages', 'bio'],
+        threshold: 0.4,
+        includeScore: true,
         ignoreLocation: true,
     }), [allLawyers]);
 

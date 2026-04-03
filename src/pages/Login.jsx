@@ -28,7 +28,7 @@ export default function Login() {
             const result = await login(email, password);
             if (result.success) {
                 toast.success(`Welcome back, ${result.user.name}!`);
-                navigate(getDashboardPath());
+                navigate(getDashboardPath(result.user.role));
             } else {
                 setError(result.message);
             }
@@ -53,7 +53,7 @@ export default function Login() {
                     navigate("/select-role");
                 } else {
                     toast.success(`Welcome, ${result.user.name}!`);
-                    navigate(getDashboardPath());
+                    navigate(getDashboardPath(result.user.role));
                 }
             } else {
                 setError(result.message);
