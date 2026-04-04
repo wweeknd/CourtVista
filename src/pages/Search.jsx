@@ -191,7 +191,7 @@ export default function Search({ compareIds, onCompareToggle }) {
         proBonoOnly: false,
     });
 
-    const [sortBy, setSortBy] = useState('rating');
+    const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
 
@@ -218,9 +218,10 @@ export default function Search({ compareIds, onCompareToggle }) {
     //  Filtering logic
     const filtered = useMemo(() => {
         let result;
+        const hasSearchQuery = filters.nameQuery.trim().length > 0;
 
-        // Search
-        if (filters.nameQuery.trim()) {
+        // Search — Fuse returns results ordered by relevance (closest match first)
+        if (hasSearchQuery) {
             result = fuse.search(filters.nameQuery).map(r => r.item);
         } else {
             result = [...allLawyers];
@@ -265,28 +266,31 @@ export default function Search({ compareIds, onCompareToggle }) {
             result = result.filter(l => l.isProBono);
         }
 
-        // Sorting
-        switch (sortBy) {
-            case 'rating':
-                result.sort((a, b) => (b.liveRating || 0) - (a.liveRating || 0));
-                break;
-            case 'experience':
-                result.sort((a, b) => (b.experience || 0) - (a.experience || 0));
-                break;
-            case 'reviews':
-                result.sort((a, b) => (b.liveReviewCount || 0) - (a.liveReviewCount || 0));
-                break;
-            case 'fees_low':
-                result.sort((a, b) => (a.consultationFee || 0) - (b.consultationFee || 0));
-                break;
-            case 'fees_high':
-                result.sort((a, b) => (b.consultationFee || 0) - (a.consultationFee || 0));
-                break;
-            case 'location':
-                result.sort((a, b) => (a.city || '').localeCompare(b.city || ''));
-                break;
-            default:
-                break;
+        // Sorting — only apply when a sort option is explicitly selected
+        // When searching, 'default' preserves Fuse.js relevance order (closest match first)
+        if (sortBy !== 'default') {
+            switch (sortBy) {
+                case 'rating':
+                    result.sort((a, b) => (b.liveRating || 0) - (a.liveRating || 0));
+                    break;
+                case 'experience':
+                    result.sort((a, b) => (b.experience || 0) - (a.experience || 0));
+                    break;
+                case 'reviews':
+                    result.sort((a, b) => (b.liveReviewCount || 0) - (a.liveReviewCount || 0));
+                    break;
+                case 'fees_low':
+                    result.sort((a, b) => (a.consultationFee || 0) - (b.consultationFee || 0));
+                    break;
+                case 'fees_high':
+                    result.sort((a, b) => (b.consultationFee || 0) - (a.consultationFee || 0));
+                    break;
+                case 'location':
+                    result.sort((a, b) => (a.city || '').localeCompare(b.city || ''));
+                    break;
+                default:
+                    break;
+            }
         }
 
         return result;
@@ -348,6 +352,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                         <div className="search-page__sort">
                             <span>Sort by:</span>
                             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                <option value="default">{filters.nameQuery.trim() ? 'Relevance' : 'Default'}</option>
                                 <option value="rating">Highest Rating</option>
                                 <option value="experience">Most Experienced</option>
                                 <option value="reviews">Most Reviews</option>
