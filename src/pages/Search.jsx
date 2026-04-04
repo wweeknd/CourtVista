@@ -15,6 +15,8 @@ const HIDDEN_PROFILES = [
     'saul goodman',
     'harvey specter',
     'harvey reginald specter',
+    'ranveer hegde',
+    'vikram sharma',
 ];
 
 const ITEMS_PER_PAGE = 6;
@@ -172,10 +174,16 @@ export default function Search({ compareIds, onCompareToggle }) {
 
     // Fuse search — fuzzy matching across name, specializations, city, languages, bio
     const fuse = useMemo(() => new Fuse(allLawyers, {
-        keys: ['name', 'specializations', 'city', 'languages', 'bio'],
-        threshold: 0.4,
+        keys: [
+            { name: 'name', weight: 3 },
+            { name: 'city', weight: 1.5 },
+            { name: 'specializations', weight: 1 },
+            { name: 'languages', weight: 0.5 },
+        ],
+        threshold: 0.25,
         includeScore: true,
         ignoreLocation: true,
+        minMatchCharLength: 2,
     }), [allLawyers]);
 
     //  Filters
