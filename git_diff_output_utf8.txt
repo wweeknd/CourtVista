@@ -1,0 +1,265 @@
+﻿diff --git a/src/components/CompareTable.jsx b/src/components/CompareTable.jsx
+index 0de1f8f..d987260 100644
+--- a/src/components/CompareTable.jsx
++++ b/src/components/CompareTable.jsx
+@@ -88,10 +88,10 @@ export default function CompareTable({ lawyers, onRemove }) {
+                         {lawyers.map((l) => (
+                             <th key={l.id} className="compare-table__header-cell">
+                                 <div className="compare-table__avatar" style={{
+-                                    backgroundImage: l.photo ? `url(${l.photo})` : undefined,
+-                                    color: l.photo ? 'transparent' : 'white'
++                                    backgroundImage: (l.profilePicture || l.photo) ? `url("${l.profilePicture || l.photo}")` : undefined,
++                                    color: (l.profilePicture || l.photo) ? 'transparent' : 'white'
+                                 }}>
+-                                    {!l.photo && getInitials(l.name)}
++                                    {!(l.profilePicture || l.photo) && getInitials(l.name)}
+                                 </div>
+                                 <div className="compare-table__name">{l.name}</div>
+                                 <div className="compare-table__city">≡ƒôì {l.city}</div>
+diff --git a/src/components/LawyerCard.jsx b/src/components/LawyerCard.jsx
+index 9233ba1..31a65c0 100644
+--- a/src/components/LawyerCard.jsx
++++ b/src/components/LawyerCard.jsx
+@@ -51,7 +51,7 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
+     return (
+         <div className="lawyer-card animate-fade-in-up">
+             <Link to={`/lawyer/${lawyer.id}`} className="lawyer-card__avatar" style={{
+-                backgroundImage: avatarPhoto ? `url(${avatarPhoto})` : undefined,
++                backgroundImage: avatarPhoto ? `url("${avatarPhoto}")` : undefined,
+                 backgroundSize: 'cover',
+                 backgroundPosition: 'center',
+                 color: avatarPhoto ? 'transparent' : 'white'
+diff --git a/src/context/AuthContext.jsx b/src/context/AuthContext.jsx
+index 70c0e5a..b35fa4a 100644
+--- a/src/context/AuthContext.jsx
++++ b/src/context/AuthContext.jsx
+@@ -525,12 +525,8 @@ export function AuthProvider({ children }) {
+ 
+         localStorage.setItem('courtvista_users', JSON.stringify(updatedUsers));
+ 
+-        // profilePicture is now a Firebase Storage URL (not base64), so it's safe to save to Firestore.
+-        // Strip out any remaining base64 data URIs as a safety net ΓÇö only save URLs.
+         const firestoreUpdates = { ...updatedUser };
+-        if (firestoreUpdates.profilePicture && firestoreUpdates.profilePicture.startsWith('data:')) {
+-            delete firestoreUpdates.profilePicture; // base64 too large for Firestore
+-        }
++        // We now allow compressed base64 images in Firestore directly
+ 
+         try {
+             // 1. Always update the 'users' collection
+diff --git a/src/firebase.js b/src/firebase.js
+index fcc0894..2fe15ce 100644
+--- a/src/firebase.js
++++ b/src/firebase.js
+@@ -2,6 +2,7 @@
+ import { initializeApp } from "firebase/app";
+ import { getAuth } from "firebase/auth";
+ import { getFirestore } from "firebase/firestore";
++import { getStorage } from "firebase/storage";
+ 
+ // Your web app's Firebase configuration
+ const firebaseConfig = {
+@@ -17,4 +18,5 @@ const firebaseConfig = {
+ const app = initializeApp(firebaseConfig);
+ 
+ export const auth = getAuth(app);
+-export const db = getFirestore(app);
+\ No newline at end of file
++export const db = getFirestore(app);
++export const storage = getStorage(app);
+\ No newline at end of file
+diff --git a/src/pages/EditProfile.jsx b/src/pages/EditProfile.jsx
+index f2062f4..7697501 100644
+--- a/src/pages/EditProfile.jsx
++++ b/src/pages/EditProfile.jsx
+@@ -2,6 +2,7 @@ import { useState } from 'react';
+ import { useNavigate } from 'react-router-dom';
+ import { useAuth } from '../context/AuthContext';
+ import { practiceAreas } from '../data/lawyers';
++import { storage } from '../firebase';
+ import './EditProfile.css';
+ 
+ export default function EditProfile() {
+@@ -44,6 +45,7 @@ export default function EditProfile() {
+     });
+     const [saved, setSaved] = useState(false);
+     const [error, setError] = useState('');
++    const [uploading, setUploading] = useState(false);
+ 
+     const isLawyer = user?.role === 'lawyer';
+ 
+@@ -74,15 +76,38 @@ export default function EditProfile() {
+             setError('Please upload an image file.');
+             return;
+         }
+-        if (file.size > 2 * 1024 * 1024) { // 2MB limit for localStorage
+-            setError('Image size should be less than 2MB.');
++        if (file.size > 5 * 1024 * 1024) { // 5MB limit for Storage
++            setError('Image size should be less than 5MB.');
+             return;
+         }
+ 
++        // Compress image using Canvas before setting it
+         const reader = new FileReader();
+         reader.onloadend = () => {
+-            setFormData(prev => ({ ...prev, profilePicture: reader.result }));
+-            setSaved(false);
++            const img = new Image();
++            img.onload = () => {
++                const canvas = document.createElement('canvas');
++                const MAX_WIDTH = 250; // keep it small for Firestore base64
++                let scaleSize = 1;
++                if (img.width > MAX_WIDTH) {
++                    scaleSize = MAX_WIDTH / img.width;
++                }
++                canvas.width = img.width * scaleSize;
++                canvas.height = img.height * scaleSize;
++                const ctx = canvas.getContext('2d');
++                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
++                // Convert to JPEG at 70% quality to ensure small file size
++                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); 
++                setFormData(prev => ({ ...prev, profilePicture: compressedBase64 }));
++                
++                // Immediately save the picture to DB so they don't have to manually click Save Changes for it to propagate
++                updateProfile({ profilePicture: compressedBase64 });
++                
++                // Optionally show a mini success indicator
++                setSaved(true);
++                setTimeout(() => setSaved(false), 3000);
++            };
++            img.src = reader.result;
+         };
+         reader.onerror = () => {
+             setError('Failed to read file.');
+@@ -98,11 +123,17 @@ export default function EditProfile() {
+             return;
+         }
+ 
++        let profilePictureUrl = formData.profilePicture;
++
++        setUploading(true);
++        // The newly compressed image is already inside formData.profilePicture
++        setUploading(false);
++
+         const updates = {
+             name: formData.name.trim(),
+             phone: formData.phone.trim(),
+             bio: formData.bio.trim(),
+-            profilePicture: formData.profilePicture,
++            profilePicture: profilePictureUrl,
+         };
+ 
+         if (isLawyer) {
+@@ -437,8 +468,8 @@ export default function EditProfile() {
+                         >
+                             Cancel
+                         </button>
+-                        <button type="submit" className="btn btn--gold">
+-                            Save Changes
++                        <button type="submit" className="btn btn--gold" disabled={uploading}>
++                            {uploading ? '≡ƒôñ Uploading Photo...' : 'Save Changes'}
+                         </button>
+                     </div>
+                 </div>
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index ac20af0..61f92ad 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -25,10 +25,12 @@ export default function Home() {
+                 const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
+                 const lawyersData = lawyersSnapshot.docs.map(doc => {
+                     const d = doc.data();
++                    const resolvedPhoto = d.profilePicture || d.photo || d.image || '';
+                     return {
+                         id: doc.id,
+                         ...d,
+-                        photo: d.profilePicture || d.photo || d.image || ''
++                        profilePicture: resolvedPhoto,
++                        photo: resolvedPhoto
+                     };
+                 });
+ 
+@@ -38,10 +40,12 @@ export default function Home() {
+                     .filter(doc => doc.data().role === 'lawyer')
+                     .map(doc => {
+                         const d = doc.data();
++                        const userPhoto = d.profilePicture || d.image || '';
+                         return {
+                             id: doc.id,
+                             name: d.name || 'Unknown',
+-                            photo: d.profilePicture || d.image || '',
++                            profilePicture: userPhoto,
++                            photo: userPhoto,
+                             city: d.city || d.location || '',
+                             experience: Number(d.experience) || 0,
+                             rating: Number(d.rating) || 0,
+diff --git a/src/pages/LawyerProfile.jsx b/src/pages/LawyerProfile.jsx
+index 07690ca..1d6a65d 100644
+--- a/src/pages/LawyerProfile.jsx
++++ b/src/pages/LawyerProfile.jsx
+@@ -309,7 +309,7 @@ export default function LawyerProfile() {
+             {/* ΓöÇΓöÇΓöÇ HEADER ΓöÇΓöÇΓöÇ */}
+             <div className="profile-header animate-fade-in-up">
+                 <div className="profile-header__avatar" style={{
+-                    backgroundImage: (lawyer.photo || lawyer.image) ? `url(${lawyer.photo || lawyer.image})` : undefined,
++                    backgroundImage: (lawyer.photo || lawyer.image) ? `url("${lawyer.photo || lawyer.image}")` : undefined,
+                     backgroundSize: 'cover',
+                     backgroundPosition: 'center',
+                     color: (lawyer.photo || lawyer.image) ? 'transparent' : 'white'
+diff --git a/src/pages/Search.jsx b/src/pages/Search.jsx
+index 02e70e7..d9a1bf6 100644
+--- a/src/pages/Search.jsx
++++ b/src/pages/Search.jsx
+@@ -39,11 +39,13 @@ export default function Search({ compareIds, onCompareToggle }) {
+                 const firestoreLawyers = lawyersSnapshot.docs.map(doc => {
+                     const d = doc.data();
+ 
++                    const resolvedPhoto = d.profilePicture || d.image || d.photo || '';
+                     return {
+                         id: doc.id,
+                         name: d.name || 'Unknown',
+                         city: d.city || d.location || '',
+                         experience: d.experience || 0,
++                        experienceStartDate: d.experienceStartDate || '',
+                         specializations: typeof d.specializations === 'string'
+                             ? d.specializations.split(',').map(s => s.trim()).filter(Boolean)
+                             : (Array.isArray(d.specializations) ? d.specializations : (
+@@ -55,11 +57,13 @@ export default function Search({ compareIds, onCompareToggle }) {
+                             : (Array.isArray(d.languages) ? d.languages : []),
+ 
+                         consultationFee: d.consultationFee || 1000,
++                        feesRange: d.feesRange || '',
+                         verified: !!d.verified,
+                         isProBono: !!d.isProBono,
+                         gender: d.gender || '',
+ 
+-                        photo: d.profilePicture || d.image || d.photo || '',
++                        profilePicture: resolvedPhoto,
++                        photo: resolvedPhoto,
+ 
+                         rating: d.rating || 0,
+                         reviewCount: d.reviewCount || 0,
+@@ -86,18 +90,22 @@ export default function Search({ compareIds, onCompareToggle }) {
+                                 : d.specializations.split(',').map(s => s.trim()).filter(Boolean))
+                             : [];
+ 
++                        const userPhoto = d.profilePicture || d.image || '';
+                         return {
+                             id: doc.id,
+                             name: d.name || 'Unknown',
+                             city: d.city || d.location || d.jurisdiction || '',
+                             experience: Number(d.experience) || 0,
++                            experienceStartDate: d.experienceStartDate || '',
+                             specializations,
+                             languages,
+                             consultationFee: Number(d.consultationFee) || 0,
++                            feesRange: d.feesRange || '',
+                             verified: !!d.verified,
+                             isProBono: !!d.isProBono,
+                             gender: d.gender || '',
+-                            photo: d.profilePicture || d.image || '',
++                            profilePicture: userPhoto,
++                            photo: userPhoto,
+                             rating: Number(d.rating) || 0,
+                             reviewCount: Number(d.reviewCount) || 0,
+                             liveRating: Number(d.rating) || 0,

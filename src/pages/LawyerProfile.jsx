@@ -309,7 +309,7 @@ export default function LawyerProfile() {
             {/* ─── HEADER ─── */}
             <div className="profile-header animate-fade-in-up">
                 <div className="profile-header__avatar" style={{
-                    backgroundImage: (lawyer.photo || lawyer.image) ? `url(${lawyer.photo || lawyer.image})` : undefined,
+                    backgroundImage: (lawyer.photo || lawyer.image) ? `url("${lawyer.photo || lawyer.image}")` : undefined,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     color: (lawyer.photo || lawyer.image) ? 'transparent' : 'white'

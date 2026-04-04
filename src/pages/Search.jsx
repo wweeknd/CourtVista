@@ -39,11 +39,13 @@ export default function Search({ compareIds, onCompareToggle }) {
                 const firestoreLawyers = lawyersSnapshot.docs.map(doc => {
                     const d = doc.data();
 
+                    const resolvedPhoto = d.profilePicture || d.image || d.photo || '';
                     return {
                         id: doc.id,
                         name: d.name || 'Unknown',
                         city: d.city || d.location || '',
                         experience: d.experience || 0,
+                        experienceStartDate: d.experienceStartDate || '',
                         specializations: typeof d.specializations === 'string'
                             ? d.specializations.split(',').map(s => s.trim()).filter(Boolean)
                             : (Array.isArray(d.specializations) ? d.specializations : (
@@ -55,11 +57,13 @@ export default function Search({ compareIds, onCompareToggle }) {
                             : (Array.isArray(d.languages) ? d.languages : []),
 
                         consultationFee: d.consultationFee || 1000,
+                        feesRange: d.feesRange || '',
                         verified: !!d.verified,
                         isProBono: !!d.isProBono,
                         gender: d.gender || '',
 
-                        photo: d.profilePicture || d.image || d.photo || '',
+                        profilePicture: resolvedPhoto,
+                        photo: resolvedPhoto,
 
                         rating: d.rating || 0,
                         reviewCount: d.reviewCount || 0,
@@ -86,18 +90,22 @@ export default function Search({ compareIds, onCompareToggle }) {
                                 : d.specializations.split(',').map(s => s.trim()).filter(Boolean))
                             : [];
 
+                        const userPhoto = d.profilePicture || d.image || '';
                         return {
                             id: doc.id,
                             name: d.name || 'Unknown',
                             city: d.city || d.location || d.jurisdiction || '',
                             experience: Number(d.experience) || 0,
+                            experienceStartDate: d.experienceStartDate || '',
                             specializations,
                             languages,
                             consultationFee: Number(d.consultationFee) || 0,
+                            feesRange: d.feesRange || '',
                             verified: !!d.verified,
                             isProBono: !!d.isProBono,
                             gender: d.gender || '',
-                            photo: d.profilePicture || d.image || '',
+                            profilePicture: userPhoto,
+                            photo: userPhoto,
                             rating: Number(d.rating) || 0,
                             reviewCount: Number(d.reviewCount) || 0,
                             liveRating: Number(d.rating) || 0,

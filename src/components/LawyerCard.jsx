@@ -51,7 +51,7 @@ export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false
     return (
         <div className="lawyer-card animate-fade-in-up">
             <Link to={`/lawyer/${lawyer.id}`} className="lawyer-card__avatar" style={{
-                backgroundImage: avatarPhoto ? `url(${avatarPhoto})` : undefined,
+                backgroundImage: avatarPhoto ? `url("${avatarPhoto}")` : undefined,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 color: avatarPhoto ? 'transparent' : 'white'

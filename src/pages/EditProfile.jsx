@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { practiceAreas } from '../data/lawyers';
+import { storage } from '../firebase';
 import './EditProfile.css';
 
 export default function EditProfile() {
@@ -44,6 +45,7 @@ export default function EditProfile() {
     });
     const [saved, setSaved] = useState(false);
     const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const isLawyer = user?.role === 'lawyer';
 
@@ -74,15 +76,38 @@ export default function EditProfile() {
             setError('Please upload an image file.');
             return;
         }
-        if (file.size > 2 * 1024 * 1024) { // 2MB limit for localStorage
-            setError('Image size should be less than 2MB.');
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit for Storage
+            setError('Image size should be less than 5MB.');
             return;
         }
 
+        // Compress image using Canvas before setting it
         const reader = new FileReader();
         reader.onloadend = () => {
-            setFormData(prev => ({ ...prev, profilePicture: reader.result }));
-            setSaved(false);
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 250; // keep it small for Firestore base64
+                let scaleSize = 1;
+                if (img.width > MAX_WIDTH) {
+                    scaleSize = MAX_WIDTH / img.width;
+                }
+                canvas.width = img.width * scaleSize;
+                canvas.height = img.height * scaleSize;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // Convert to JPEG at 70% quality to ensure small file size
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); 
+                setFormData(prev => ({ ...prev, profilePicture: compressedBase64 }));
+                
+                // Immediately save the picture to DB so they don't have to manually click Save Changes for it to propagate
+                updateProfile({ profilePicture: compressedBase64 });
+                
+                // Optionally show a mini success indicator
+                setSaved(true);
+                setTimeout(() => setSaved(false), 3000);
+            };
+            img.src = reader.result;
         };
         reader.onerror = () => {
             setError('Failed to read file.');
@@ -98,11 +123,17 @@ export default function EditProfile() {
             return;
         }
 
+        let profilePictureUrl = formData.profilePicture;
+
+        setUploading(true);
+        // The newly compressed image is already inside formData.profilePicture
+        setUploading(false);
+
         const updates = {
             name: formData.name.trim(),
             phone: formData.phone.trim(),
             bio: formData.bio.trim(),
-            profilePicture: formData.profilePicture,
+            profilePicture: profilePictureUrl,
         };
 
         if (isLawyer) {
@@ -437,8 +468,8 @@ export default function EditProfile() {
                         >
                             Cancel
                         </button>
-                        <button type="submit" className="btn btn--gold">
-                            Save Changes
+                        <button type="submit" className="btn btn--gold" disabled={uploading}>
+                            {uploading ? '📤 Uploading Photo...' : 'Save Changes'}
                         </button>
                     </div>
                 </div>

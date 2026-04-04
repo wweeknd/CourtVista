@@ -25,10 +25,12 @@ export default function Home() {
                 const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
                 const lawyersData = lawyersSnapshot.docs.map(doc => {
                     const d = doc.data();
+                    const resolvedPhoto = d.profilePicture || d.photo || d.image || '';
                     return {
                         id: doc.id,
                         ...d,
-                        photo: d.profilePicture || d.photo || d.image || ''
+                        profilePicture: resolvedPhoto,
+                        photo: resolvedPhoto
                     };
                 });
 
@@ -38,10 +40,12 @@ export default function Home() {
                     .filter(doc => doc.data().role === 'lawyer')
                     .map(doc => {
                         const d = doc.data();
+                        const userPhoto = d.profilePicture || d.image || '';
                         return {
                             id: doc.id,
                             name: d.name || 'Unknown',
-                            photo: d.profilePicture || d.image || '',
+                            profilePicture: userPhoto,
+                            photo: userPhoto,
                             city: d.city || d.location || '',
                             experience: Number(d.experience) || 0,
                             rating: Number(d.rating) || 0,

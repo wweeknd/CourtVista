@@ -525,12 +525,8 @@ export function AuthProvider({ children }) {
 
         localStorage.setItem('courtvista_users', JSON.stringify(updatedUsers));
 
-        // profilePicture is now a Firebase Storage URL (not base64), so it's safe to save to Firestore.
-        // Strip out any remaining base64 data URIs as a safety net — only save URLs.
         const firestoreUpdates = { ...updatedUser };
-        if (firestoreUpdates.profilePicture && firestoreUpdates.profilePicture.startsWith('data:')) {
-            delete firestoreUpdates.profilePicture; // base64 too large for Firestore
-        }
+        // We now allow compressed base64 images in Firestore directly
 
         try {
             // 1. Always update the 'users' collection
