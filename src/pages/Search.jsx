@@ -19,14 +19,14 @@ const HIDDEN_PROFILES = [
     'vikram sharma',
 ];
 
-const ITEMS_PER_PAGE = 6;
+const PER_PAGE_OPTIONS = [10, 50, 100];
 
 export default function Search({ compareIds, onCompareToggle }) {
     const [searchParams] = useSearchParams();
 
-    const initialArea = searchParams.get('area') || '';
-    const initialCity = searchParams.get('city') || '';
-    const initialName = searchParams.get('name') || '';
+    const urlArea = searchParams.get('area') || '';
+    const urlCity = searchParams.get('city') || '';
+    const urlName = searchParams.get('name') || '';
 
     const [allLawyers, setAllLawyers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -188,9 +188,9 @@ export default function Search({ compareIds, onCompareToggle }) {
 
     //  Filters
     const [filters, setFilters] = useState({
-        areas: initialArea ? [initialArea] : [],
-        city: initialCity,
-        nameQuery: initialName,
+        areas: urlArea ? [urlArea] : [],
+        city: urlCity,
+        nameQuery: urlName,
         minExperience: 0,
         minRating: 0,
         languages: [],
@@ -199,8 +199,29 @@ export default function Search({ compareIds, onCompareToggle }) {
         proBonoOnly: false,
     });
 
+    // Sync URL search params → filters whenever the URL changes
+    useEffect(() => {
+        setFilters(prev => {
+            const newAreas = urlArea ? [urlArea] : [];
+            const areasChanged = JSON.stringify(prev.areas) !== JSON.stringify(newAreas);
+            const cityChanged = prev.city !== urlCity;
+            const nameChanged = prev.nameQuery !== urlName;
+
+            if (!areasChanged && !cityChanged && !nameChanged) return prev;
+
+            return {
+                ...prev,
+                areas: newAreas,
+                city: urlCity,
+                nameQuery: urlName,
+            };
+        });
+        setCurrentPage(1);
+    }, [urlArea, urlCity, urlName]);
+
     const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(PER_PAGE_OPTIONS[0]);
     const [showFilters, setShowFilters] = useState(false);
 
     const handleFilterChange = (key, value) => {
@@ -304,11 +325,11 @@ export default function Search({ compareIds, onCompareToggle }) {
         return result;
     }, [filters, sortBy, allLawyers, fuse]);
 
-    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
 
     const paginatedResults = filtered.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
     );
 
     return (
@@ -319,10 +340,12 @@ export default function Search({ compareIds, onCompareToggle }) {
                 <h1 className="search-page__title">Find a Lawyer</h1>
                 <div className="search-page__search-wrap">
                     <SearchBar
-                        initialArea={initialArea}
-                        initialCity={initialCity}
-                        initialName={initialName}
+                        initialArea={urlArea}
+                        initialCity={urlCity}
+                        initialName={urlName}
                         onNameSearch={(name) => handleFilterChange('nameQuery', name)}
+                        onAreaChange={(area) => handleFilterChange('areas', area ? [area] : [])}
+                        onCityChange={(city) => handleFilterChange('city', city)}
                     />
                 </div>
             </div>
@@ -357,17 +380,34 @@ export default function Search({ compareIds, onCompareToggle }) {
                             Showing <strong>{filtered.length}</strong> lawyer{filtered.length !== 1 ? 's' : ''}
                         </div>
 
-                        <div className="search-page__sort">
-                            <span>Sort by:</span>
-                            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                                <option value="default">{filters.nameQuery.trim() ? 'Relevance' : 'Default'}</option>
-                                <option value="rating">Highest Rating</option>
-                                <option value="experience">Most Experienced</option>
-                                <option value="reviews">Most Reviews</option>
-                                <option value="fees_low">Lowest Fees</option>
-                                <option value="fees_high">Highest Fees</option>
-                                <option value="location">Location (A-Z)</option>
-                            </select>
+                        <div className="search-page__controls">
+                            <div className="search-page__per-page">
+                                <span>Show:</span>
+                                <select
+                                    value={itemsPerPage}
+                                    onChange={(e) => {
+                                        setItemsPerPage(Number(e.target.value));
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    {PER_PAGE_OPTIONS.map((n) => (
+                                        <option key={n} value={n}>{n} per page</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="search-page__sort">
+                                <span>Sort by:</span>
+                                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                    <option value="default">{filters.nameQuery.trim() ? 'Relevance' : 'Default'}</option>
+                                    <option value="rating">Highest Rating</option>
+                                    <option value="experience">Most Experienced</option>
+                                    <option value="reviews">Most Reviews</option>
+                                    <option value="fees_low">Lowest Fees</option>
+                                    <option value="fees_high">Highest Fees</option>
+                                    <option value="location">Location (A-Z)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 

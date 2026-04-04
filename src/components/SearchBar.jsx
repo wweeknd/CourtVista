@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { practiceAreas, cities } from '../data/lawyers';
 import './SearchBar.css';
 
-export default function SearchBar({ initialArea = '', initialCity = '', initialName = '', onNameSearch, variant = '' }) {
+export default function SearchBar({ initialArea = '', initialCity = '', initialName = '', onNameSearch, onAreaChange, onCityChange, variant = '' }) {
     const navigate = useNavigate();
     const [area, setArea] = useState(initialArea);
     const [city, setCity] = useState(initialCity);
     const [name, setName] = useState(initialName);
+
+    // Sync local state when props change (e.g. URL navigation)
+    useEffect(() => { setArea(initialArea); }, [initialArea]);
+    useEffect(() => { setCity(initialCity); }, [initialCity]);
+    useEffect(() => { setName(initialName); }, [initialName]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,6 +36,24 @@ export default function SearchBar({ initialArea = '', initialCity = '', initialN
         }
     };
 
+    const handleAreaChange = (e) => {
+        const newArea = e.target.value;
+        setArea(newArea);
+        // Immediately update parent filters
+        if (onAreaChange) {
+            onAreaChange(newArea);
+        }
+    };
+
+    const handleCityChange = (e) => {
+        const newCity = e.target.value;
+        setCity(newCity);
+        // Immediately update parent filters
+        if (onCityChange) {
+            onCityChange(newCity);
+        }
+    };
+
     return (
         <form className={`search-bar ${variant ? `search-bar--${variant}` : ''}`} onSubmit={handleSubmit}>
             <div className="search-bar__field">
@@ -45,7 +68,7 @@ export default function SearchBar({ initialArea = '', initialCity = '', initialN
             </div>
             <div className="search-bar__field">
                 <span className="search-bar__icon">⚖️</span>
-                <select value={area} onChange={(e) => setArea(e.target.value)} aria-label="Practice area">
+                <select value={area} onChange={handleAreaChange} aria-label="Practice area">
                     <option value="">All Practice Areas</option>
                     {practiceAreas.map((pa) => (
                         <option key={pa.id} value={pa.id}>{pa.name}</option>
@@ -54,17 +77,12 @@ export default function SearchBar({ initialArea = '', initialCity = '', initialN
             </div>
             <div className="search-bar__field">
                 <span className="search-bar__icon">📍</span>
-                <input
-                    type="text"
-                    placeholder="City"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    list="city-suggestions"
-                    aria-label="City"
-                />
-                <datalist id="city-suggestions">
-                    {cities.map((c) => <option key={c} value={c} />)}
-                </datalist>
+                <select value={city} onChange={handleCityChange} aria-label="City">
+                    <option value="">All Cities</option>
+                    {cities.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                    ))}
+                </select>
             </div>
             <button type="submit" className="search-bar__submit">
                 Search
@@ -72,3 +90,4 @@ export default function SearchBar({ initialArea = '', initialCity = '', initialN
         </form>
     );
 }
+
