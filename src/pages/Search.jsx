@@ -4,15 +4,12 @@ import Fuse from 'fuse.js';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
 import LawyerCard from '../components/LawyerCard';
-import { getDynamicLawyers } from '../context/AuthContext';
-import { lawyers as staticLawyers } from '../data/lawyers';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import './Search.css';
 
 // Profiles to hide from public search results (case-insensitive match)
 const HIDDEN_PROFILES = [
-    'saul goodman',
     'harvey specter',
     'harvey reginald specter',
     'ranveer hegde',
@@ -36,19 +33,11 @@ export default function Search({ compareIds, onCompareToggle }) {
     useEffect(() => {
         const fetchLawyers = async () => {
             try {
-                // Get localStorage user cache for profilePicture (base64 stored locally, not in Firestore)
-                let localUsersCache = [];
-                try {
-                    localUsersCache = JSON.parse(localStorage.getItem('courtvista_users')) || [];
-                } catch { /* ignore */ }
-
                 // 1. Fetch from 'lawyers' collection
                 const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
 
                 const firestoreLawyers = lawyersSnapshot.docs.map(doc => {
                     const d = doc.data();
-                    // Check localStorage for user-uploaded photo (takes priority over Firestore placeholder)
-                    const localUser = localUsersCache.find(u => u.id === doc.id);
 
                     return {
                         id: doc.id,
@@ -70,7 +59,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                         isProBono: !!d.isProBono,
                         gender: d.gender || '',
 
-                        photo: localUser?.profilePicture || d.profilePicture || d.image || d.photo || '',
+                        photo: d.profilePicture || d.image || d.photo || '',
 
                         rating: d.rating || 0,
                         reviewCount: d.reviewCount || 0,
@@ -86,7 +75,6 @@ export default function Search({ compareIds, onCompareToggle }) {
                     .filter(doc => doc.data().role === 'lawyer')
                     .map(doc => {
                         const d = doc.data();
-                        const localUser = localUsersCache.find(u => u.id === doc.id);
                         const languages = d.languages
                             ? (typeof d.languages === 'string'
                                 ? d.languages.split(',').map(l => l.trim()).filter(Boolean)
@@ -109,7 +97,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                             verified: !!d.verified,
                             isProBono: !!d.isProBono,
                             gender: d.gender || '',
-                            photo: localUser?.profilePicture || d.profilePicture || d.image || '',
+                            photo: d.profilePicture || d.image || '',
                             rating: Number(d.rating) || 0,
                             reviewCount: Number(d.reviewCount) || 0,
                             liveRating: Number(d.rating) || 0,
@@ -118,15 +106,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                         };
                     });
 
-                // 3. Merge localStorage dynamic lawyers
-                const dynamicLawyers = getDynamicLawyers().map(dl => ({
-                    ...dl,
-                    city: dl.city || '',
-                    liveRating: dl.rating || 0,
-                    liveReviewCount: dl.reviewCount || 0,
-                }));
-
-                // De-duplicate by ID (lawyers collection > users collection > localStorage)
+                // De-duplicate by ID (lawyers collection > users collection)
                 const seenIds = new Set();
                 const merged = [];
 
@@ -135,24 +115,6 @@ export default function Search({ compareIds, onCompareToggle }) {
                 }
                 for (const l of userLawyers) {
                     if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
-                }
-                for (const l of dynamicLawyers) {
-                    if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
-                }
-
-                // 4. Merge static lawyers from lawyers.js (always available, no Firestore needed)
-                //    These serve as the ultimate fallback — every device sees them
-                for (const sl of staticLawyers) {
-                    const slId = String(sl.id); // normalize numeric ID to string
-                    if (!seenIds.has(slId) && !seenIds.has(sl.id)) {
-                        seenIds.add(slId);
-                        merged.push({
-                            ...sl,
-                            id: slId, // use string ID for consistency with Firestore doc IDs
-                            liveRating: sl.rating || 0,
-                            liveReviewCount: sl.reviewCount || 0,
-                        });
-                    }
                 }
 
                 // Filter out hidden profiles

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
-import { useAuth, getDynamicLawyers } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import RatingBadge from '../components/RatingBadge';
 import ReviewCard from '../components/ReviewCard';
 import './LawyerProfile.css';
@@ -109,18 +109,10 @@ export default function LawyerProfile() {
                 if (lawyerDocSnap.exists()) {
                     const data = lawyerDocSnap.data();
 
-                    // Check localStorage for a user-uploaded profilePicture (takes priority over Firestore placeholder)
-                    let localProfilePic = null;
-                    try {
-                        const localUsers = JSON.parse(localStorage.getItem('courtvista_users')) || [];
-                        const localUser = localUsers.find(u => u.id === id);
-                        localProfilePic = localUser?.profilePicture || null;
-                    } catch { /* ignore */ }
-
                     setLawyer({
                         id: lawyerDocSnap.id,
                         ...data,
-                        photo: localProfilePic || data.profilePicture || data.photo || data.image || '',
+                        photo: data.profilePicture || data.photo || data.image || '',
                         specializations: typeof data.specializations === 'string'
                             ? data.specializations.split(',').map(s => s.trim()).filter(Boolean)
                             : (Array.isArray(data.specializations) ? data.specializations : []),
@@ -150,19 +142,10 @@ export default function LawyerProfile() {
                                 : data.specializations.split(',').map(s => s.trim()).filter(Boolean))
                             : [];
 
-                        // profilePicture is stored in localStorage (not Firestore) for dynamic lawyers
-                        // Fall back to localStorage user cache for the photo
-                        let localProfilePicture = null;
-                        try {
-                            const localUsers = JSON.parse(localStorage.getItem('courtvista_users')) || [];
-                            const localUser = localUsers.find(u => u.id === id);
-                            localProfilePicture = localUser?.profilePicture || null;
-                        } catch { /* ignore */ }
-
                         setLawyer({
                             id: userDocSnap.id,
                             name: data.name || 'Unknown',
-                            photo: localProfilePicture || data.profilePicture || data.image || '',
+                            photo: data.profilePicture || data.image || '',
                             gender: data.gender || '',
                             specializations,
                             experience: Number(data.experience) || 0,
@@ -189,21 +172,7 @@ export default function LawyerProfile() {
                     }
                 }
 
-                // 3. Fallback: try dynamic lawyers from localStorage
-                const dynamicLawyers = getDynamicLawyers();
-                const dynamicMatch = dynamicLawyers.find(l => String(l.id) === String(id));
-                if (dynamicMatch) {
-                    setLawyer({
-                        ...dynamicMatch,
-                        specializations: dynamicMatch.specializations || [],
-                        languages: dynamicMatch.languages || [],
-                        reviews: dynamicMatch.reviews || [],
-                    });
-                    setLoading(false);
-                    return;
-                }
-
-                // 4. Fallback: try static lawyers array (handles both numeric and string IDs)
+                // 3. Fallback: try static lawyers array (handles both numeric and string IDs)
                 const numericId = parseInt(id);
                 const staticMatch = lawyers.find(l => l.id === numericId || String(l.id) === String(id));
                 if (staticMatch) {

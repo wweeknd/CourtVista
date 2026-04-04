@@ -10,7 +10,6 @@ import { collection, getDocs } from 'firebase/firestore';
 
 // Profiles to hide from public view (case-insensitive match)
 const HIDDEN_PROFILES = [
-    'saul goodman',
     'harvey specter',
     'harvey reginald specter',
 ];
@@ -22,22 +21,14 @@ export default function Home() {
     useEffect(() => {
         const fetchLawyers = async () => {
             try {
-                // Get localStorage user cache for profilePicture (base64 stored locally, not in Firestore)
-                let localUsersCache = [];
-                try {
-                    localUsersCache = JSON.parse(localStorage.getItem('courtvista_users')) || [];
-                } catch { /* ignore */ }
-
                 // 1. Fetch from 'lawyers' collection
                 const lawyersSnapshot = await getDocs(collection(db, "lawyers"));
                 const lawyersData = lawyersSnapshot.docs.map(doc => {
                     const d = doc.data();
-                    // Check localStorage for user-uploaded photo (takes priority over Firestore placeholder)
-                    const localUser = localUsersCache.find(u => u.id === doc.id);
                     return {
                         id: doc.id,
                         ...d,
-                        photo: localUser?.profilePicture || d.profilePicture || d.photo || d.image || ''
+                        photo: d.profilePicture || d.photo || d.image || ''
                     };
                 });
 
@@ -47,12 +38,10 @@ export default function Home() {
                     .filter(doc => doc.data().role === 'lawyer')
                     .map(doc => {
                         const d = doc.data();
-                        // profilePicture is base64 stored only in localStorage
-                        const localUser = localUsersCache.find(u => u.id === doc.id);
                         return {
                             id: doc.id,
                             name: d.name || 'Unknown',
-                            photo: localUser?.profilePicture || d.profilePicture || d.image || '',
+                            photo: d.profilePicture || d.image || '',
                             city: d.city || d.location || '',
                             experience: Number(d.experience) || 0,
                             rating: Number(d.rating) || 0,
