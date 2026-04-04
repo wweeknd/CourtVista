@@ -51,7 +51,7 @@ export default function Search({ compareIds, onCompareToggle }) {
                     return {
                         id: doc.id,
                         name: d.name || 'Unknown',
-                        city: d.location || '',
+                        city: d.city || d.location || '',
                         experience: d.experience || 0,
                         specializations: typeof d.specializations === 'string'
                             ? d.specializations.split(',').map(s => s.trim()).filter(Boolean)
