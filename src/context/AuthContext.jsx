@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
@@ -88,6 +88,11 @@ function getStoredCurrentUser() {
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(getStoredCurrentUser);
 
+    // Ref to track an in-progress Google sign-in so onAuthStateChanged doesn't race
+    const googleSignInPending = useRef(false);
+    // Ref to hold a new Google user's data until they pick a role on SelectRole
+    const pendingGoogleUser = useRef(null);
+
     // Keep sessionStorage in sync whenever user changes
     useEffect(() => {
         if (user) {
@@ -100,6 +105,11 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
+                // If a Google sign-in is in progress, let loginWithGoogle handle the user state
+                if (googleSignInPending.current) {
+                    return;
+                }
+
                 const users = getStoredUsers();
                 const userArray = Array.isArray(users) ? users : [];
                 const found = userArray.find((u) => u.id === firebaseUser.uid);
@@ -140,7 +150,8 @@ export function AuthProvider({ children }) {
                 if (found) {
                     setUser(found);
                 } else {
-                    // Minimal fallback
+                    // Minimal fallback — but only if this isn't a brand-new user
+                    // (brand-new users with no Firestore doc will go through SelectRole)
                     const minUser = {
                         id: firebaseUser.uid,
                         name: firebaseUser.displayName || 'User',
@@ -352,6 +363,9 @@ export function AuthProvider({ children }) {
 
     async function loginWithGoogle() {
         try {
+            // Signal onAuthStateChanged to NOT auto-set user during this flow
+            googleSignInPending.current = true;
+
             const result = await signInWithPopup(auth, googleProvider);
             const firebaseUser = result.user;
 
@@ -367,6 +381,8 @@ export function AuthProvider({ children }) {
 
                     if (userDocSnap.exists()) {
                         const data = userDocSnap.data();
+                        // Remove Firestore Timestamps
+                        const { createdAt, updatedAt, ...safeData } = data;
                         found = {
                             id: firebaseUser.uid,
                             name: data.name || firebaseUser.displayName || "User",
@@ -374,7 +390,7 @@ export function AuthProvider({ children }) {
                             role: data.role || 'user',
                             emailVerified: firebaseUser.emailVerified,
                             profilePicture: data.profilePicture || firebaseUser.photoURL || null,
-                            ...data
+                            ...safeData
                         };
                         
                         // Cache it
@@ -383,6 +399,7 @@ export function AuthProvider({ children }) {
                             JSON.stringify([...userArray, found])
                         );
                         
+                        googleSignInPending.current = false;
                         setUser(found);
                         return { success: true, user: found };
                     }
@@ -390,36 +407,98 @@ export function AuthProvider({ children }) {
                     console.error("Firestore lookup during Google login failed:", e);
                 }
 
-                // If not in Firestore or localStorage, then it's a NEW user
-                const newUser = {
+                // ── NEW USER: Don't log them in yet — they must pick a role first ──
+                pendingGoogleUser.current = {
                     id: firebaseUser.uid,
                     name: firebaseUser.displayName || "User",
                     email: firebaseUser.email,
-                    role: 'user', // Default role for new users
                     emailVerified: firebaseUser.emailVerified,
                     profilePicture: firebaseUser.photoURL || null
                 };
 
-                setUser(newUser);
-
+                // Keep the pending flag ON — onAuthStateChanged must stay out of the way
+                // until completeGoogleSignup() is called from SelectRole
                 return {
                     success: true,
-                    user: newUser,
+                    user: pendingGoogleUser.current,
                     needsRole: true
                 };
             }
 
+            googleSignInPending.current = false;
             setUser(found);
             return { success: true, user: found };
 
         } catch (error) {
+            googleSignInPending.current = false;
             console.error("Google login error:", error);
             return { success: false, message: error.message };
         }
     }
 
+    /**
+     * Complete a new Google sign-up by saving the chosen role.
+     * Called from SelectRole after the user picks 'user' or 'lawyer'.
+     */
+    async function completeGoogleSignup(role) {
+        const pending = pendingGoogleUser.current;
+        if (!pending) {
+            return { success: false, message: 'No pending Google sign-up.' };
+        }
+
+        const newUser = {
+            ...pending,
+            role,
+        };
+
+        // Save to Firestore 'users' collection
+        try {
+            await setDoc(doc(db, "users", newUser.id), {
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role,
+                profilePicture: newUser.profilePicture || null,
+                emailVerified: newUser.emailVerified,
+                createdAt: new Date()
+            });
+        } catch (err) {
+            console.error("Firestore save during Google signup failed:", err);
+        }
+
+        // If lawyer, also add to 'lawyers' collection so they appear in search
+        if (role === 'lawyer') {
+            try {
+                await setDoc(doc(db, "lawyers", newUser.id), {
+                    name: newUser.name,
+                    email: newUser.email,
+                    role: 'lawyer',
+                    profilePicture: newUser.profilePicture || null,
+                    createdAt: new Date()
+                });
+            } catch (err) {
+                console.error("Firestore lawyers save during Google signup failed:", err);
+            }
+        }
+
+        // Cache in localStorage
+        const users = getStoredUsers();
+        localStorage.setItem(
+            "courtvista_users",
+            JSON.stringify([...users, newUser])
+        );
+
+        // Clear pending state, allow onAuthStateChanged to work normally
+        pendingGoogleUser.current = null;
+        googleSignInPending.current = false;
+
+        setUser(newUser);
+        return { success: true, user: newUser };
+    }
+
     // Logout
     async function logout() {
+        pendingGoogleUser.current = null;
+        googleSignInPending.current = false;
         await signOut(auth);
         setUser(null);
     }
@@ -513,7 +592,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, refreshUser, getDashboardPath, getLawyerProfile, loginWithGoogle }}>
+        <AuthContext.Provider value={{ user, login, register, logout, updateProfile, refreshUser, getDashboardPath, getLawyerProfile, loginWithGoogle, completeGoogleSignup, pendingGoogleUser }}>
             {children}
         </AuthContext.Provider>
     );
