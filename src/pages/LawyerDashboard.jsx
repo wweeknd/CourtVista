@@ -36,7 +36,7 @@ function formatDate(dateStr) {
     }
 }
 
-const TAB_FILTERS = ['pending', 'confirmed', 'declined', 'all'];
+const TAB_FILTERS = ['pending', 'confirmed', 'cancelled', 'declined', 'all'];
 
 export default function LawyerDashboard() {
     const { user } = useAuth();
@@ -97,6 +97,7 @@ export default function LawyerDashboard() {
     const pending = myConsultations.filter((c) => c.status === 'pending');
     const confirmed = myConsultations.filter((c) => c.status === 'confirmed');
     const declined = myConsultations.filter((c) => c.status === 'declined');
+    const cancelled = myConsultations.filter((c) => c.status === 'cancelled');
 
     const filteredConsultations = activeTab === 'all'
         ? myConsultations
@@ -119,6 +120,7 @@ export default function LawyerDashboard() {
     const tabCounts = {
         pending: pending.length,
         confirmed: confirmed.length,
+        cancelled: cancelled.length,
         declined: declined.length,
         all: myConsultations.length,
     };
@@ -277,7 +279,8 @@ export default function LawyerDashboard() {
                                         {c.status === 'pending' && '🕐 '}
                                         {c.status === 'confirmed' && '✅ '}
                                         {c.status === 'declined' && '❌ '}
-                                        {c.status.charAt(0).toUpperCase() + c.status.slice(1)}
+                                        {c.status === 'cancelled' && '🚫 '}
+                                        {c.status === 'cancelled' ? 'Cancelled by Client' : c.status.charAt(0).toUpperCase() + c.status.slice(1)}
                                     </span>
                                 </div>
 

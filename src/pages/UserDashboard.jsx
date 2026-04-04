@@ -34,19 +34,34 @@ function getGreeting() {
 }
 
 function getStatusSummary(consultations) {
-    const pending = consultations.filter((c) => c.status === 'pending').length;
-    const confirmed = consultations.filter((c) => c.status === 'confirmed').length;
+    const active = consultations.filter((c) => c.status !== 'cancelled' && c.status !== 'declined');
+    const pending = active.filter((c) => c.status === 'pending').length;
+    const confirmed = active.filter((c) => c.status === 'confirmed').length;
     if (confirmed > 0 && pending > 0) return `You have ${confirmed} confirmed and ${pending} pending consultation${pending > 1 ? 's' : ''}`;
     if (confirmed > 0) return `You have ${confirmed} confirmed consultation${confirmed > 1 ? 's' : ''}`;
     if (pending > 0) return `You have ${pending} pending consultation${pending > 1 ? 's' : ''}`;
     return 'Find and connect with the right legal professional';
 }
 
-const TAB_FILTERS = ['all', 'pending', 'confirmed', 'declined', 'reviews'];
+function updateConsultationStatus(consultationId, newStatus) {
+    try {
+        const all = JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
+        const updated = all.map((c) =>
+            c.id === consultationId ? { ...c, status: newStatus, cancelledAt: newStatus === 'cancelled' ? new Date().toISOString() : c.cancelledAt } : c
+        );
+        localStorage.setItem('courtvista_consultations', JSON.stringify(updated));
+        return updated;
+    } catch {
+        return [];
+    }
+}
+
+const TAB_FILTERS = ['all', 'pending', 'confirmed', 'cancelled', 'declined', 'reviews'];
 
 export default function UserDashboard() {
     const { user } = useAuth();
-    const [consultations] = useState(getStoredConsultations);
+    const [consultations, setConsultations] = useState(getStoredConsultations);
+    const [cancellingId, setCancellingId] = useState(null);
     const [activeTab, setActiveTab] = useState('all');
 
     const myConsultations = useMemo(() =>
@@ -60,6 +75,7 @@ export default function UserDashboard() {
     const pending = myConsultations.filter((c) => c.status === 'pending');
     const confirmed = myConsultations.filter((c) => c.status === 'confirmed');
     const declined = myConsultations.filter((c) => c.status === 'declined');
+    const cancelled = myConsultations.filter((c) => c.status === 'cancelled');
 
     const filteredConsultations = activeTab === 'all'
         ? myConsultations
@@ -129,16 +145,50 @@ export default function UserDashboard() {
         } catch (e) { }
     };
 
+    const handleCancelConsultation = (consultationId) => {
+        const updated = updateConsultationStatus(consultationId, 'cancelled');
+        setConsultations(updated);
+        setCancellingId(null);
+    };
+
     const tabCounts = {
         all: myConsultations.length,
         pending: pending.length,
         confirmed: confirmed.length,
+        cancelled: cancelled.length,
         declined: declined.length,
         reviews: myReviews.length,
     };
 
     return (
         <div className="dashboard dashboard--user container animate-fade-in-up">
+            {/* ─── Cancel Confirmation Modal ─── */}
+            {cancellingId && (
+                <div className="cancel-modal-overlay" onClick={() => setCancellingId(null)}>
+                    <div className="cancel-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="cancel-modal__icon">⚠️</div>
+                        <h3 className="cancel-modal__title">Cancel Consultation?</h3>
+                        <p className="cancel-modal__text">
+                            Are you sure you want to cancel this consultation? This action cannot be undone.
+                        </p>
+                        <div className="cancel-modal__actions">
+                            <button
+                                className="btn btn--outline btn--sm"
+                                onClick={() => setCancellingId(null)}
+                            >
+                                Keep Consultation
+                            </button>
+                            <button
+                                className="btn btn--cancel btn--sm"
+                                onClick={() => handleCancelConsultation(cancellingId)}
+                            >
+                                Yes, Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* ─── Welcome Banner ─── */}
             <div className="user-banner">
                 <div className="user-banner__content">
@@ -170,10 +220,10 @@ export default function UserDashboard() {
                     <div className="dashboard__stat-number">{confirmed.length}</div>
                     <div className="dashboard__stat-label">Confirmed</div>
                 </div>
-                <div className="dashboard__stat-card dashboard__stat-card--declined">
-                    <div className="dashboard__stat-icon">↩️</div>
-                    <div className="dashboard__stat-number">{declined.length}</div>
-                    <div className="dashboard__stat-label">Declined</div>
+                <div className="dashboard__stat-card dashboard__stat-card--cancelled">
+                    <div className="dashboard__stat-icon">🚫</div>
+                    <div className="dashboard__stat-number">{cancelled.length}</div>
+                    <div className="dashboard__stat-label">Cancelled</div>
                 </div>
             </div>
 
@@ -273,7 +323,7 @@ export default function UserDashboard() {
                 ) : filteredConsultations.length === 0 ? (
                     <div className="dashboard__empty-state">
                         <div className="dashboard__empty-icon">
-                            {activeTab === 'all' ? '📭' : activeTab === 'pending' ? '🕐' : activeTab === 'confirmed' ? '✅' : '↩️'}
+                            {activeTab === 'all' ? '📭' : activeTab === 'pending' ? '🕐' : activeTab === 'confirmed' ? '✅' : activeTab === 'cancelled' ? '🚫' : '↩️'}
                         </div>
                         <h3 className="dashboard__empty-title">
                             {activeTab === 'all' ? 'No consultations yet' : `No ${activeTab} consultations`}
@@ -323,6 +373,7 @@ export default function UserDashboard() {
                                             {c.status === 'pending' && '🕐 '}
                                             {c.status === 'confirmed' && '✅ '}
                                             {c.status === 'declined' && '❌ '}
+                                            {c.status === 'cancelled' && '🚫 '}
                                             {c.status.charAt(0).toUpperCase() + c.status.slice(1)}
                                         </span>
                                     </div>
@@ -352,20 +403,26 @@ export default function UserDashboard() {
                                         </div>
                                     </div>
 
-                                    {(lawyerData || c.status === 'confirmed') && (
-                                        <div className="dashboard__consultation-actions">
-                                            {lawyerData && (
-                                                <Link to={`/lawyer/${lawyerData.id}`} className="btn btn--outline btn--sm">
-                                                    View Lawyer Profile
-                                                </Link>
-                                            )}
-                                            {c.status === 'confirmed' && (
-                                                <Link to={`/messages/${c.id}`} className="btn btn--gold btn--sm">
-                                                    💬 Message Lawyer
-                                                </Link>
-                                            )}
-                                        </div>
-                                    )}
+                                    <div className="dashboard__consultation-actions">
+                                        {lawyerData && (
+                                            <Link to={`/lawyer/${lawyerData.id}`} className="btn btn--outline btn--sm">
+                                                View Lawyer Profile
+                                            </Link>
+                                        )}
+                                        {c.status === 'confirmed' && (
+                                            <Link to={`/messages/${c.id}`} className="btn btn--gold btn--sm">
+                                                💬 Message Lawyer
+                                            </Link>
+                                        )}
+                                        {(c.status === 'pending' || c.status === 'confirmed') && (
+                                            <button
+                                                className="btn btn--cancel btn--sm"
+                                                onClick={() => setCancellingId(c.id)}
+                                            >
+                                                ✕ Cancel
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
