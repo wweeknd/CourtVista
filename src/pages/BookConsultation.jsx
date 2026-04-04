@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDynamicLawyers } from '../context/AuthContext';
@@ -7,16 +7,8 @@ import { sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../ut
 import AuthModal from '../components/AuthModal';
 import './BookConsultation.css';
 
-// Find lawyer across static + dynamic lists
-function findLawyer(id) {
-    const numericId = parseInt(id);
-    if (!isNaN(numericId)) {
-        const staticMatch = lawyers.find((l) => l.id === numericId);
-        if (staticMatch) return staticMatch;
-    }
-    const dynamic = getDynamicLawyers();
-    return dynamic.find((l) => String(l.id) === String(id)) || null;
-}
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 // Helpers for consultation persistence
 function getStoredConsultations() {
@@ -36,7 +28,8 @@ function saveConsultation(consultation) {
 export default function BookConsultation() {
     const { id } = useParams();
     const { user, refreshUser } = useAuth();
-    const lawyer = findLawyer(id);
+    const [lawyer, setLawyer] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [submitted, setSubmitted] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [formData, setFormData] = useState({
@@ -48,6 +41,100 @@ export default function BookConsultation() {
         time: '',
         message: '',
     });
+
+    // Fetch lawyer from Firestore (same pattern as LawyerProfile.jsx)
+    useEffect(() => {
+        const fetchLawyer = async () => {
+            try {
+                // 1. Try Firestore 'lawyers' collection
+                const lawyerDocRef = doc(db, "lawyers", id);
+                const lawyerDocSnap = await getDoc(lawyerDocRef);
+
+                if (lawyerDocSnap.exists()) {
+                    const data = lawyerDocSnap.data();
+                    setLawyer({
+                        id: lawyerDocSnap.id,
+                        ...data,
+                        photo: data.profilePicture || data.photo || data.image || '',
+                        specializations: typeof data.specializations === 'string'
+                            ? data.specializations.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(data.specializations) ? data.specializations : []),
+                        languages: typeof data.languages === 'string'
+                            ? data.languages.split(',').map(s => s.trim()).filter(Boolean)
+                            : (Array.isArray(data.languages) ? data.languages : []),
+                    });
+                    setLoading(false);
+                    return;
+                }
+
+                // 2. Try Firestore 'users' collection (newly registered lawyers)
+                const userDocRef = doc(db, "users", id);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    if (data.role === 'lawyer') {
+                        setLawyer({
+                            id: userDocSnap.id,
+                            name: data.name || 'Unknown',
+                            photo: data.profilePicture || data.image || '',
+                            gender: data.gender || '',
+                            specializations: Array.isArray(data.specializations) ? data.specializations : [],
+                            experience: Number(data.experience) || 0,
+                            rating: Number(data.rating) || 0,
+                            reviewCount: Number(data.reviewCount) || 0,
+                            verified: !!data.verified,
+                            city: data.city || data.location || '',
+                            jurisdiction: data.jurisdiction || '',
+                            languages: Array.isArray(data.languages) ? data.languages : [],
+                            feesRange: data.feesRange || null,
+                            consultationFee: Number(data.consultationFee) || 0,
+                            bio: data.bio || '',
+                        });
+                        setLoading(false);
+                        return;
+                    }
+                }
+
+                // 3. Try static lawyers array (handles both numeric and string IDs)
+                const numericId = parseInt(id);
+                const staticMatch = lawyers.find((l) => l.id === numericId || String(l.id) === String(id));
+                if (staticMatch) {
+                    setLawyer({ ...staticMatch, id: String(staticMatch.id) });
+                    setLoading(false);
+                    return;
+                }
+
+                // 4. Try dynamic lawyers from localStorage
+                const dynamic = getDynamicLawyers();
+                const dynamicMatch = dynamic.find((l) => String(l.id) === String(id));
+                if (dynamicMatch) {
+                    setLawyer(dynamicMatch);
+                    setLoading(false);
+                    return;
+                }
+
+                // Not found
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching lawyer for booking:", err);
+                setLoading(false);
+            }
+        };
+
+        fetchLawyer();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="book-page container">
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <div className="spinner"></div>
+                    <p style={{ color: 'var(--gray-500)', marginTop: '1rem' }}>Loading lawyer details...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!lawyer) {
         return (

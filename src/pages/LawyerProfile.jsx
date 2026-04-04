@@ -203,6 +203,15 @@ export default function LawyerProfile() {
                     return;
                 }
 
+                // 4. Fallback: try static lawyers array (handles both numeric and string IDs)
+                const numericId = parseInt(id);
+                const staticMatch = lawyers.find(l => l.id === numericId || String(l.id) === String(id));
+                if (staticMatch) {
+                    setLawyer({ ...staticMatch, id: String(staticMatch.id) });
+                    setLoading(false);
+                    return;
+                }
+
                 setError("Lawyer not found");
             } catch (err) {
                 console.error(err);

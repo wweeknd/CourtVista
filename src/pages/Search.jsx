@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
 import LawyerCard from '../components/LawyerCard';
 import { getDynamicLawyers } from '../context/AuthContext';
+import { lawyers as staticLawyers } from '../data/lawyers';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import './Search.css';
@@ -135,6 +136,21 @@ export default function Search({ compareIds, onCompareToggle }) {
                 }
                 for (const l of dynamicLawyers) {
                     if (!seenIds.has(l.id)) { seenIds.add(l.id); merged.push(l); }
+                }
+
+                // 4. Merge static lawyers from lawyers.js (always available, no Firestore needed)
+                //    These serve as the ultimate fallback — every device sees them
+                for (const sl of staticLawyers) {
+                    const slId = String(sl.id); // normalize numeric ID to string
+                    if (!seenIds.has(slId) && !seenIds.has(sl.id)) {
+                        seenIds.add(slId);
+                        merged.push({
+                            ...sl,
+                            id: slId, // use string ID for consistency with Firestore doc IDs
+                            liveRating: sl.rating || 0,
+                            liveReviewCount: sl.reviewCount || 0,
+                        });
+                    }
                 }
 
                 // Filter out hidden profiles
