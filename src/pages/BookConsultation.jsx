@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
 import { sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../utils/emailClient';
 import AuthModal from '../components/AuthModal';
+import toast from 'react-hot-toast';
 import './BookConsultation.css';
 
 import { db } from '../firebase';
@@ -14,8 +15,10 @@ import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/fires
 export default function BookConsultation() {
     const { id } = useParams();
     const { user, refreshUser } = useAuth();
+    const navigate = useNavigate();
     const [lawyer, setLawyer] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [formData, setFormData] = useState({
@@ -138,6 +141,14 @@ export default function BookConsultation() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // ── Email verification gate ──────────────────────────────────────────
+        if (!user?.emailVerified) {
+            toast.error('Please verify your email address before booking a consultation.');
+            navigate('/verify-email');
+            return;
+        }
+
+        setSubmitting(true);
         try {
             // Persist the booking to Firestore
             const consultationData = {
@@ -184,7 +195,9 @@ export default function BookConsultation() {
             setSubmitted(true);
         } catch (err) {
             console.error('Failed to save consultation to Firestore:', err);
-            alert('Failed to send consultation request. Please try again.');
+            toast.error('Failed to send consultation request. Please try again.');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -385,8 +398,13 @@ export default function BookConsultation() {
                             placeholder="Describe your legal issue briefly..." rows={4} />
                     </div>
                 </div>
-                <button type="submit" className="btn btn--gold btn--lg book-form__submit" style={{ width: '100%' }}>
-                    Send Consultation Request
+                <button
+                    type="submit"
+                    className="btn btn--gold btn--lg book-form__submit"
+                    style={{ width: '100%' }}
+                    disabled={submitting}
+                >
+                    {submitting ? 'Sending Request…' : 'Send Consultation Request'}
                 </button>
             </form>
         </div>
