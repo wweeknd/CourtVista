@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { initiateEmailVerification } from '../utils/emailClient';
 import './AuthModal.css';
 
 /**
@@ -32,7 +31,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, message }) {
 
     if (!isOpen) return null;
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -41,7 +40,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, message }) {
             return;
         }
 
-        const result = login(loginEmail, loginPassword);
+        const result = await login(loginEmail, loginPassword);
         if (result.success) {
             onSuccess?.(result.user);
             onClose();
@@ -59,8 +58,8 @@ export default function AuthModal({ isOpen, onClose, onSuccess, message }) {
             return;
         }
 
-        if (regPassword.length < 4) {
-            setError('Password must be at least 4 characters.');
+        if (regPassword.length < 8) {
+            setError('Password must be at least 8 characters.');
             return;
         }
 
@@ -69,10 +68,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess, message }) {
             return;
         }
 
-        const result = register({ name: regName, email: regEmail, password: regPassword, role: regRole });
+        const result = await register({ name: regName, email: regEmail, password: regPassword, role: regRole });
         if (result.success) {
-            // Send verification email
-            await initiateEmailVerification(regEmail.toLowerCase(), regName);
+            // Firebase verification email is sent automatically inside register()
             setVerificationSent(true);
         } else {
             setError(result.message);

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CourtVista</title>
+  <script>
+    /**
+     * GitHub Pages SPA 404 redirect trick.
+     * When GH Pages can't find a file, it serves this 404.html.
+     * We redirect back to the root with the path encoded in the query string.
+     * The main index.html then decodes it and restores window.history.
+     *
+     * Because this app uses HashRouter (#/path), most refreshes already work.
+     * This handles edge cases where someone navigates to /#/some/path directly.
+     */
+    var seg = 1; // Number of path segments to keep (1 = /CourtVista/)
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + seg).join('/') + '/?p=/' +
+      l.pathname.slice(1).split('/').slice(seg).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body></body>
+</html>

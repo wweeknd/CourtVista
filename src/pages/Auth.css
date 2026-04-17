@@ -140,6 +140,27 @@
     font-weight: 500;
 }
 
+/* ── Per-field inline validation error (shown below each input on blur) ──────── */
+.form-field-error {
+    display: block;
+    margin-top: var(--space-1);
+    color: #dc2626;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+/* Input border turns red when field has an error */
+.form-input--error,
+.auth-form .form-input--error {
+    border-color: #fca5a5 !important;
+    background-color: #fef2f2;
+}
+
+.form-input--error:focus {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
 /* Footer link */
 .auth-card__footer {
     text-align: center;
