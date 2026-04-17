@@ -205,3 +205,23 @@
         display: none;
     }
 }
+
+@media (max-width: 640px) {
+    .search-page {
+        background: var(--gray-50, #f9fafb);
+        min-height: 100vh;
+    }
+
+    .search-page__header {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        margin-bottom: var(--space-5);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .search-page__title {
+        color: var(--navy-800);
+        font-size: var(--text-2xl);
+    }
+}

@@ -1,0 +1,120 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ──────────────────────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isLawyer() {
+      return isSignedIn() && getUserData().role == 'lawyer';
+    }
+
+    function isUser() {
+      return isSignedIn() && getUserData().role == 'user';
+    }
+
+    // ── users collection ──────────────────────────────────────────────────────
+    // Readable by anyone (for lawyer profile pages, search results)
+    // Only writable by the owner of the document
+
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    // ── lawyers collection ────────────────────────────────────────────────────
+    // Readable by anyone (for search and profile pages)
+    // Writable by the lawyer who owns the record, or during registration
+
+    match /lawyers/{lawyerId} {
+      allow read: if true;
+      allow create: if isOwner(lawyerId);
+      allow update: if isOwner(lawyerId);
+      allow delete: if isOwner(lawyerId);
+    }
+
+    // ── consultations collection ──────────────────────────────────────────────
+    // A consultation involves a clientId and a lawyerId.
+    // - Clients can create consultations (booking) and read/update their own
+    // - Lawyers can read consultations where they are the lawyerId and update status
+    // - Both parties can cancel (update status)
+
+    match /consultations/{consultationId} {
+      // Anyone signed in can create a consultation (they book for themselves)
+      allow create: if isSignedIn()
+        && request.resource.data.clientId == request.auth.uid;
+
+      // Read: the client or the lawyer involved
+      allow read: if isSignedIn()
+        && (resource.data.clientId == request.auth.uid
+            || resource.data.lawyerId == request.auth.uid);
+
+      // Update: either party (client cancels, lawyer accepts/declines)
+      allow update: if isSignedIn()
+        && (resource.data.clientId == request.auth.uid
+            || resource.data.lawyerId == request.auth.uid);
+
+      // Delete: not allowed (use status=cancelled instead)
+      allow delete: if false;
+    }
+
+    // ── messages collection ───────────────────────────────────────────────────
+    // Messages are linked to a consultation via conversationId.
+    // Only the two parties of that consultation can send/read messages.
+
+    match /messages/{messageId} {
+      // Create: sender must be authenticated and must be a party to the consultation
+      allow create: if isSignedIn()
+        && request.resource.data.senderId == request.auth.uid
+        && isPartyToConsultation(request.resource.data.conversationId);
+
+      // Read: must be a party to the consultation referenced by conversationId
+      allow read: if isSignedIn()
+        && isPartyToConsultation(resource.data.conversationId);
+
+      // Update/Delete: not allowed (messages are immutable)
+      allow update, delete: if false;
+    }
+
+    // ── reviews collection ────────────────────────────────────────────────────
+    // Reviews are linked to a lawyer by lawyerId.
+    // - Anyone can read reviews (public)
+    // - Only authenticated users (not lawyers) can create/update their own review
+    // - Only the reviewer can delete their own review
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+
+      allow create: if isSignedIn()
+        && request.resource.data.reviewerUserId == request.auth.uid
+        && getUserData().role != 'lawyer';
+
+      allow update: if isSignedIn()
+        && resource.data.reviewerUserId == request.auth.uid;
+
+      allow delete: if isSignedIn()
+        && resource.data.reviewerUserId == request.auth.uid;
+    }
+
+    // ── Helper: check if current user is a party to a consultation ───────────
+    function isPartyToConsultation(consultationId) {
+      let consultation = get(/databases/$(database)/documents/consultations/$(consultationId)).data;
+      return consultation.clientId == request.auth.uid
+          || consultation.lawyerId == request.auth.uid;
+    }
+
+  }
+}

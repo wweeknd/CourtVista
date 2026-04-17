@@ -1,17 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials, getRatingColor } from '../data/lawyers';
 import './Dashboard.css';
 
-function getStoredConsultations() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-    } catch {
-        return [];
-    }
-}
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp, getDocs } from 'firebase/firestore';
 
 function formatDate(dateStr) {
     if (!dateStr) return '—';
@@ -43,33 +37,60 @@ function getStatusSummary(consultations) {
     return 'Find and connect with the right legal professional';
 }
 
-function updateConsultationStatus(consultationId, newStatus) {
-    try {
-        const all = JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-        const updated = all.map((c) =>
-            c.id === consultationId ? { ...c, status: newStatus, cancelledAt: newStatus === 'cancelled' ? new Date().toISOString() : c.cancelledAt } : c
-        );
-        localStorage.setItem('courtvista_consultations', JSON.stringify(updated));
-        return updated;
-    } catch {
-        return [];
-    }
-}
-
 const TAB_FILTERS = ['all', 'pending', 'confirmed', 'cancelled', 'declined', 'reviews'];
 
 export default function UserDashboard() {
     const { user } = useAuth();
-    const [consultations, setConsultations] = useState(getStoredConsultations);
+    const [consultations, setConsultations] = useState([]);
     const [cancellingId, setCancellingId] = useState(null);
     const [activeTab, setActiveTab] = useState('all');
+    const [loading, setLoading] = useState(true);
+    const [myReviews, setMyReviews] = useState([]);
+
+    // ── Real-time listener for consultations where this user is the client ──
+    useEffect(() => {
+        if (!user?.id) return;
+
+        const q = query(
+            collection(db, 'consultations'),
+            where('clientId', '==', user.id)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const results = snapshot.docs.map((docSnap) => ({
+                id: docSnap.id,
+                ...docSnap.data(),
+                createdAt: docSnap.data().createdAt?.toDate?.()?.toISOString?.() || docSnap.data().createdAt || new Date().toISOString(),
+            }));
+            setConsultations(results);
+            setLoading(false);
+        }, (err) => {
+            console.error('UserDashboard: Firestore listener error:', err);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [user?.id]);
+
+    // ── Real-time listener for reviews submitted by this user ──
+    useEffect(() => {
+        if (!user?.id) return;
+
+        const q = query(
+            collection(db, 'reviews'),
+            where('reviewerUserId', '==', user.id)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setMyReviews(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+        });
+
+        return () => unsubscribe();
+    }, [user?.id]);
 
     const myConsultations = useMemo(() =>
-        consultations.filter((c) => {
-            if (c.clientUserId && c.clientUserId === user?.id) return true;
-            return c.clientEmail?.toLowerCase() === user?.email?.toLowerCase();
-        }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-        [consultations, user]
+        [...consultations].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+        [consultations]
     );
 
     const pending = myConsultations.filter((c) => c.status === 'pending');
@@ -86,69 +107,48 @@ export default function UserDashboard() {
         .filter((c) => c.date && new Date(c.date) >= new Date())
         .sort((a, b) => new Date(a.date) - new Date(b.date))[0];
 
-    // Recommended lawyers (top 3 by rating that user hasn't booked)
-    const recommendedLawyers = useMemo(() => {
-        const dynamic = getDynamicLawyers();
-        const all = [...lawyers, ...dynamic];
-        const bookedLawyerIds = new Set(myConsultations.map((c) => c.lawyerId));
-
-        return all
-            .filter((l) => !bookedLawyerIds.has(l.id))
-            .map(l => {
-                // Calculate real rating for sorting
-                try {
-                    const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
-                    const rating = reviews.length > 0
-                        ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length)
-                        : (l.rating || 0);
-                    return { ...l, liveRating: rating };
-                } catch {
-                    return { ...l, liveRating: l.rating || 0 };
-                }
-            })
-            .sort((a, b) => b.liveRating - a.liveRating)
-            .slice(0, 3);
+    // Recommended lawyers (top 3 from Firestore lawyers collection)
+    const [recommendedLawyers, setRecommendedLawyers] = useState([]);
+    useEffect(() => {
+        async function fetchRecommended() {
+            try {
+                const snapshot = await getDocs(collection(db, 'lawyers'));
+                const bookedLawyerIds = new Set(myConsultations.map((c) => c.lawyerId));
+                const recs = snapshot.docs
+                    .map((d) => ({ id: d.id, ...d.data() }))
+                    .filter((l) => !bookedLawyerIds.has(l.id))
+                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                    .slice(0, 3);
+                setRecommendedLawyers(recs);
+            } catch (e) {
+                console.error('Failed to fetch recommended lawyers:', e);
+            }
+        }
+        fetchRecommended();
     }, [myConsultations]);
 
-    // Listen for storage changes to keep myReviews in sync
-    const [storageVer, setStorageVer] = useState(0);
-    useEffect(() => {
-        const handleStorage = () => setStorageVer(v => v + 1);
-        window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
-    }, []);
-
-    const myReviews = useMemo(() => {
-        const found = [];
-        if (!user) return found;
-        const allLawyers = [...lawyers, ...getDynamicLawyers()];
-        allLawyers.forEach(l => {
-            try {
-                const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
-                const userReview = reviews.find(r => String(r.reviewerUserId) === String(user.id));
-                if (userReview) {
-                    found.push({ ...userReview, lawyerId: l.id, lawyerName: l.name });
-                }
-            } catch (e) { }
-        });
-        return found;
-    }, [user, storageVer]);
-
-    const handleDeleteReview = (lawyerId) => {
-        if (!user) return;
+    // Cancel consultation via Firestore
+    const handleCancelConsultation = async (consultationId) => {
         try {
-            const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${lawyerId}`)) || [];
-            const updated = reviews.filter(r => String(r.reviewerUserId) !== String(user.id));
-            localStorage.setItem(`courtvista_reviews_${lawyerId}`, JSON.stringify(updated));
-            // Trigger storage event to update local useMemo and other components
-            window.dispatchEvent(new Event('storage'));
-        } catch (e) { }
+            await updateDoc(doc(db, 'consultations', consultationId), {
+                status: 'cancelled',
+                cancelledAt: serverTimestamp(),
+            });
+        } catch (err) {
+            console.error('Failed to cancel consultation:', err);
+            alert('Failed to cancel. Please try again.');
+        }
+        setCancellingId(null);
     };
 
-    const handleCancelConsultation = (consultationId) => {
-        const updated = updateConsultationStatus(consultationId, 'cancelled');
-        setConsultations(updated);
-        setCancellingId(null);
+    // Delete review from Firestore
+    const handleDeleteReview = async (reviewId) => {
+        if (!user) return;
+        try {
+            await deleteDoc(doc(db, 'reviews', reviewId));
+        } catch (e) {
+            console.error('Failed to delete review:', e);
+        }
     };
 
     const tabCounts = {
@@ -159,6 +159,17 @@ export default function UserDashboard() {
         declined: declined.length,
         reviews: myReviews.length,
     };
+
+    if (loading) {
+        return (
+            <div className="dashboard dashboard--user container animate-fade-in-up">
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <div className="spinner"></div>
+                    <p style={{ color: 'var(--gray-500)', marginTop: '1rem' }}>Loading your dashboard...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="dashboard dashboard--user container animate-fade-in-up">
@@ -293,8 +304,8 @@ export default function UserDashboard() {
                                         <div className="dashboard__consultation-client">
                                             <div className="dashboard__consultation-avatar" style={{ background: 'var(--gold-50)' }}>⭐</div>
                                             <div>
-                                                <div className="dashboard__consultation-name">{rev.lawyerName}</div>
-                                                <div className="dashboard__consultation-email">Rated {rev.rating}/10 on {rev.date}</div>
+                                                <div className="dashboard__consultation-name">{rev.lawyerName || 'Lawyer'}</div>
+                                                <div className="dashboard__consultation-email">Rated {rev.rating}/5 on {rev.date}</div>
                                             </div>
                                         </div>
                                         <div className="dashboard__status-badge" style={{ background: 'var(--gold-500)', color: 'white' }}>
@@ -309,7 +320,7 @@ export default function UserDashboard() {
                                             View & Edit
                                         </Link>
                                         <button
-                                            onClick={() => handleDeleteReview(rev.lawyerId)}
+                                            onClick={() => handleDeleteReview(rev.id)}
                                             className="btn btn--sm"
                                             style={{ color: 'var(--red-600)', background: 'transparent', border: '1px solid var(--red-100)' }}
                                         >
@@ -342,7 +353,7 @@ export default function UserDashboard() {
                 ) : (
                     <div className="dashboard__consultation-list">
                         {filteredConsultations.map((c) => {
-                            const lawyerData = lawyers.find((l) => l.id === c.lawyerId);
+                            const lawyerData = lawyers.find((l) => String(l.id) === String(c.lawyerId));
                             const specs = lawyerData
                                 ? lawyerData.specializations
                                     .map((s) => practiceAreas.find((pa) => pa.id === s)?.name)
@@ -438,18 +449,19 @@ export default function UserDashboard() {
                     </h2>
                     <div className="recommended-grid">
                         {recommendedLawyers.map((lawyer) => {
-                            const specs = lawyer.specializations
+                            const specs = (lawyer.specializations || [])
                                 .map((s) => practiceAreas.find((pa) => pa.id === s)?.name)
                                 .filter(Boolean);
+                            const photo = lawyer.profilePicture || lawyer.photo || '';
                             return (
                                 <Link key={lawyer.id} to={`/lawyer/${lawyer.id}`} className="recommended-card">
                                     <div className="recommended-card__avatar" style={{
-                                        backgroundImage: lawyer.photo ? `url(${lawyer.photo})` : undefined,
+                                        backgroundImage: photo ? `url(${photo})` : undefined,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
-                                        color: lawyer.photo ? 'transparent' : 'white'
+                                        color: photo ? 'transparent' : 'white'
                                     }}>
-                                        {!lawyer.photo && getInitials(lawyer.name)}
+                                        {!photo && getInitials(lawyer.name || 'L')}
                                     </div>
                                     <div className="recommended-card__info">
                                         <div className="recommended-card__name">{lawyer.name}</div>
@@ -457,9 +469,9 @@ export default function UserDashboard() {
                                         <div className="recommended-card__meta">
                                             <span
                                                 className="recommended-card__rating"
-                                                style={{ color: getRatingColor(lawyer.liveRating) }}
+                                                style={{ color: getRatingColor(lawyer.rating || 0) }}
                                             >
-                                                ★ {(Number(lawyer.liveRating) || 0).toFixed(1)}
+                                                ★ {(Number(lawyer.rating) || 0).toFixed(1)}
                                             </span>
                                             <span className="recommended-card__exp">{lawyer.experience || 0}y exp</span>
                                             <span className="recommended-card__city">{lawyer.city || 'Location N/A'}</span>

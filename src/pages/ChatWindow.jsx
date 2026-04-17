@@ -4,28 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { lawyers, getInitials } from '../data/lawyers';
 import './ChatWindow.css';
 
-function getStoredMessages() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_messages')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function saveMessage(msg) {
-    const all = getStoredMessages();
-    all.push(msg);
-    localStorage.setItem('courtvista_messages', JSON.stringify(all));
-    return all;
-}
-
-function getStoredConsultations() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-    } catch {
-        return [];
-    }
-}
+import { db } from '../firebase';
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, doc } from 'firebase/firestore';
 
 function formatTime(timestamp) {
     return new Date(timestamp).toLocaleTimeString('en-IN', {
@@ -49,61 +29,115 @@ export default function ChatWindow() {
     const { conversationId } = useParams();
     const { user } = useAuth();
     const navigate = useNavigate();
-    const [messages, setMessages] = useState(getStoredMessages);
+    const [messages, setMessages] = useState([]);
+    const [consultation, setConsultation] = useState(null);
+    const [consultationLoading, setConsultationLoading] = useState(true);
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
-    // Find the consultation for this conversation
-    const consultation = useMemo(() => {
-        const consultations = getStoredConsultations();
-        return consultations.find((c) => c.id === conversationId);
+    // ── Real-time listener for the consultation document ──
+    useEffect(() => {
+        if (!conversationId) return;
+
+        const unsubscribe = onSnapshot(
+            doc(db, 'consultations', conversationId),
+            (docSnap) => {
+                if (docSnap.exists()) {
+                    setConsultation({ id: docSnap.id, ...docSnap.data() });
+                } else {
+                    setConsultation(null);
+                }
+                setConsultationLoading(false);
+            },
+            (err) => {
+                console.error('ChatWindow: consultation listener error:', err);
+                setConsultationLoading(false);
+            }
+        );
+
+        return () => unsubscribe();
+    }, [conversationId]);
+
+    // ── Real-time listener for messages in this conversation ──
+    useEffect(() => {
+        if (!conversationId) return;
+
+        const q = query(
+            collection(db, 'messages'),
+            where('conversationId', '==', conversationId),
+            orderBy('timestamp', 'asc')
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const msgs = snapshot.docs.map((d) => {
+                const data = d.data();
+                return {
+                    id: d.id,
+                    ...data,
+                    timestamp: data.timestamp?.toDate?.()?.toISOString?.() || data.timestamp || new Date().toISOString(),
+                };
+            });
+            setMessages(msgs);
+        }, (err) => {
+            console.error('ChatWindow: messages listener error:', err);
+        });
+
+        return () => unsubscribe();
     }, [conversationId]);
 
     const isLawyer = user?.role === 'lawyer';
     const otherName = isLawyer ? consultation?.clientName : consultation?.lawyerName;
     const lawyerData = !isLawyer
-        ? lawyers.find((l) => l.id === consultation?.lawyerId)
+        ? lawyers.find((l) => String(l.id) === String(consultation?.lawyerId))
         : null;
-
-    // Filter messages for this conversation
-    const conversationMessages = useMemo(() =>
-        messages
-            .filter((m) => m.conversationId === conversationId)
-            .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)),
-        [messages, conversationId]
-    );
 
     // Auto-scroll to bottom
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [conversationMessages.length]);
+    }, [messages.length]);
 
     // Focus input on mount
     useEffect(() => {
         inputRef.current?.focus();
     }, []);
 
-    const handleSend = useCallback((e) => {
+    // ── Send message to Firestore ──
+    const handleSend = useCallback(async (e) => {
         e.preventDefault();
         if (!newMessage.trim() || !user || !consultation) return;
 
-        const msg = {
-            id: 'msg-' + Date.now(),
+        const msgData = {
             conversationId,
             senderId: user.id,
             senderName: user.name,
             senderRole: user.role,
             text: newMessage.trim(),
-            timestamp: new Date().toISOString(),
+            timestamp: serverTimestamp(),
             read: false,
         };
 
-        const updated = saveMessage(msg);
-        setMessages(updated);
         setNewMessage('');
         inputRef.current?.focus();
+
+        try {
+            await addDoc(collection(db, 'messages'), msgData);
+        } catch (err) {
+            console.error('Failed to send message:', err);
+            alert('Failed to send message. Please try again.');
+        }
     }, [newMessage, user, consultation, conversationId]);
+
+    if (consultationLoading) {
+        return (
+            <div className="chat-window container animate-fade-in-up">
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <div className="spinner"></div>
+                    <p style={{ color: 'var(--gray-500)', marginTop: '1rem' }}>Loading conversation...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!consultation) {
         return (
@@ -155,14 +189,14 @@ export default function ChatWindow() {
 
             {/* Messages area */}
             <div className="chat-window__messages">
-                {conversationMessages.length === 0 && (
+                {messages.length === 0 && (
                     <div className="chat-window__start-conversation">
                         <div className="chat-window__start-icon">👋</div>
                         <p>Start the conversation! Say hello to {otherName}.</p>
                     </div>
                 )}
 
-                {conversationMessages.map((msg) => {
+                {messages.map((msg) => {
                     const isMine = msg.senderId === user.id;
                     const currentDateStr = formatDateSeparator(msg.timestamp);
                     let showDateSeparator = false;

@@ -1,57 +1,87 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { lawyers, getInitials } from '../data/lawyers';
 import './ChatList.css';
 
-function getStoredMessages() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_messages')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function getStoredConsultations() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-    } catch {
-        return [];
-    }
-}
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, orderBy, limit } from 'firebase/firestore';
 
 export default function ChatList() {
     const { user } = useAuth();
-    const [messages] = useState(getStoredMessages);
-    const [consultations] = useState(getStoredConsultations);
+    const [consultations, setConsultations] = useState([]);
+    const [messagesByConv, setMessagesByConv] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    // ── Real-time listener for confirmed consultations involving this user ──
+    useEffect(() => {
+        if (!user?.id) return;
+
+        const isLawyer = user.role === 'lawyer';
+        const fieldName = isLawyer ? 'lawyerId' : 'clientId';
+
+        const q = query(
+            collection(db, 'consultations'),
+            where(fieldName, '==', user.id),
+            where('status', '==', 'confirmed')
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const results = snapshot.docs.map((d) => ({
+                id: d.id,
+                ...d.data(),
+                createdAt: d.data().createdAt?.toDate?.()?.toISOString?.() || d.data().createdAt || new Date().toISOString(),
+            }));
+            setConsultations(results);
+            setLoading(false);
+        }, (err) => {
+            console.error('ChatList: consultation listener error:', err);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [user?.id, user?.role]);
+
+    // ── Real-time listeners for latest messages per consultation ──
+    useEffect(() => {
+        if (consultations.length === 0) return;
+
+        const unsubscribers = consultations.map((consultation) => {
+            const q = query(
+                collection(db, 'messages'),
+                where('conversationId', '==', consultation.id),
+                orderBy('timestamp', 'desc'),
+                limit(1)
+            );
+
+            return onSnapshot(q, (snapshot) => {
+                const msgs = snapshot.docs.map((d) => {
+                    const data = d.data();
+                    return {
+                        id: d.id,
+                        ...data,
+                        timestamp: data.timestamp?.toDate?.()?.toISOString?.() || data.timestamp || new Date().toISOString(),
+                    };
+                });
+
+                setMessagesByConv((prev) => ({
+                    ...prev,
+                    [consultation.id]: msgs,
+                }));
+            });
+        });
+
+        return () => unsubscribers.forEach((unsub) => unsub());
+    }, [consultations]);
 
     // Build conversations from confirmed consultations
     const conversations = useMemo(() => {
         if (!user) return [];
-
         const isLawyer = user.role === 'lawyer';
-        const platformProfile = isLawyer
-            ? lawyers.find((l) => l.name.toLowerCase().includes(user.name.toLowerCase()))
-            : null;
 
-        // Get confirmed consultations for this user
-        const myConsultations = consultations.filter((c) => {
-            if (c.status !== 'confirmed') return false;
-            if (isLawyer) {
-                if (platformProfile && c.lawyerId === platformProfile.id) return true;
-                return c.lawyerName?.toLowerCase().includes(user.name.toLowerCase());
-            }
-            if (c.clientUserId && c.clientUserId === user.id) return true;
-            return c.clientEmail?.toLowerCase() === user.email?.toLowerCase();
-        });
-
-        // Build conversation objects
-        return myConsultations.map((consultation) => {
-            const conversationId = consultation.id;
-            const convMessages = messages.filter((m) => m.conversationId === conversationId);
-            const lastMessage = convMessages.length > 0
-                ? convMessages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0]
-                : null;
+        return consultations.map((consultation) => {
+            const convMessages = messagesByConv[consultation.id] || [];
+            const lastMessage = convMessages[0] || null;
             const unreadCount = convMessages.filter(
                 (m) => m.senderId !== user.id && !m.read
             ).length;
@@ -60,7 +90,7 @@ export default function ChatList() {
             const otherRole = isLawyer ? 'Client' : 'Lawyer';
 
             return {
-                id: conversationId,
+                id: consultation.id,
                 otherName,
                 otherRole,
                 caseType: consultation.caseTypeName || 'Consultation',
@@ -71,7 +101,18 @@ export default function ChatList() {
                 isLawyer,
             };
         }).sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
-    }, [user, messages, consultations]);
+    }, [user, consultations, messagesByConv]);
+
+    if (loading) {
+        return (
+            <div className="chat-list container animate-fade-in-up">
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <div className="spinner"></div>
+                    <p style={{ color: 'var(--gray-500)', marginTop: '1rem' }}>Loading conversations...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="chat-list container animate-fade-in-up">
@@ -101,7 +142,7 @@ export default function ChatList() {
                 <div className="chat-list__conversations">
                     {conversations.map((conv) => {
                         const lawyerData = !conv.isLawyer
-                            ? lawyers.find((l) => l.id === conv.lawyerId)
+                            ? lawyers.find((l) => String(l.id) === String(conv.lawyerId))
                             : null;
 
                         return (

@@ -7,41 +7,10 @@ import ReviewCard from '../components/ReviewCard';
 import './LawyerProfile.css';
 
 import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 
 
-// ── localStorage helpers for user-submitted reviews ──────────────────────────
-function getStoredReviews(lawyerId) {
-    try {
-        return JSON.parse(localStorage.getItem(`courtvista_reviews_${lawyerId}`)) || [];
-    } catch {
-        return [];
-    }
-}
-
-function saveReview(lawyerId, review) {
-    const existing = getStoredReviews(lawyerId);
-    // Remove if this user already reviewed to allow update
-    const filtered = existing.filter(r => r.reviewerUserId !== review.reviewerUserId);
-    const updated = [review, ...filtered];
-    localStorage.setItem(`courtvista_reviews_${lawyerId}`, JSON.stringify(updated));
-    // Also trigger storage event for real-time updates across components
-    window.dispatchEvent(new Event('storage'));
-    return updated;
-}
-
-// ── Find a lawyer by ID across both static AND dynamic lists ──────────────────
-function findLawyer(id) {
-    // Static lawyers have numeric IDs; try integer match first
-    const numericId = parseInt(id);
-    if (!isNaN(numericId)) {
-        const staticMatch = lawyers.find((l) => l.id === numericId);
-        if (staticMatch) return staticMatch;
-    }
-    // Fallback: match dynamic lawyers by string ID
-    const dynamic = getDynamicLawyers();
-    return dynamic.find((l) => String(l.id) === String(id)) || null;
-}
+// Reviews are now stored in Firestore 'reviews' collection (no localStorage)
 
 // ── Star selector component ───────────────────────────────────────────────────
 function StarSelector({ value, onChange }) {
@@ -76,8 +45,8 @@ export default function LawyerProfile() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // ── User-submitted reviews ───────────────────────────────────────────────
-    const [userReviews, setUserReviews] = useState(() => getStoredReviews(id));
+    // ── User-submitted reviews (from Firestore) ────────────────────────────────
+    const [userReviews, setUserReviews] = useState([]);
     const [reviewForm, setReviewForm] = useState({ rating: 0, text: '' });
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
     const [reviewError, setReviewError] = useState('');
@@ -85,18 +54,30 @@ export default function LawyerProfile() {
     // Check if this user already left a review
     const alreadyReviewed = userReviews.some((r) => String(r.reviewerUserId) === String(user?.id));
 
-    //For reviews
+    // Real-time listener for reviews from Firestore
     useEffect(() => {
-        const reviews = getStoredReviews(id);
-        setUserReviews(reviews);
-        // Pre-populate if this user already reviewed
-        const mine = reviews.find(r => String(r.reviewerUserId) === String(user?.id));
-        if (mine) {
-            setReviewForm({ rating: mine.rating, text: mine.text });
-        } else {
-            setReviewForm({ rating: 0, text: '' });
-        }
-    }, [id, user]);
+        if (!id) return;
+
+        const q = query(
+            collection(db, 'reviews'),
+            where('lawyerId', '==', id)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const reviews = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+            setUserReviews(reviews);
+
+            // Pre-populate if this user already reviewed
+            const mine = reviews.find(r => String(r.reviewerUserId) === String(user?.id));
+            if (mine) {
+                setReviewForm({ rating: mine.rating, text: mine.text });
+            } else {
+                setReviewForm({ rating: 0, text: '' });
+            }
+        });
+
+        return () => unsubscribe();
+    }, [id, user?.id]);
 
     //For Firestore
     useEffect(() => {
@@ -252,8 +233,8 @@ export default function LawyerProfile() {
         };
     });
 
-    // ── Review submission ─────────────────────────────────────────────────────
-    const handleReviewSubmit = (e) => {
+    // ── Review submission (to Firestore) ────────────────────────────────────────
+    const handleReviewSubmit = async (e) => {
         e.preventDefault();
         setReviewError('');
 
@@ -276,20 +257,29 @@ export default function LawyerProfile() {
 
         const existingMine = userReviews.find(r => String(r.reviewerUserId) === String(user.id));
 
-        const newReview = {
-            id: existingMine ? existingMine.id : `ureview-${Date.now()}`,
+        // Use a deterministic doc ID so the same user can update their review
+        const reviewDocId = existingMine?.id || `review_${id}_${user.id}`;
+
+        const reviewData = {
+            lawyerId: id,
+            lawyerName: lawyer?.name || '',
             reviewer: user.name,
             reviewerUserId: user.id,
             rating: reviewForm.rating,
             text: reviewForm.text.trim(),
             date: new Date().toISOString().split('T')[0],
             helpful: existingMine ? existingMine.helpful : 0,
+            updatedAt: serverTimestamp(),
         };
 
-        const updated = saveReview(id, newReview);
-        setUserReviews(updated);
-        setReviewForm({ rating: 0, text: '' });
-        setReviewSubmitted(true);
+        try {
+            await setDoc(doc(db, 'reviews', reviewDocId), reviewData);
+            setReviewForm({ rating: 0, text: '' });
+            setReviewSubmitted(true);
+        } catch (err) {
+            console.error('Failed to save review:', err);
+            setReviewError('Failed to submit review. Please try again.');
+        }
     };
 
     // Dynamic experience calculation

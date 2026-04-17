@@ -1,29 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials } from '../data/lawyers';
 import { sendBookingConfirmationEmail, sendLawyerNotificationEmail } from '../utils/emailClient';
 import AuthModal from '../components/AuthModal';
 import './BookConsultation.css';
 
 import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-// Helpers for consultation persistence
-function getStoredConsultations() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function saveConsultation(consultation) {
-    const all = getStoredConsultations();
-    all.push(consultation);
-    localStorage.setItem('courtvista_consultations', JSON.stringify(all));
-}
+// Consultation is now saved directly to Firestore (no localStorage)
 
 export default function BookConsultation() {
     const { id } = useParams();
@@ -105,15 +91,6 @@ export default function BookConsultation() {
                     return;
                 }
 
-                // 4. Try dynamic lawyers from localStorage
-                const dynamic = getDynamicLawyers();
-                const dynamicMatch = dynamic.find((l) => String(l.id) === String(id));
-                if (dynamicMatch) {
-                    setLawyer(dynamicMatch);
-                    setLoading(false);
-                    return;
-                }
-
                 // Not found
                 setLoading(false);
             } catch (err) {
@@ -161,57 +138,54 @@ export default function BookConsultation() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Persist the booking to localStorage
-        const consultation = {
-            id: 'consult-' + Date.now(),
-            lawyerId: lawyer.id,
-            lawyerName: lawyer.name,
-            clientName: formData.name,
-            clientEmail: formData.email.toLowerCase(),
-            clientUserId: user?.id || null,
-            phone: formData.phone,
-            caseType: formData.caseType,
-            caseTypeName: practiceAreas.find((pa) => pa.id === formData.caseType)?.name || formData.caseType,
-            date: formData.date,
-            time: formData.time,
-            message: formData.message,
-            status: 'pending',
-            createdAt: new Date().toISOString(),
-        };
+        try {
+            // Persist the booking to Firestore
+            const consultationData = {
+                lawyerId: String(lawyer.id),
+                lawyerName: lawyer.name,
+                clientId: user?.id || null,
+                clientName: formData.name,
+                clientEmail: formData.email.toLowerCase(),
+                phone: formData.phone,
+                caseType: formData.caseType,
+                caseTypeName: practiceAreas.find((pa) => pa.id === formData.caseType)?.name || formData.caseType,
+                date: formData.date,
+                time: formData.time,
+                message: formData.message,
+                status: 'pending',
+                createdAt: serverTimestamp(),
+            };
 
-        saveConsultation(consultation);
+            await addDoc(collection(db, 'consultations'), consultationData);
 
-        // Send notification emails (fire-and-forget — don't block the UI)
-        const emailDetails = {
-            clientName: formData.name,
-            lawyerName: lawyer.name,
-            date: formData.date,
-            time: formData.time,
-            caseType: practiceAreas.find((pa) => pa.id === formData.caseType)?.name || formData.caseType,
-            consultationFee: lawyer.consultationFee,
-            clientEmail: formData.email.toLowerCase(),
-            message: formData.message,
-        };
+            // Send notification emails (fire-and-forget — don't block the UI)
+            const emailDetails = {
+                clientName: formData.name,
+                lawyerName: lawyer.name,
+                date: formData.date,
+                time: formData.time,
+                caseType: practiceAreas.find((pa) => pa.id === formData.caseType)?.name || formData.caseType,
+                consultationFee: lawyer.consultationFee,
+                clientEmail: formData.email.toLowerCase(),
+                message: formData.message,
+            };
 
-        // Send booking confirmation to client
-        sendBookingConfirmationEmail(formData.email.toLowerCase(), emailDetails);
+            // Send booking confirmation to client
+            sendBookingConfirmationEmail(formData.email.toLowerCase(), emailDetails);
 
-        // Send notification to lawyer (if lawyer has an email — dynamic lawyers have email in user record)
-        // For static lawyers, we don't have their email, so skip
-        const dynamicLawyers = getDynamicLawyers();
-        const dynamicMatch = dynamicLawyers.find((dl) => String(dl.id) === String(lawyer.id));
-        if (dynamicMatch) {
-            // Get the lawyer's email from stored users
+            // Send notification to lawyer if they have an email in Firestore
             try {
-                const users = JSON.parse(localStorage.getItem('courtvista_users')) || [];
-                const lawyerUser = users.find((u) => u.id === lawyer.id);
-                if (lawyerUser?.email) {
-                    sendLawyerNotificationEmail(lawyerUser.email, emailDetails);
+                const lawyerUserDoc = await getDoc(doc(db, 'users', String(lawyer.id)));
+                if (lawyerUserDoc.exists() && lawyerUserDoc.data().email) {
+                    sendLawyerNotificationEmail(lawyerUserDoc.data().email, emailDetails);
                 }
-            } catch { /* ignore */ }
-        }
+            } catch { /* ignore email errors */ }
 
-        setSubmitted(true);
+            setSubmitted(true);
+        } catch (err) {
+            console.error('Failed to save consultation to Firestore:', err);
+            alert('Failed to send consultation request. Please try again.');
+        }
     };
 
     // If user is NOT logged in — show auth modal prompt

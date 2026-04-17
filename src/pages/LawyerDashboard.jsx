@@ -1,27 +1,12 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getDynamicLawyers } from '../context/AuthContext';
 import { lawyers, practiceAreas, getInitials, qnaData } from '../data/lawyers';
 import { sendAcceptanceEmailRequest, sendCancellationEmailRequest } from '../utils/emailClient';
 import './Dashboard.css';
 
-function getStoredConsultations() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_consultations')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function updateConsultationStatus(consultationId, newStatus) {
-    const all = getStoredConsultations();
-    const updated = all.map((c) =>
-        c.id === consultationId ? { ...c, status: newStatus } : c
-    );
-    localStorage.setItem('courtvista_consultations', JSON.stringify(updated));
-    return updated;
-}
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 
 function formatDate(dateStr) {
     if (!dateStr) return '—';
@@ -40,58 +25,73 @@ const TAB_FILTERS = ['pending', 'confirmed', 'cancelled', 'declined', 'all'];
 
 export default function LawyerDashboard() {
     const { user } = useAuth();
-    const [consultations, setConsultations] = useState(getStoredConsultations);
+    const [consultations, setConsultations] = useState([]);
     const [activeTab, setActiveTab] = useState('pending');
+    const [loading, setLoading] = useState(true);
 
-    // Match to platform profile (static lawyers)
+    // ── Real-time listener for consultations targeted at this lawyer ──
+    useEffect(() => {
+        if (!user?.id) return;
+
+        // Query consultations where lawyerId matches the current user's UID
+        const q = query(
+            collection(db, 'consultations'),
+            where('lawyerId', '==', user.id)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const results = snapshot.docs.map((docSnap) => ({
+                id: docSnap.id,
+                ...docSnap.data(),
+                // Normalize Firestore Timestamp to ISO string for display
+                createdAt: docSnap.data().createdAt?.toDate?.()?.toISOString?.() || docSnap.data().createdAt || new Date().toISOString(),
+            }));
+            setConsultations(results);
+            setLoading(false);
+        }, (err) => {
+            console.error('LawyerDashboard: Firestore listener error:', err);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [user?.id]);
+
+    // ── Real-time listener for reviews on this lawyer ──
+    const [myReviews, setMyReviews] = useState([]);
+    useEffect(() => {
+        if (!user?.id) return;
+
+        const q = query(
+            collection(db, 'reviews'),
+            where('lawyerId', '==', user.id)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setMyReviews(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+        });
+
+        return () => unsubscribe();
+    }, [user?.id]);
+
+    // Match to platform profile (static lawyers) — for showing performance stats
     const platformProfile = useMemo(() =>
-        lawyers.find((l) => l.name.toLowerCase().includes(user?.name?.toLowerCase() || '___')),
+        lawyers.find((l) => String(l.id) === String(user?.id)),
         [user]
     );
 
-    // For dynamic lawyers: find their own profile by user ID
-    const dynamicProfile = useMemo(() => {
-        if (platformProfile) return null; // already found in static list
-        const all = getDynamicLawyers();
-        return all.find((l) => String(l.id) === String(user?.id)) || null;
-    }, [platformProfile, user]);
-
-    // The active profile (static takes priority)
-    const activeProfile = platformProfile || dynamicProfile;
-
-    // Listen for storage changes (ratings)
-    const [storageVersion, setStorageVersion] = useState(0);
-    useEffect(() => {
-        const handleStorage = () => setStorageVersion(v => v + 1);
-        window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
-    }, []);
-
-    // Load user-submitted reviews for this lawyer
-    const myReviews = useMemo(() => {
-        if (!activeProfile) return [];
-        try {
-            return JSON.parse(localStorage.getItem(`courtvista_reviews_${activeProfile.id}`)) || [];
-        } catch { return []; }
-    }, [activeProfile, storageVersion]);
-
-    // Specializations text
+    // Specializations text from user profile
     const specNames = useMemo(() => {
-        if (!activeProfile) return '';
-        return (activeProfile.specializations || [])
+        const specs = user?.specializations || [];
+        return (Array.isArray(specs) ? specs : [])
             .map((s) => practiceAreas.find((pa) => pa.id === s)?.name)
             .filter(Boolean)
             .join(' · ');
-    }, [activeProfile]);
+    }, [user]);
 
-    // Filter consultations for this lawyer
+    // Sort consultations newest first
     const myConsultations = useMemo(() =>
-        consultations.filter((c) => {
-            if (activeProfile && c.lawyerId === activeProfile.id) return true;
-            if (activeProfile && String(c.lawyerId) === String(activeProfile.id)) return true;
-            return c.lawyerName?.toLowerCase().includes(user?.name?.toLowerCase() || '___');
-        }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-        [consultations, activeProfile, user]
+        [...consultations].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+        [consultations]
     );
 
     const pending = myConsultations.filter((c) => c.status === 'pending');
@@ -103,7 +103,7 @@ export default function LawyerDashboard() {
         ? myConsultations
         : myConsultations.filter((c) => c.status === activeTab);
 
-    // Q&A answers by this lawyer
+    // Q&A answers by this lawyer (static data — kept as-is)
     const myQnAnswers = useMemo(() => {
         if (!platformProfile) return [];
         return qnaData.flatMap((q) =>
@@ -125,12 +125,22 @@ export default function LawyerDashboard() {
         all: myConsultations.length,
     };
 
-    const handleStatusChange = useCallback((consultationId, newStatus) => {
+    // ── Accept / Decline via Firestore updateDoc ──
+    const handleStatusChange = useCallback(async (consultationId, newStatus) => {
         const consultation = consultations.find((c) => c.id === consultationId);
-        const updated = updateConsultationStatus(consultationId, newStatus);
-        setConsultations(updated);
 
-        // Send email notification to client
+        try {
+            await updateDoc(doc(db, 'consultations', consultationId), {
+                status: newStatus,
+                updatedAt: serverTimestamp(),
+            });
+        } catch (err) {
+            console.error('Failed to update consultation status:', err);
+            alert('Failed to update status. Please try again.');
+            return;
+        }
+
+        // Send email notification to client (fire-and-forget)
         if (consultation?.clientEmail) {
             const details = {
                 clientName: consultation.clientName,
@@ -146,6 +156,17 @@ export default function LawyerDashboard() {
         }
     }, [consultations, user]);
 
+    if (loading) {
+        return (
+            <div className="dashboard dashboard--lawyer container animate-fade-in-up">
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <div className="spinner"></div>
+                    <p style={{ color: 'var(--gray-500)', marginTop: '1rem' }}>Loading your dashboard...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="dashboard dashboard--lawyer container animate-fade-in-up">
             {/* ─── Lawyer Header Banner ─── */}
@@ -157,43 +178,37 @@ export default function LawyerDashboard() {
                         backgroundPosition: 'center',
                         color: user?.profilePicture ? 'transparent' : 'white'
                     }}>
-                        {!user?.profilePicture && (activeProfile ? getInitials(activeProfile.name) : user?.name?.charAt(0)?.toUpperCase())}
+                        {!user?.profilePicture && (user?.name?.charAt(0)?.toUpperCase() || '?')}
                     </div>
                     <div className="lawyer-banner__info">
                         <h1 className="lawyer-banner__name">{user?.name}</h1>
                         <div className="lawyer-banner__meta">
-                            {activeProfile ? (
+                            {user?.jurisdiction && (
                                 <>
-                                    <span>{activeProfile.jurisdiction}</span>
-                                    <span className="lawyer-banner__sep">·</span>
-                                    <span>{specNames}</span>
+                                    <span>{user.jurisdiction}</span>
+                                    {specNames && <span className="lawyer-banner__sep">·</span>}
                                 </>
-                            ) : (
-                                <span>Legal Professional</span>
+                            )}
+                            {specNames ? <span>{specNames}</span> : <span>Legal Professional</span>}
+                        </div>
+                        <div className="lawyer-banner__badges">
+                            {user?.experience && <span className="lawyer-banner__badge">⚖️ {user.experience} Years</span>}
+                            {user?.barCouncilNumber && (
+                                <span className="lawyer-banner__badge">📋 Bar: {user.barCouncilNumber}</span>
+                            )}
+                            {user?.verified && (
+                                <span className="lawyer-banner__badge lawyer-banner__badge--verified">✓ Verified</span>
                             )}
                         </div>
-                        {activeProfile && (
-                            <div className="lawyer-banner__badges">
-                                <span className="lawyer-banner__badge">⚖️ {activeProfile.experience} Years</span>
-                                {activeProfile.barCouncilNumber && (
-                                    <span className="lawyer-banner__badge">📋 Bar: {activeProfile.barCouncilNumber}</span>
-                                )}
-                                {activeProfile.verified && (
-                                    <span className="lawyer-banner__badge lawyer-banner__badge--verified">✓ Verified</span>
-                                )}
-                            </div>
-                        )}
                     </div>
                 </div>
-                {activeProfile && (
+                {myReviews.length > 0 && (
                     <div className="lawyer-banner__rating">
                         <div className="lawyer-banner__rating-number">
-                            {myReviews.length > 0
-                                ? (myReviews.reduce((sum, r) => sum + r.rating, 0) / myReviews.length).toFixed(1)
-                                : (activeProfile.rating || '—')}
+                            {(myReviews.reduce((sum, r) => sum + r.rating, 0) / myReviews.length).toFixed(1)}
                         </div>
                         <div className="lawyer-banner__rating-count">
-                            {myReviews.length + (activeProfile.reviewCount || 0)} reviews
+                            {myReviews.length} reviews
                         </div>
                     </div>
                 )}
@@ -433,7 +448,7 @@ export default function LawyerDashboard() {
                                     </div>
                                 </div>
                                 <div className="qna-activity-item__answer" style={{ paddingLeft: '0', fontStyle: 'italic', marginTop: 'var(--space-3)' }}>
-                                    &quot;{review.text.substring(0, 160)}&quot;
+                                    &quot;{review.text?.substring(0, 160)}&quot;
                                 </div>
                                 <div className="qna-activity-item__meta">
                                     <span>{review.date}</span>
@@ -441,11 +456,9 @@ export default function LawyerDashboard() {
                             </div>
                         ))}
                     </div>
-                    {activeProfile && (
-                        <div style={{ textAlign: 'center', marginTop: 'var(--space-4)' }}>
-                            <Link to={`/lawyer/${activeProfile.id}`} className="btn btn--outline btn--sm">View Public Profile →</Link>
-                        </div>
-                    )}
+                    <div style={{ textAlign: 'center', marginTop: 'var(--space-4)' }}>
+                        <Link to={`/lawyer/${user?.id}`} className="btn btn--outline btn--sm">View Public Profile →</Link>
+                    </div>
                 </div>
             )}
 
@@ -458,13 +471,11 @@ export default function LawyerDashboard() {
                         <span className="dashboard__action-label">Edit Profile</span>
                         <span className="dashboard__action-desc">Update your professional info</span>
                     </Link>
-                    {activeProfile && (
-                        <Link to={`/lawyer/${activeProfile.id}`} className="dashboard__action-card">
-                            <span className="dashboard__action-icon">👤</span>
-                            <span className="dashboard__action-label">My Public Profile</span>
-                            <span className="dashboard__action-desc">See how clients view you</span>
-                        </Link>
-                    )}
+                    <Link to={`/lawyer/${user?.id}`} className="dashboard__action-card">
+                        <span className="dashboard__action-icon">👤</span>
+                        <span className="dashboard__action-label">My Public Profile</span>
+                        <span className="dashboard__action-desc">See how clients view you</span>
+                    </Link>
                     <Link to="/messages" className="dashboard__action-card">
                         <span className="dashboard__action-icon">💬</span>
                         <span className="dashboard__action-label">Messages</span>

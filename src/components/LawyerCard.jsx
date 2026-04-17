@@ -4,30 +4,31 @@ import { getInitials, practiceAreas } from '../data/lawyers';
 import RatingBadge from './RatingBadge';
 import './LawyerCard.css';
 
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+
 export default function LawyerCard({ lawyer, onCompareToggle, isCompared = false }) {
-    // Listen for storage changes (ratings)
-    const [storageVersion, setStorageVersion] = useState(0);
+    // Real-time Firestore reviews for this lawyer
+    const [firestoreReviews, setFirestoreReviews] = useState([]);
     useEffect(() => {
-        const handleStorage = () => setStorageVersion(v => v + 1);
-        window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
-    }, []);
+        if (!lawyer?.id) return;
+        const q = query(collection(db, 'reviews'), where('lawyerId', '==', String(lawyer.id)));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setFirestoreReviews(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
+        });
+        return () => unsubscribe();
+    }, [lawyer?.id]);
 
     const { realRating, realReviewCount } = useMemo(() => {
-        try {
-            const userReviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${lawyer.id}`)) || [];
-            if (userReviews.length === 0) {
-                return { realRating: lawyer.rating || 0, realReviewCount: (lawyer.reviewCount || 0) };
-            }
-            const avg = userReviews.reduce((sum, r) => sum + r.rating, 0) / userReviews.length;
-            return {
-                realRating: parseFloat(avg.toFixed(1)),
-                realReviewCount: userReviews.length + (lawyer.reviewCount || 0)
-            };
-        } catch {
+        if (firestoreReviews.length === 0) {
             return { realRating: lawyer.rating || 0, realReviewCount: (lawyer.reviewCount || 0) };
         }
-    }, [lawyer, storageVersion]);
+        const avg = firestoreReviews.reduce((sum, r) => sum + r.rating, 0) / firestoreReviews.length;
+        return {
+            realRating: parseFloat(avg.toFixed(1)),
+            realReviewCount: firestoreReviews.length + (lawyer.reviewCount || 0)
+        };
+    }, [lawyer, firestoreReviews]);
 
     // Dynamic experience from start date
     const displayExperience = (() => {

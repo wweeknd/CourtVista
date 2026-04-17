@@ -37,38 +37,37 @@ export async function hashToken(token) {
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-// ─── LocalStorage Helpers ────────────────────────────────────────────────────
+// ─── Firestore Helpers for Verification Tokens ──────────────────────────────
 
-function getStoredUsers() {
-    try {
-        return JSON.parse(localStorage.getItem('courtvista_users')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function saveUsers(users) {
-    localStorage.setItem('courtvista_users', JSON.stringify(users));
-}
+import { db } from '../firebase';
+import { doc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 
 // ─── Verification Token Management ──────────────────────────────────────────
 
 /**
- * Store a verification token hash + expiry in the user's localStorage record.
+ * Store a verification token hash + expiry in the user's Firestore record.
  * @param {string} email - user's email
  * @param {string} tokenHash - SHA-256 hash of the raw token
  * @param {number} expiryHours - hours until expiry (default 24)
  */
-export function storeVerificationToken(email, tokenHash, expiryHours = 24) {
-    const users = getStoredUsers();
+export async function storeVerificationToken(email, tokenHash, expiryHours = 24) {
     const expiry = Date.now() + expiryHours * 60 * 60 * 1000;
-    const updated = users.map((u) => {
-        if (u.email.toLowerCase() === email.toLowerCase()) {
-            return { ...u, verificationTokenHash: tokenHash, verificationExpiry: expiry };
+
+    // Find the user doc by querying  — but since we don't have uid here,
+    // we'll use the collection query approach
+    try {
+        const q = query(collection(db, 'users'), where('email', '==', email.toLowerCase()));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+            const userDocRef = snapshot.docs[0].ref;
+            await updateDoc(userDocRef, {
+                verificationTokenHash: tokenHash,
+                verificationExpiry: expiry,
+            });
         }
-        return u;
-    });
-    saveUsers(updated);
+    } catch (err) {
+        console.error('Failed to store verification token in Firestore:', err);
+    }
 }
 
 /**
@@ -77,65 +76,60 @@ export function storeVerificationToken(email, tokenHash, expiryHours = 24) {
  * @param {string} tokenHash - SHA-256 hash of the token from the URL
  * @returns {{ success: boolean, message: string }}
  */
-export function verifyStoredToken(email, tokenHash) {
-    const users = getStoredUsers();
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-
-    if (!user) {
-        return { success: false, message: 'User not found.' };
-    }
-
-    if (user.emailVerified) {
-        return { success: true, message: 'Email already verified.' };
-    }
-
-    if (!user.verificationTokenHash) {
-        return { success: false, message: 'No verification token found. Please request a new one.' };
-    }
-
-    if (Date.now() > user.verificationExpiry) {
-        return { success: false, message: 'Verification link has expired. Please request a new one.', expired: true };
-    }
-
-    if (user.verificationTokenHash !== tokenHash) {
-        return { success: false, message: 'Invalid verification token.' };
-    }
-
-    // Mark user as verified
-    const updated = users.map((u) => {
-        if (u.email.toLowerCase() === email.toLowerCase()) {
-            return {
-                ...u,
-                emailVerified: true,
-                verificationTokenHash: null,
-                verificationExpiry: null,
-            };
-        }
-        return u;
-    });
-    saveUsers(updated);
-
-    // Also update session if user is logged in
+export async function verifyStoredToken(email, tokenHash) {
     try {
-        const sessionUser = JSON.parse(sessionStorage.getItem('courtvista_user'));
-        if (sessionUser && sessionUser.email.toLowerCase() === email.toLowerCase()) {
-            sessionStorage.setItem('courtvista_user', JSON.stringify({
-                ...sessionUser,
-                emailVerified: true,
-            }));
-        }
-    } catch { /* ignore */ }
+        const q = query(collection(db, 'users'), where('email', '==', email.toLowerCase()));
+        const snapshot = await getDocs(q);
 
-    return { success: true, message: 'Email verified successfully!' };
+        if (snapshot.empty) {
+            return { success: false, message: 'User not found.' };
+        }
+
+        const userDoc = snapshot.docs[0];
+        const user = userDoc.data();
+
+        if (user.emailVerified) {
+            return { success: true, message: 'Email already verified.' };
+        }
+
+        if (!user.verificationTokenHash) {
+            return { success: false, message: 'No verification token found. Please request a new one.' };
+        }
+
+        if (Date.now() > user.verificationExpiry) {
+            return { success: false, message: 'Verification link has expired. Please request a new one.', expired: true };
+        }
+
+        if (user.verificationTokenHash !== tokenHash) {
+            return { success: false, message: 'Invalid verification token.' };
+        }
+
+        // Mark user as verified in Firestore
+        await updateDoc(userDoc.ref, {
+            emailVerified: true,
+            verificationTokenHash: null,
+            verificationExpiry: null,
+        });
+
+        return { success: true, message: 'Email verified successfully!' };
+    } catch (err) {
+        console.error('Verification error:', err);
+        return { success: false, message: 'Verification failed. Please try again.' };
+    }
 }
 
 /**
  * Check if a user's email is verified.
  */
-export function isUserVerified(email) {
-    const users = getStoredUsers();
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-    return user?.emailVerified === true;
+export async function isUserVerified(email) {
+    try {
+        const q = query(collection(db, 'users'), where('email', '==', email.toLowerCase()));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) return false;
+        return snapshot.docs[0].data().emailVerified === true;
+    } catch {
+        return false;
+    }
 }
 
 // ─── Backend API Calls ──────────────────────────────────────────────────────
@@ -232,6 +226,6 @@ export async function sendAcceptanceEmailRequest(clientEmail, details) {
 export async function initiateEmailVerification(email, name) {
     const token = generateToken();
     const tokenHash = await hashToken(token);
-    storeVerificationToken(email, tokenHash);
+    await storeVerificationToken(email, tokenHash);
     return await requestVerificationEmail(email, name, token);
 }

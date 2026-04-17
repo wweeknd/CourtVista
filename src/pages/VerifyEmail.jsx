@@ -27,7 +27,7 @@ export default function VerifyEmail() {
             try {
                 // Hash the token from the URL and compare with stored hash
                 const tokenHash = await hashToken(token);
-                const result = verifyStoredToken(email, tokenHash);
+                const result = await verifyStoredToken(email, tokenHash);
 
                 if (result.success) {
                     setStatus('success');

@@ -14,14 +14,7 @@ export default function CompareTable({ lawyers, onRemove }) {
         {
             label: 'CourtVista Rating',
             render: (l) => {
-                let liveRating = Number(l.rating) || 0;
-                try {
-                    const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
-                    if (reviews.length > 0) {
-                        liveRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-                    }
-                } catch (e) { }
-
+                const liveRating = Number(l.rating) || 0;
                 return (
                     <span style={{ color: getRatingColor(liveRating), fontWeight: 700, fontSize: '1.25rem' }}>
                         {liveRating.toFixed(1)} <span style={{ fontSize: '0.75rem', fontWeight: 500 }}>({getRatingLabel(liveRating)})</span>
@@ -48,11 +41,7 @@ export default function CompareTable({ lawyers, onRemove }) {
         {
             label: 'Reviews',
             render: (l) => {
-                let count = Number(l.reviewCount) || 0;
-                try {
-                    const reviews = JSON.parse(localStorage.getItem(`courtvista_reviews_${l.id}`)) || [];
-                    count += reviews.length;
-                } catch (e) { }
+                const count = Number(l.reviewCount) || 0;
                 return `${count} reviews`;
             }
         },

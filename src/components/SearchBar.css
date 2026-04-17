@@ -42,6 +42,8 @@
     background: transparent;
     width: 100%;
     font-family: var(--font-body);
+    /* Ensure text is always readable */
+    -webkit-text-fill-color: var(--gray-800);
 }
 
 .search-bar__field select {
@@ -70,12 +72,21 @@
     .search-bar {
         flex-direction: column;
         border-radius: var(--radius-lg);
+        background: var(--white);
     }
 
     .search-bar__field {
         border-right: none;
         border-bottom: 1px solid var(--gray-200);
         padding: var(--space-3) var(--space-4);
+        background: var(--white);
+    }
+
+    .search-bar__field select,
+    .search-bar__field input {
+        background: var(--white);
+        color: var(--gray-800);
+        -webkit-text-fill-color: var(--gray-800);
     }
 
     .search-bar__submit {

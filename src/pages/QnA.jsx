@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { qnaData, lawyers, practiceAreas, getInitials } from '../data/lawyers';
-import { useAuth, getDynamicLawyers } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import './QnA.css';
 
 function getStoredQna() {
@@ -87,9 +87,7 @@ export default function QnA() {
     };
 
     const getLawyer = (lawyerId) => {
-        const staticMatch = lawyers.find((l) => l.id === lawyerId);
-        if (staticMatch) return staticMatch;
-        return getDynamicLawyers().find((l) => String(l.id) === String(lawyerId)) || null;
+        return lawyers.find((l) => l.id === lawyerId) || null;
     };
 
     return (

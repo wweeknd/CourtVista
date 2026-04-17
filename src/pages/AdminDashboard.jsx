@@ -1,7 +1,11 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { lawyers } from '../data/lawyers';
 import './Dashboard.css';
+
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function AdminDashboard() {
     const { user } = useAuth();
@@ -11,11 +15,19 @@ export default function AdminDashboard() {
     const totalReviews = lawyers.reduce((sum, l) => sum + l.reviewCount, 0);
     const verifiedLawyers = lawyers.filter((l) => l.verified).length;
 
-    // Count registered users from localStorage
-    let registeredUsers = 0;
-    try {
-        registeredUsers = JSON.parse(localStorage.getItem('courtvista_users'))?.length || 0;
-    } catch { /* empty */ }
+    // Count registered users from Firestore
+    const [registeredUsers, setRegisteredUsers] = useState(0);
+    useEffect(() => {
+        async function fetchUserCount() {
+            try {
+                const snapshot = await getDocs(collection(db, 'users'));
+                setRegisteredUsers(snapshot.size);
+            } catch (e) {
+                console.error('Failed to fetch user count:', e);
+            }
+        }
+        fetchUserCount();
+    }, []);
 
     return (
         <div className="dashboard container">
