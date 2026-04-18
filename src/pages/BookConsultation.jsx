@@ -141,13 +141,6 @@ export default function BookConsultation() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ── Email verification gate ──────────────────────────────────────────
-        if (!user?.emailVerified) {
-            toast.error('Please verify your email address before booking a consultation.');
-            navigate('/verify-email');
-            return;
-        }
-
         setSubmitting(true);
         try {
             // Persist the booking to Firestore
