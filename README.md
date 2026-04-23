@@ -25,7 +25,7 @@ CourtVista is a centralized digital platform designed to help individuals find, 
 
 ```bash
 # Clone the repo
-git clone https://github.com/Azeem10101/CourtVista.git
+git clone https://github.com/wweeknd/CourtVista.git
 cd CourtVista
 
 # Install dependencies
@@ -81,7 +81,7 @@ Community-driven forum for legal questions answered by verified experts.
 
 ## 👤 Author
 
-**Azeem** — Sole author of this project.
+**wweeknd** ([@wweeknd](https://github.com/wweeknd)) — Sole author of this project.
 
 ## 📄 License
 
