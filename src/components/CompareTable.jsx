@@ -76,11 +76,21 @@ export default function CompareTable({ lawyers, onRemove }) {
                         <th></th>
                         {lawyers.map((l) => (
                             <th key={l.id} className="compare-table__header-cell">
-                                <div className="compare-table__avatar" style={{
-                                    backgroundImage: (l.profilePicture || l.photo) ? `url("${l.profilePicture || l.photo}")` : undefined,
-                                    color: (l.profilePicture || l.photo) ? 'transparent' : 'white'
-                                }}>
-                                    {!(l.profilePicture || l.photo) && getInitials(l.name)}
+                                <div className="compare-table__avatar">
+                                    {(l.photo || l.profilePicture) ? (
+                                        <img
+                                            src={l.photo || l.profilePicture}
+                                            alt={l.name}
+                                            className="compare-table__avatar-img"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
+                                            }}
+                                        />
+                                    ) : null}
+                                    <span className="compare-table__avatar-initials" style={{ display: (l.photo || l.profilePicture) ? 'none' : 'flex' }}>
+                                        {getInitials(l.name)}
+                                    </span>
                                 </div>
                                 <div className="compare-table__name">{l.name}</div>
                                 <div className="compare-table__city">📍 {l.city}</div>

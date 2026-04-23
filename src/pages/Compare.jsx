@@ -24,22 +24,44 @@ export default function Compare({ compareIds, onRemove }) {
                         const docSnap = await getDoc(docRef);
                         if (docSnap.exists()) {
                             const d = docSnap.data();
+
+                            // Map Firestore specialization string → practiceArea id
+                            const specMap = {
+                                'criminal law': 'criminal', 'criminal': 'criminal',
+                                'family law': 'family', 'family': 'family',
+                                'corporate law': 'corporate', 'corporate': 'corporate',
+                                'property law': 'property', 'property': 'property',
+                                'real estate law': 'property', 'real estate': 'property',
+                                'tax law': 'tax', 'tax': 'tax',
+                                'labour law': 'labor', 'labor law': 'labor', 'labor': 'labor',
+                                'civil law': 'civil', 'civil': 'civil',
+                                'intellectual property': 'ip', 'ip law': 'ip', 'ip': 'ip',
+                                'immigration law': 'immigration', 'immigration': 'immigration',
+                                'consumer law': 'consumer', 'consumer protection': 'consumer',
+                                'banking law': 'banking', 'banking & finance': 'banking', 'banking': 'banking',
+                                'cyber law': 'cyber', 'cyber': 'cyber',
+                            };
+
+                            const rawSpec = (d.specialization || '').toLowerCase().trim();
+                            const specId = specMap[rawSpec] || rawSpec;
+
                             return {
                                 id: docSnap.id,
                                 name: d.name || 'Unknown',
-                                city: d.location || '',
+                                city: d.location || d.city || '',
                                 experience: d.experience || 0,
-                                specializations: d.specialization
-                                    ? [d.specialization.toLowerCase().replace(" law", "")]
-                                    : [],
-                                languages: d.languages || [],
+                                specializations: specId ? [specId] : [],
+                                languages: Array.isArray(d.languages) ? d.languages : (d.languages ? d.languages.split(',').map(s => s.trim()) : []),
                                 consultationFee: d.consultationFee || 1000,
+                                feesRange: d.feesRange || null,
                                 verified: !!d.verified,
                                 isProBono: !!d.isProBono,
                                 gender: d.gender || '',
-                                photo: d.image || '',
+                                photo: d.image || d.photo || d.profilePicture || '',
                                 rating: d.rating || 0,
-                                reviewCount: d.reviewCount || 0,
+                                reviewCount: d.reviewCount || d.reviews?.length || 0,
+                                education: d.education || '',
+                                jurisdiction: d.jurisdiction || '',
                             };
                         }
                         return null;
