@@ -79,9 +79,12 @@ Real-time communication interface for legal consultations.
 ![Q&A Page](assets/screenshots/qna_page.png)
 Community-driven forum for legal questions answered by verified experts.
 
-## 👤 Author
+## 👥 Authors
 
-**wweeknd** ([@wweeknd](https://github.com/wweeknd)) — Sole author of this project.
+| Role | Name |
+|------|------|
+| 🧑‍💻 **Lead Developer** | [wweeknd](https://github.com/wweeknd) |
+| 🔧 **Core Contributor** | [Azeem10101](https://github.com/Azeem10101) |
 
 ## 📄 License
 
